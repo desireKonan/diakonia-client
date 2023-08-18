@@ -7,38 +7,59 @@ const FullLayout = Loadable(lazy(() => import('../layouts/full/FullLayout')));
 const BlankLayout = Loadable(lazy(() => import('../layouts/blank/BlankLayout')));
 
 /* ****Pages***** */
-const Dashboard = Loadable(lazy(() => import('../views/dashboard/Dashboard')))
-const SamplePage = Loadable(lazy(() => import('../views/sample-page/SamplePage')))
-const Icons = Loadable(lazy(() => import('../views/icons/Icons')))
-const TypographyPage = Loadable(lazy(() => import('../views/utilities/TypographyPage')))
-const Shadow = Loadable(lazy(() => import('../views/utilities/Shadow')))
-const Error = Loadable(lazy(() => import('../views/authentication/Error')));
-const Register = Loadable(lazy(() => import('../views/authentication/Register')));
-const Login = Loadable(lazy(() => import('../views/authentication/Login')));
+const Modern = Loadable(lazy(() => import('../views/dashboard/Modern')));
+const RegionList = Loadable(lazy(() => import('../views/parameter/region/RegionList')));
+const RegionForm = Loadable(lazy(() => import('../views/parameter/region/RegionForm')));
 
-/* ****Modules**** */
+const AssemblyList = Loadable(lazy(() => import('../views/parameter/assembly/AssemblyList')));
+
+
+// authentication
+const Login = Loadable(lazy(() => import('../views/authentication/auth1/Login')));
+const Login2 = Loadable(lazy(() => import('../views/authentication/auth2/Login2')));
+const Register = Loadable(lazy(() => import('../views/authentication/auth1/Register')));
+const Register2 = Loadable(lazy(() => import('../views/authentication/auth2/Register2')));
+const ForgotPassword = Loadable(lazy(() => import('../views/authentication/auth1/ForgotPassword')));
+const ForgotPassword2 = Loadable(
+  lazy(() => import('../views/authentication/auth2/ForgotPassword2')),
+);
+const TwoSteps = Loadable(lazy(() => import('../views/authentication/auth1/TwoSteps')));
+const TwoSteps2 = Loadable(lazy(() => import('../views/authentication/auth2/TwoSteps2')));
+const Error = Loadable(lazy(() => import('../views/authentication/Error')));
+const Maintenance = Loadable(lazy(() => import('../views/authentication/Maintenance')));
+
+// landingpage
+const Landingpage = Loadable(lazy(() => import('../views/pages/landingpage/Landingpage')));
 
 const Router = [
   {
     path: '/',
     element: <FullLayout />,
     children: [
-      { path: '/', element: <Navigate to="/dashboard" /> },
-      { path: '/dashboard', exact: true, element: <Dashboard /> },
-      { path: '/sample-page', exact: true, element: <SamplePage /> },
-      { path: '/icons', exact: true, element: <Icons /> },
-      { path: '/ui/typography', exact: true, element: <TypographyPage /> },
-      { path: '/ui/shadow', exact: true, element: <Shadow /> },
+      { path: '/', element: <Navigate to="/landingpage" /> },
+      { path: '/dashboard', exact: true, element: <Modern /> },
+      { path: '/regions', exact: true, element: <RegionList /> },
+      { path: '/region', exact: true, element: <RegionForm />},
+      { path: '/region/:id', exact: true, element: <RegionForm />},
+      { path: '/assemblies', exact: true, element: <AssemblyList />},
       { path: '*', element: <Navigate to="/auth/404" /> },
     ],
   },
   {
-    path: '/auth',
+    path: '/',
     element: <BlankLayout />,
     children: [
-      { path: '404', element: <Error /> },
-      { path: '/auth/register', element: <Register /> },
+      { path: '/auth/404', element: <Error /> },
       { path: '/auth/login', element: <Login /> },
+      { path: '/auth/login2', element: <Login2 /> },
+      { path: '/auth/register', element: <Register /> },
+      { path: '/auth/register2', element: <Register2 /> },
+      { path: '/auth/forgot-password', element: <ForgotPassword /> },
+      { path: '/auth/forgot-password2', element: <ForgotPassword2 /> },
+      { path: '/auth/two-steps', element: <TwoSteps /> },
+      { path: '/auth/two-steps2', element: <TwoSteps2 /> },
+      { path: '/auth/maintenance', element: <Maintenance /> },
+      { path: '/landingpage', element: <Landingpage /> },
       { path: '*', element: <Navigate to="/auth/404" /> },
     ],
   },

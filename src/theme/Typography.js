@@ -4,19 +4,16 @@ const typography = {
     fontWeight: 600,
     fontSize: '2.25rem',
     lineHeight: '2.75rem',
-    fontFamily: "'Plus Jakarta Sans', sans-serif;",
   },
   h2: {
     fontWeight: 600,
     fontSize: '1.875rem',
     lineHeight: '2.25rem',
-    fontFamily: "'Plus Jakarta Sans', sans-serif;",
   },
   h3: {
     fontWeight: 600,
     fontSize: '1.5rem',
     lineHeight: '1.75rem',
-    fontFamily: "'Plus Jakarta Sans', sans-serif;",
   },
   h4: {
     fontWeight: 600,

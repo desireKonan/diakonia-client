@@ -1,10 +1,12 @@
-import React, { useState } from "react";
-import { styled, Container, Box } from '@mui/material';
+import { styled, Container, Box, useTheme } from '@mui/material';
+import { useSelector } from 'react-redux';
 import { Outlet } from 'react-router-dom';
 
-
-import Header from './header/Header';
-import Sidebar from './sidebar/Sidebar';
+import Header from './vertical/header/Header';
+import HorizontalHeader from '../full/horizontal/header/Header';
+import Sidebar from './vertical/sidebar/Sidebar';
+import Customizer from './shared/customizer/Customizer';
+import Navigation from './horizontal/navbar/Navbar';
 
 const MainWrapper = styled('div')(() => ({
   display: 'flex',
@@ -18,42 +20,46 @@ const PageWrapper = styled('div')(() => ({
   paddingBottom: '60px',
   flexDirection: 'column',
   zIndex: 1,
+  width: '100%',
   backgroundColor: 'transparent',
 }));
 
 const FullLayout = () => {
+  const customizer = useSelector((state) => state.customizer);
 
-  const [isSidebarOpen, setSidebarOpen] = useState(true);
-  const [isMobileSidebarOpen, setMobileSidebarOpen] = useState(false);
-  // const lgUp = useMediaQuery((theme) => theme.breakpoints.up("lg"));
+  const theme = useTheme();
 
   return (
     <MainWrapper
-      className='mainwrapper'
+      className={customizer.activeMode === 'dark' ? 'darkbg mainwrapper' : 'mainwrapper'}
     >
       {/* ------------------------------------------- */}
       {/* Sidebar */}
       {/* ------------------------------------------- */}
-      <Sidebar isSidebarOpen={isSidebarOpen}
-        isMobileSidebarOpen={isMobileSidebarOpen}
-        onSidebarClose={() => setMobileSidebarOpen(false)} />
+      {customizer.isHorizontal ? '' : <Sidebar />}
       {/* ------------------------------------------- */}
       {/* Main Wrapper */}
       {/* ------------------------------------------- */}
       <PageWrapper
         className="page-wrapper"
+        sx={{
+          ...(customizer.isCollapse && {
+            [theme.breakpoints.up('lg')]: { ml: `${customizer.MiniSidebarWidth}px` },
+          }),
+        }}
       >
         {/* ------------------------------------------- */}
         {/* Header */}
         {/* ------------------------------------------- */}
-        <Header toggleSidebar={() => setSidebarOpen(!isSidebarOpen)} toggleMobileSidebar={() => setMobileSidebarOpen(true)} />
+        {customizer.isHorizontal ? <HorizontalHeader /> : <Header />}
         {/* ------------------------------------------- */}
         {/* PageContent */}
         {/* ------------------------------------------- */}
-        <Container sx={{
-          paddingTop: "20px",
-          maxWidth: '1200px',
-        }}
+        {customizer.isHorizontal ? <Navigation /> : ''}
+        <Container
+          sx={{
+            maxWidth: customizer.isLayout === 'boxed' ? 'lg' : '100%!important',
+          }}
         >
           {/* ------------------------------------------- */}
           {/* Page Route */}
@@ -65,6 +71,7 @@ const FullLayout = () => {
           {/* End Page */}
           {/* ------------------------------------------- */}
         </Container>
+        <Customizer />
       </PageWrapper>
     </MainWrapper>
   );
