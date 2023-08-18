@@ -15,7 +15,7 @@ const assemblyState = {
       {
         id : 1, 
         name: 'Djibi Tapis rouge', 
-        zone : {
+        subCenter : {
             id: 1,
             name: 'Angré'
         }
@@ -30,7 +30,7 @@ export const assemblySlice = createSlice({
     reducers: {
           saveAssembly(state, action) {
             let assembly = action.payload;
-              state.assemblies.push(assembly);
+            state.assemblies.push(assembly);
           },
   
           getAssembly(state, action) {
@@ -38,13 +38,13 @@ export const assemblySlice = createSlice({
             return state.assemblies.filter(r => r.id === assembly.id);
           },
   
-          getAssemblies(state) {
-            return state.assemblies;
+          getAssemblies(state, action) {
+            state.assemblies = action.payload;
           },
   
           deleteAssembly(state, action) {
             let id = action.payload;
-            return state.assemblies.filter(assembly => assembly.id !== id);
+            state.assemblies = state.assemblies.filter(assembly => assembly.id !== id);
           }
     },
     extraReducers: (builder) => {

@@ -95,7 +95,7 @@ const AssemblyList = () => {
                                         </TableCell>
                                         <TableCell>
                                             <Typography color="textSecondary" variant="subtitle2" fontWeight={400}>
-                                                {assembly.zone.name}
+                                                {assembly.subCenter.name}
                                             </Typography>
                                         </TableCell>
                                         <TableCell>

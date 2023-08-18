@@ -10,6 +10,7 @@ import UserProfileReducer from './apps/userProfile/UserProfileSlice';
 import BlogReducer from './apps/blog/BlogSlice';
 import regionReducer from './features/parameter/regionReducer';
 import assemblyReducer from './features/parameter/assemblyReducer';
+import subCenterReducer from './features/parameter/subCenterReducer';
 
 export const store = configureStore({
   reducer: {
@@ -23,7 +24,8 @@ export const store = configureStore({
     userpostsReducer: UserProfileReducer,
     blogReducer: BlogReducer,
     regions: regionReducer,
-    assemblies: assemblyReducer
+    assemblies: assemblyReducer,
+    subCenters: subCenterReducer
   },
 });
 

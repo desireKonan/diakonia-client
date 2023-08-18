@@ -1,46 +1,55 @@
-import { Button, Grid, MenuItem, Stack } from "@mui/material";
+import { Button, Grid, MenuItem, Stack, TextField } from "@mui/material";
 import { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import { useNavigate, useParams } from "react-router";
 import CustomFormLabel from "src/components/forms/theme-elements/CustomFormLabel";
 import CustomSelect from "src/components/forms/theme-elements/CustomSelect";
-import { saveAssembly } from "src/features/assemblyReducer";
+import { saveAssembly } from "src/store/features/parameter/assemblyReducer";
 import { AssemblyService } from "src/services/assembly.service";
 import PageContainer from "src/components/container/PageContainer";
 import Breadcrumb from "src/layouts/full/shared/breadcrumb/Breadcrumb";
 import ParentCard from "src/components/shared/ParentCard";
 import CustomTextField from "src/components/forms/theme-elements/CustomTextField";
+import { SubCenterService } from "src/services/subCenter.service";
 
 const AssemblyForm = () => {
-    const [label, setLabel] = useState("");
+    const [name, setName] = useState("");
     const [subCenter, setSubCenter] = useState(0);
+    const [subCenters, setSubCenters] = useState([]);
     const params = useParams();
     const navigate = useNavigate();
     const dispatch = useDispatch();
 
     useEffect(() => {
-        if(params) {
-            AssemblyService.getAssembly(params.id).then(region => {
-                setLabel(region.label);
+        if(params.id) {
+            AssemblyService.getAssembly(params.id).then(assembly => {
+                setName(assembly.name);
             });   
         }
     }, []);
 
 
+    useEffect(() => {
+        SubCenterService.getSubCenters().then(subCenters => {
+            setSubCenters(subCenters);
+        })
+    }, []);
+
     const submitAssembly = (event) => {
         event.preventDefault();
-        let region = {};
+        let assembly = {};
         if(params.id) {
-            region.id = parseInt(params.id);
+            assembly.id = parseInt(params.id);
         } else {
-            region.id = 0;
+            assembly.id = 0;
         }
-        region.label = label;
+        assembly.name = name;
+        assembly.subCenterId = subCenter;
 
-        AssemblyService.postAssembly(region)
+        AssemblyService.postAssembly(assembly)
             .then(response => dispatch(saveAssembly(response)));
 
-        navigate("/assembly");
+        navigate("/assemblies");
     }
 
     return (
@@ -49,11 +58,11 @@ const AssemblyForm = () => {
             
             <ParentCard title="Formulaire de d'assemblée">
                 <form method="POST" onSubmit={submitAssembly}>
+                    {
+                        params.id ?? <TextField type="hidden" value={params.id} />
+                    }
                     <Grid container spacing={3}>
                         <Grid item xs={12} sm={12} lg={7}>
-                            {
-                                params.id ?? <input type="hidden" value={params.id} />
-                            }
                             <CustomFormLabel htmlFor="label">Libellé</CustomFormLabel>
                             <CustomTextField
                                 id="label"
@@ -61,21 +70,34 @@ const AssemblyForm = () => {
                                 variant="outlined"
                                 fullWidth
                                 size="large"
-                                value={label} 
-                                onChange={(e) => setLabel(e.target.value)}
+                                value={name} 
+                                onChange={(e) => setName(e.target.value)}
                             />
                         </Grid>
                         <Grid item xs={12} sm={12} lg={5}>
-                            <CustomFormLabel htmlFor="demo-simple-select">Select Dropdown</CustomFormLabel>
+                            <CustomFormLabel htmlFor="demo-simple-select">Sous zone</CustomFormLabel>
                             <CustomSelect
                                 labelId="demo-simple-select-label"
                                 id="demo-simple-select"
                                 fullWidth
-                                size="small"
+                                size="large"
+                                value={subCenter}
+                                onChange={e => {setSubCenter(e.target.value)}}
                             >
-                                <MenuItem value={1}>One</MenuItem>
-                                <MenuItem value={2}>Two</MenuItem>
-                                <MenuItem value={3}>Three</MenuItem>
+                                {
+                                    subCenters.filter(subCent => subCent.id == params.id)?.map(subCenter => 
+                                        <MenuItem selected={subCenter.id}>{subCenter.name}</MenuItem>    
+                                    )
+                                }
+                                {
+                                    
+                                    (subCenters.length !== 0) ? subCenters.map((subCenter) => {
+                                        return (
+                                            <MenuItem key={subCenter.id} value={subCenter.id}>{subCenter.name}</MenuItem>
+                                        )
+                                    }) : 
+                                    (<MenuItem value={0}>Aucune valeur</MenuItem>)
+                                }
                             </CustomSelect>
                         </Grid>
                     </Grid>

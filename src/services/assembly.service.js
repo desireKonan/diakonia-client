@@ -13,21 +13,21 @@ export class AssemblyService {
 
 
     static async getAssembly(id) {
-        var region = {};
+        var assembly = {};
         try {
             var response = await http.get(`${ASSEMBLY_URL}/${id}`);
-            region = response.data;
+            assembly = response.data;
         } catch(err) {
             console.log(err);
         }
-        return region;
+        return assembly;
     }
 
 
-    static async postAssembly(region) {
+    static async postAssembly(assembly) {
         var message = "";
         try {
-            var response = await http.post(ASSEMBLY_URL, region);
+            var response = await http.post(ASSEMBLY_URL, assembly);
             message = response.data;
         } catch(err) {
             console.log(err);
@@ -37,13 +37,13 @@ export class AssemblyService {
 
 
     static async deleteAssembly(id) {
-        var region = "";
+        var assembly = "";
         try {
             var response = await http.delete(`${ASSEMBLY_URL}/${id}`);
-            region = response.data;
+            assembly = response.data;
         } catch(err) {
             console.log(err);
         }
-        return region;
+        return assembly;
     }
 }

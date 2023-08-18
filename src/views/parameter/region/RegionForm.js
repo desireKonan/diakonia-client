@@ -18,7 +18,7 @@ const RegionForm = () => {
     const dispatch = useDispatch();
 
     useEffect(() => {
-        if(params) {
+        if(params.id) {
             RegionService.getRegion(params.id).then(region => {
                 setLabel(region.label);
             });   
