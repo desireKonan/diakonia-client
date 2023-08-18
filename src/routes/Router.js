@@ -1,6 +1,5 @@
 import React, { lazy } from 'react';
 import { Navigate } from 'react-router-dom';
-
 import Loadable from '../layouts/full/shared/loadable/Loadable';
 
 /* ***Layouts**** */
