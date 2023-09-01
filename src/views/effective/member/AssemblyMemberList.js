@@ -9,37 +9,38 @@ import {
     Paper,
     TableContainer
 } from "@mui/material";
-import { NavLink, useNavigate } from "react-router-dom";
+import { NavLink, useNavigate, useParams } from "react-router-dom";
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { AssemblyService } from "src/services/assembly.service";
-import { deleteAssembly, fetchAssemblies } from "src/store/features/parameter/assemblyReducer";
+import { MemberService } from "src/services/member.service";
 import PageContainer from "src/components/container/PageContainer";
 import Breadcrumb from "src/layouts/full/shared/breadcrumb/Breadcrumb";
 import ParentCard from "src/components/shared/ParentCard";
+import { fetchMembers, deleteMember } from "src/store/features/effective/memberSlice";
 
-const AssemblyList = () => {
-    const data = useSelector((state) => state.assemblies);
+const MemberMemberList = () => {
+    const data = useSelector((state) => state.members);
     const dispatch = useDispatch();
     const navigate = useNavigate();
+    const params = useParams();
 
 
     useEffect(() => {
-       dispatch(fetchAssemblies());
+        dispatch(fetchMembers(parseInt(params.id)));
     }, []);
 
-    const deleteAssemblyById = (id) => {
-        AssemblyService.deleteAssembly(id)
-            .then((response) => dispatch(deleteAssembly(id)));
+    const deleteMemberById = (id) => {
+        MemberService.deleteMember(id)
+            .then((response) => dispatch(deleteMember(id)));
     }
 
 
     return (
-        <PageContainer title="Liste des assemblées" description="this is Custom Form page">
-            <Breadcrumb title="Liste des assemblées" subtitle="custom designed element" />
-            <ParentCard title="Liste des assemblées" action={
-                <NavLink to="/assembly">
-                    <Button variant="contained" color="info">Ajouter une assemblée</Button>
+        <PageContainer title={`Liste des membres de assemblée`} description="this is Custom Form page">
+            <Breadcrumb title={`Liste des membres de assemblée`} subtitle="custom designed element" />
+            <ParentCard title="Liste des membres d'une assemblée" action={
+                <NavLink to="/member">
+                    <Button variant="contained" color="info">Ajouter une membre</Button>
                 </NavLink>
             }>
                 <Paper variant="outlined">
@@ -55,17 +56,22 @@ const AssemblyList = () => {
                                 <TableRow>
                                     <TableCell>
                                         <Typography variant="subtitle2" fontWeight={600}>
-                                            Id
+                                            Nom
                                         </Typography>
                                     </TableCell>
                                     <TableCell>
                                         <Typography variant="subtitle2" fontWeight={600}>
-                                            Libéllé
+                                            Prénoms
                                         </Typography>
                                     </TableCell>
                                     <TableCell>
                                         <Typography variant="subtitle2" fontWeight={600}>
-                                            Sous-zone
+                                            Profession
+                                        </Typography>
+                                    </TableCell>
+                                    <TableCell>
+                                        <Typography variant="subtitle2" fontWeight={600}>
+                                            Sexe
                                         </Typography>
                                     </TableCell>
                                     <TableCell>
@@ -76,32 +82,31 @@ const AssemblyList = () => {
                                 </TableRow>
                             </TableHead>
                             <TableBody>
-                                {data.assemblies.map((assembly) => (
-                                    <TableRow key={assembly.id}>
+                                {data.members.map((member) => (
+                                    <TableRow key={member.id}>
                                         <TableCell>
-                                            <Typography
-                                                sx={{
-                                                    fontSize: "15px",
-                                                    fontWeight: "500",
-                                                }}
-                                            >
-                                                {assembly.id}
+                                            <Typography color="textSecondary" variant="subtitle2" fontWeight={400}>
+                                                {member.firstName}
                                             </Typography>
                                         </TableCell>
                                         <TableCell>
                                             <Typography color="textSecondary" variant="subtitle2" fontWeight={400}>
-                                                {assembly.name}
+                                                {member.lastName}
                                             </Typography>
                                         </TableCell>
                                         <TableCell>
                                             <Typography color="textSecondary" variant="subtitle2" fontWeight={400}>
-                                                {assembly.subCenter.name}
+                                                {member.profession}
                                             </Typography>
                                         </TableCell>
                                         <TableCell>
-                                            <Button variant="contained" color="primary" onClick={(e) => navigate(`/assemblee/${assembly.id}/membres`)} style={{margin: 5}}> Liste de membres </Button>
-                                            <Button variant="contained" color="warning" onClick={(e) => navigate(`/assemblee/${assembly.id}`)} style={{margin: 5}}> Modifier </Button>
-                                            <Button variant="contained" color="error" onClick={(e) => deleteAssemblyById(assembly.id)} style={{margin: 5}}> Supprimer </Button>
+                                            <Typography color="textSecondary" variant="subtitle2" fontWeight={400}>
+                                                {member.sex}
+                                            </Typography>
+                                        </TableCell>
+                                        <TableCell>
+                                            <Button variant="contained" color="warning" onClick={(e) => navigate(`/member/${member.id}`)} style={{margin: 5}}> Modifier </Button>
+                                            <Button variant="contained" color="error" onClick={(e) => deleteMemberById(member.id)} style={{margin: 5}}> Supprimer </Button>
                                         </TableCell>
                                     </TableRow>
                                 ))}
@@ -115,4 +120,4 @@ const AssemblyList = () => {
 }
 
 
-export default AssemblyList;
+export default MemberMemberList;

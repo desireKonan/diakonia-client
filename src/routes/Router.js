@@ -14,6 +14,7 @@ const RegionForm = Loadable(lazy(() => import('../views/parameter/region/RegionF
 
 const AssemblyList = Loadable(lazy(() => import('../views/parameter/assembly/AssemblyList')));
 const AssemblyForm = Loadable(lazy(() => import('../views/parameter/assembly/AssemblyForm')));
+const MemberList = Loadable(lazy(() => import('../views/effective/member/AssemblyMemberList')));
 
 
 // authentication
@@ -43,9 +44,10 @@ const Router = [
       { path: '/regions', exact: true, element: <RegionList /> },
       { path: '/region', exact: true, element: <RegionForm />},
       { path: '/region/:id', exact: true, element: <RegionForm />},
-      { path: '/assemblies', exact: true, element: <AssemblyList />},
-      { path: '/assembly', exact: true, element: <AssemblyForm />},
-      { path: '/assembly/:id', exact: true, element: <AssemblyForm />},
+      { path: '/assemblees', exact: true, element: <AssemblyList />},
+      { path: '/assemblee', exact: true, element: <AssemblyForm />},
+      { path: '/assemblee/:id', exact: true, element: <AssemblyForm />},
+      { path: '/assemblee/:id/membres', exact: true, element: <MemberList /> },
       { path: '*', element: <Navigate to="/auth/404" /> },
     ],
   },

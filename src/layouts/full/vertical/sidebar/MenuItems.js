@@ -12,11 +12,11 @@ import { uniqueId } from 'lodash';
 const Menuitems = [
   {
     navlabel: true,
-    subheader: 'Home',
+    subheader: 'Accueil',
   },
   {
     id: uniqueId(),
-    title: 'Home',
+    title: 'Accueil',
     icon: IconDashboard,
     href: '/dashboard',
     chipColor: 'secondary',
@@ -34,25 +34,25 @@ const Menuitems = [
   },
   {
     id: uniqueId(),
-    title: 'Assembly',
+    title: 'Assemblées',
     icon: IconHome,
-    href: '/assemblies',
+    href: '/assemblees',
   },
   {
     id: uniqueId(),
-    title: 'Users',
+    title: 'Utilisateurs',
     icon: IconUserCircle,
     href: '/user-profile',
     children: [
       {
         id: uniqueId(),
-        title: 'Profile',
+        title: 'Profil',
         icon: IconPoint,
         href: '/user-profile',
       },
       {
         id: uniqueId(),
-        title: 'Gallery',
+        title: 'Gallerie',
         icon: IconPoint,
         href: '/apps/gallery',
       },
