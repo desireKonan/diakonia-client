@@ -34,8 +34,11 @@ export const memberSlice = createSlice({
     },
     // GET PRODUCTS
     getMembers: (state, action) => {
-        console.log(action.payload);
         state.members = action.payload;
+    },
+    saveMember: (state, action) => {
+        let member = action.payload;
+        state.members.push(member);
     },
     SearchMember: (state, action) => {
       state.memberSearch = action.payload;
@@ -124,6 +127,7 @@ export const memberSlice = createSlice({
 export const {
   hasError,
   getMembers,
+  saveMember,
   SearchProduct,
   setVisibilityFilter,
   sortByMembers,

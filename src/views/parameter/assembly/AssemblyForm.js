@@ -85,7 +85,7 @@ const AssemblyForm = () => {
                                 onChange={e => {setSubCenter(e.target.value)}}
                             >
                                 {
-                                    subCenters.filter(subCent => subCent.id == params.id)?.map(subCenter => 
+                                    subCenters.filter(subCent => subCent.id === parseInt(params.id))?.map(subCenter => 
                                         <MenuItem selected={subCenter.id}>{subCenter.name}</MenuItem>    
                                     )
                                 }

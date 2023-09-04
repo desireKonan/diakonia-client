@@ -39,7 +39,7 @@ const MemberMemberList = () => {
         <PageContainer title={`Liste des membres de assemblée`} description="this is Custom Form page">
             <Breadcrumb title={`Liste des membres de assemblée`} subtitle="custom designed element" />
             <ParentCard title="Liste des membres d'une assemblée" action={
-                <NavLink to="/member">
+                <NavLink to={`/assemblee/${parseInt(params.id)}/membre`}>
                     <Button variant="contained" color="info">Ajouter une membre</Button>
                 </NavLink>
             }>
@@ -105,7 +105,7 @@ const MemberMemberList = () => {
                                             </Typography>
                                         </TableCell>
                                         <TableCell>
-                                            <Button variant="contained" color="warning" onClick={(e) => navigate(`/member/${member.id}`)} style={{margin: 5}}> Modifier </Button>
+                                            <Button variant="contained" color="warning" onClick={(e) => navigate(`/assemblee/${member.assemblyId}/membre/${member.id}`)} style={{margin: 5}}> Modifier </Button>
                                             <Button variant="contained" color="error" onClick={(e) => deleteMemberById(member.id)} style={{margin: 5}}> Supprimer </Button>
                                         </TableCell>
                                     </TableRow>
