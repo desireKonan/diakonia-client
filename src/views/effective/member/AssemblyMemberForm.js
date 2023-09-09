@@ -85,11 +85,17 @@ const AssemblyMemberForm = () => {
         member.rejoinedAt = rejoinedAt;
         member.leftAt = leftAt;
 
-        console.log(member);
+        if(parseInt(params.assemblyId) && params.memberId) {
+            MemberService
+                .updateMember(member)
+                .then(response => console.log(response));
+        } else {
+            MemberService
+                .postMember(member)
+                .then(response => dispatch(saveMember(response)));
+        }
 
-        MemberService
-            .postMember(member)
-            .then(response => dispatch(saveMember(response)));
+        
 
         let assemblyId = params.id ? parseInt(params.id) : parseInt(params.assemblyId);
         

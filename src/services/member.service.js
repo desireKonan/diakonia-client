@@ -35,6 +35,17 @@ export class MemberService {
         return message;
     }
 
+    static async updateMember(member) {
+        var message = "";
+        try {
+            var response = await http.post(`${MEMBER_URL}/update`, member);
+            message = response.data;
+        } catch(err) {
+            console.log(err);
+        }
+        return message;
+    }
+
 
     static async deleteMember(id) {
         var member = "";
