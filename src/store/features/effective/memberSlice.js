@@ -40,6 +40,11 @@ export const memberSlice = createSlice({
         let member = action.payload;
         state.members.push(member);
     },
+    updateMember: (state, action) => {
+      let member = action.payload;
+      let memberUpdated = filter(state.members, (m) => m.id === member.id);
+      memberUpdated = member;
+  },
     SearchMember: (state, action) => {
       state.memberSearch = action.payload;
     },
@@ -103,7 +108,7 @@ export const memberSlice = createSlice({
     // delete member.
     deleteMember(state, action) {
         let id = action.payload;
-        state.members = filter(state.members, member => member.id !== id);
+        state.members = filter(state.members, member => member.memberId !== id);
     }
   },
   extraReducers: (builder) => {
@@ -128,6 +133,7 @@ export const {
   hasError,
   getMembers,
   saveMember,
+  updateMember,
   SearchProduct,
   setVisibilityFilter,
   sortByMembers,

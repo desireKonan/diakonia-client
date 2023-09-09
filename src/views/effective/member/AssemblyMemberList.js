@@ -106,7 +106,7 @@ const MemberMemberList = () => {
                                         </TableCell>
                                         <TableCell>
                                             <Button variant="contained" color="warning" onClick={(e) => navigate(`/assemblee/${member.assemblyId}/membre/${member.id}`)} style={{margin: 5}}> Modifier </Button>
-                                            <Button variant="contained" color="error" onClick={(e) => deleteMemberById(member.id)} style={{margin: 5}}> Supprimer </Button>
+                                            <Button variant="contained" color="error" onClick={(e) => deleteMemberById(member.memberId)} style={{margin: 5}}> Supprimer </Button>
                                         </TableCell>
                                     </TableRow>
                                 ))}
