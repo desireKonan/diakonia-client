@@ -21,10 +21,29 @@ const Menuitems = [
     href: '/dashboard',
     chipColor: 'secondary',
   },
-
   {
     navlabel: true,
     subheader: 'Apps',
+  },
+  {
+    id: uniqueId(),
+    title: 'Zone',
+    icon: IconPoint,
+    href: '#',
+    children: [
+      {
+        id: uniqueId(),
+        title: 'Sous-zone',
+        icon: IconPoint,
+        href: '#',
+      },
+      {
+        id: uniqueId(),
+        title: 'Assemblée',
+        icon: IconPoint,
+        href: '#',
+      },
+    ],
   },
   {
     id: uniqueId(),

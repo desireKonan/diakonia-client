@@ -9,8 +9,8 @@ import ParentCard from "src/components/shared/ParentCard";
 import CustomTextField from "src/components/forms/theme-elements/CustomTextField";
 import CustomSelect from "src/components/forms/theme-elements/CustomSelect";
 import { DatePicker, LocalizationProvider } from '@mui/x-date-pickers';
-import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns'
-import { DateTimePicker } from '@mui/x-date-pickers/DateTimePicker'
+import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns';
+import { DateTimePicker } from '@mui/x-date-pickers/DateTimePicker';
 import CustomCheckbox from "src/components/forms/theme-elements/CustomCheckbox";
 import { MemberService } from "src/services/member.service";
 import { saveMember, updateMember } from "src/store/features/effective/memberSlice";

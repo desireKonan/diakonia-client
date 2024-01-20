@@ -9,13 +9,13 @@ const BlankLayout = Loadable(lazy(() => import('../layouts/blank/BlankLayout')))
 
 /* ****Pages***** */
 const Modern = Loadable(lazy(() => import('../views/dashboard/Modern')));
-const RegionList = Loadable(lazy(() => import('../views/parameter/region/RegionList')));
-const RegionForm = Loadable(lazy(() => import('../views/parameter/region/RegionForm')));
+const ListRegion = Loadable(lazy(() => import('../views/parameter/region/RegionList')));
+const FormulaireRegion = Loadable(lazy(() => import('../views/parameter/region/RegionForm')));
 
-const AssemblyList = Loadable(lazy(() => import('../views/parameter/assembly/AssemblyList')));
-const AssemblyForm = Loadable(lazy(() => import('../views/parameter/assembly/AssemblyForm')));
-const MemberList = Loadable(lazy(() => import('../views/effective/member/AssemblyMemberList')));
-const MemberForm = Loadable(lazy(() => import('../views/effective/member/AssemblyMemberForm')));
+const ListeAssemblee = Loadable(lazy(() => import('../views/parameter/assembly/AssemblyList')));
+const FormulaireAssemblee = Loadable(lazy(() => import('../views/parameter/assembly/AssemblyForm')));
+const ListeMembre = Loadable(lazy(() => import('../views/effective/member/AssemblyMemberList')));
+const FormulaireMembre = Loadable(lazy(() => import('../views/effective/member/AssemblyMemberForm')));
 
 
 // authentication
@@ -42,15 +42,15 @@ const Router = [
     children: [
       { path: '/', element: <Navigate to="/dashboard" /> },
       { path: '/dashboard', exact: true, element: <Modern /> },
-      { path: '/regions', exact: true, element: <RegionList /> },
-      { path: '/region', exact: true, element: <RegionForm />},
-      { path: '/region/:id', exact: true, element: <RegionForm />},
-      { path: '/assemblees', exact: true, element: <AssemblyList />},
-      { path: '/assemblee', exact: true, element: <AssemblyForm />},
-      { path: '/assemblee/:id', exact: true, element: <AssemblyForm />},
-      { path: '/assemblee/:id/membre', exact: true, element: <MemberForm />},
-      { path: '/assemblee/:assemblyId/membre/:memberId', exact: true, element: <MemberForm />},
-      { path: '/assemblee/:id/membres', exact: true, element: <MemberList /> },
+      { path: '/regions', exact: true, element: <ListRegion /> },
+      { path: '/region', exact: true, element: <FormulaireRegion />},
+      { path: '/region/:id', exact: true, element: <FormulaireRegion />},
+      { path: '/assemblees', exact: true, element: <ListeAssemblee />},
+      { path: '/assemblee', exact: true, element: <FormulaireAssemblee />},
+      { path: '/assemblee/:id', exact: true, element: <FormulaireAssemblee />},
+      { path: '/assemblee/:id/membre', exact: true, element: <ListeMembre />},
+      { path: '/assemblee/:assemblyId/membre/:membreId', exact: true, element: <FormulaireMembre />},
+      { path: '/assemblee/:id/membres', exact: true, element: <ListeMembre /> },
       { path: '*', element: <Navigate to="/auth/404" /> },
     ],
   },
