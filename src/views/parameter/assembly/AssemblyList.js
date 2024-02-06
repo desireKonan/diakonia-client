@@ -95,12 +95,12 @@ const AssemblyList = () => {
                                         </TableCell>
                                         <TableCell>
                                             <Typography color="textSecondary" variant="subtitle2" fontWeight={400}>
-                                                {assembly.subCenter.name}
+                                                {assembly.subZone}
                                             </Typography>
                                         </TableCell>
                                         <TableCell>
-                                            <Button variant="contained" color="primary" onClick={(e) => navigate(`/assemblee/${assembly.id}/membres`)} style={{margin: 5}}> Liste de membres </Button>
-                                            <Button variant="contained" color="warning" onClick={(e) => navigate(`/assemblee/${assembly.id}`)} style={{margin: 5}}> Modifier </Button>
+                                            <Button variant="contained" color="primary" onClick={(e) => navigate(`api/assemblee/${assembly.id}/membres`)} style={{margin: 5}}> Liste de membres </Button>
+                                            <Button variant="contained" color="warning" onClick={(e) => navigate(`api/assemblee/${assembly.id}`)} style={{margin: 5}}> Modifier </Button>
                                             <Button variant="contained" color="error" onClick={(e) => deleteAssemblyById(assembly.id)} style={{margin: 5}}> Supprimer </Button>
                                         </TableCell>
                                     </TableRow>

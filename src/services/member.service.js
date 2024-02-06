@@ -1,6 +1,6 @@
 import http from "./http";
 
-const MEMBER_URL = "member";
+const MEMBER_URL = "api/assemblee";
 
 /**
  * @author harvey.konan <harveykonan@gmail.com>
@@ -8,14 +8,14 @@ const MEMBER_URL = "member";
 export class MemberService {
 
     static getMembers(assemblyId) {
-        return http.get(`${MEMBER_URL}/assembly/${assemblyId}`).then((response) => response.data);
+        return http.get(`${MEMBER_URL}/${assemblyId}`).then((response) => response.data);
     }
 
 
     static async getMember(assemblyId, memberId) {
         var member = {};
         try {
-            var response = await http.get(`${MEMBER_URL}/assembly/${assemblyId}/${memberId}`);
+            var response = await http.get(`${MEMBER_URL}/${assemblyId}/membre/${memberId}`);
             member = response.data;
         } catch(err) {
             console.log(err);

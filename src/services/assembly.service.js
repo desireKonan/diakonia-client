@@ -1,6 +1,6 @@
 import http from "./http";
 
-const ASSEMBLY_URL = "assembly";
+const ASSEMBLY_URL = "api/assemblee";
 
 
 /**

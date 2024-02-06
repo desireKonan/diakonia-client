@@ -47,6 +47,28 @@ const Menuitems = [
   },
   {
     id: uniqueId(),
+    title: 'Activité',
+    icon: IconHome,
+    href: '/#/',
+    children: [
+      {
+        id: uniqueId(),
+        title: 'Type d\'activité',
+        icon: IconPoint,
+        href: '/type-activites/',
+        chip: 'New',
+        chipColor: 'secondary',
+      },
+      {
+        id: uniqueId(),
+        title: 'Activité',
+        icon: IconPoint,
+        href: '/activite',
+      },
+    ],
+  },
+  {
+    id: uniqueId(),
     title: 'Regions',
     icon: IconList,
     href: '/regions',

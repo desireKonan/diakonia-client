@@ -9,14 +9,16 @@ const BlankLayout = Loadable(lazy(() => import('../layouts/blank/BlankLayout')))
 
 /* ****Pages***** */
 const Modern = Loadable(lazy(() => import('../views/dashboard/Modern')));
-const ListRegion = Loadable(lazy(() => import('../views/parameter/region/RegionList')));
-const FormulaireRegion = Loadable(lazy(() => import('../views/parameter/region/RegionForm')));
+const ListRegion = Loadable(lazy(() => import('../views/parameter/ville/VilleList')));
+const FormulaireRegion = Loadable(lazy(() => import('../views/parameter/ville/VilleForm')));
 
 const ListeAssemblee = Loadable(lazy(() => import('../views/parameter/assembly/AssemblyList')));
 const FormulaireAssemblee = Loadable(lazy(() => import('../views/parameter/assembly/AssemblyForm')));
 const ListeMembre = Loadable(lazy(() => import('../views/effective/member/AssemblyMemberList')));
 const FormulaireMembre = Loadable(lazy(() => import('../views/effective/member/AssemblyMemberForm')));
 
+const ListeTypeActivite = Loadable(lazy(() => import('../views/parameter/type-activite/TypeActiviteList')));
+const FormulaireTypeActivite = Loadable(lazy(() => import('../views/parameter/type-activite/TypeActiviteForm')));
 
 // authentication
 const Login = Loadable(lazy(() => import('../views/authentication/auth1/Login')));
@@ -44,6 +46,8 @@ const Router = [
       { path: '/dashboard', exact: true, element: <Modern /> },
       { path: '/regions', exact: true, element: <ListRegion /> },
       { path: '/region', exact: true, element: <FormulaireRegion />},
+      { path: '/type-activites', exact: true, element: <ListeTypeActivite />},
+      { path: '/type-activite', exact: true, element: <FormulaireTypeActivite />},
       { path: '/region/:id', exact: true, element: <FormulaireRegion />},
       { path: '/assemblees', exact: true, element: <ListeAssemblee />},
       { path: '/assemblee', exact: true, element: <FormulaireAssemblee />},
