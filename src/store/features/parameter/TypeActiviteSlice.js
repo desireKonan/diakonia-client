@@ -1,11 +1,13 @@
 import { TypeActiviteService } from 'src/services/type-activite.service';
-import { createSlice } from '@reduxjs/toolkit';
+import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 
 
 const initialState = {
+  loading: true,
   typeActivites: [],
   typeActivitesContent: 1,
   typeActiviteSearch: '',
+  error: ''
 };
 
 export const TypeActiviteSlice = createSlice({
@@ -44,25 +46,46 @@ export const TypeActiviteSlice = createSlice({
 
     addTypeActivite: {
       reducer: (state, action) => {
-        state.typeActivites.push(action.payload);
+        if(action.payload.id) {
+          let typeActivite = state.typeActivites.find(typeActivite => typeActivite.id === action.payload.id);
+          typeActivite = action.payload;
+        } else {
+          state.typeActivites.push(action.payload);
+        }
       },
       prepare: (id, title, description) => {
         return { payload: { id, title, description } };
       },
     },
   },
+  extraReducers: (builder) => {
+    builder.addCase(fetchTypeActivites.pending, (state) => {
+      state.loading = true;
+    });
+
+    builder.addCase(fetchTypeActivites.fulfilled, (state, action) => {
+      state.loading = false;
+      state.typeActivites = action.payload;
+      state.error   = '';
+    });
+
+    builder.addCase(fetchTypeActivites.rejected, (state, action) => {
+      state.loading = false;
+      state.typeActivites = [];
+      state.error   = action.error.message;
+    });
+  }
+});
+
+export const fetchTypeActivites = createAsyncThunk(`typeActivite/fetchTypeActivites`, () => {
+  return TypeActiviteService.getTypeActivites();
+});
+
+export const fetchTypeActiviteById = createAsyncThunk(`typeActivite/fetchTypeActiviteById`, (id) => {
+  return TypeActiviteService.getTypeActivite(id);
 });
 
 export const { SearchTypeActivite, getTypeActivites, SelectTypeActivite, DeleteTypeActivite, UpdateTypeActivite, addTypeActivite } =
   TypeActiviteSlice.actions;
-
-export const fetchTypeActivites = () => async (dispatch) => {
-  try {
-    const response = await TypeActiviteService.getTypeActivites();
-    dispatch(getTypeActivites(response.data));
-  } catch (err) {
-    throw new Error(err);
-  }
-};
 
 export default TypeActiviteSlice.reducer;

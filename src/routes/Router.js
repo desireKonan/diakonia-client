@@ -48,6 +48,7 @@ const Router = [
       { path: '/region', exact: true, element: <FormulaireRegion />},
       { path: '/type-activites', exact: true, element: <ListeTypeActivite />},
       { path: '/type-activite', exact: true, element: <FormulaireTypeActivite />},
+      { path: '/type-activite/:id', exact: true, element: <FormulaireTypeActivite />},
       { path: '/region/:id', exact: true, element: <FormulaireRegion />},
       { path: '/assemblees', exact: true, element: <ListeAssemblee />},
       { path: '/assemblee', exact: true, element: <FormulaireAssemblee />},

@@ -12,7 +12,6 @@ export class TypeActiviteService {
         try {
             var response = await http.get(`${TYPE_ACTIVITE_URL}`);
             typeActivites = response.data;
-            console.log(typeActivites);
         } catch(e) {
             console.error(e);
         }

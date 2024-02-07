@@ -17,7 +17,8 @@ import { NavLink, useNavigate } from "react-router-dom";
 import ParentCard from "src/components/shared/ParentCard";
 import PageContainer from "src/components/container/PageContainer";
 import Breadcrumb from "src/layouts/full/shared/breadcrumb/Breadcrumb";
-import { fetchTypeActivites } from "src/store/features/parameter/TypeActiviteSlice";
+import { DeleteTypeActivite, fetchTypeActivites } from "src/store/features/parameter/TypeActiviteSlice";
+import { TypeActiviteService } from "src/services/type-activite.service";
 
 
 const TypeActiviteList = () => {
@@ -28,7 +29,12 @@ const TypeActiviteList = () => {
 
     useEffect(() => {
        dispatch(fetchTypeActivites());
-    }, [dispatch]);
+    }, []);
+
+    const deleteTypeActiviteById = (id) => {
+        TypeActiviteService.deleteTypeActivite(id)
+            .then((response) => dispatch(DeleteTypeActivite({ id: id })));
+    }
 
 
     return (
@@ -96,8 +102,22 @@ const TypeActiviteList = () => {
                                                 </Typography>
                                             </TableCell>
                                             <TableCell>
-                                                <Button variant="contained" color="warning" onClick={(e) => navigate(`type-activite/${type.id}`)} style={{margin: 5}}> Modifier </Button>
-                                                <Button variant="contained" color="error" onClick={(e) => null} style={{margin: 5}}> Supprimer </Button>
+                                                <Button 
+                                                    variant="contained" 
+                                                    color="warning" 
+                                                    onClick={(e) => navigate(`/type-activite/${type.id}`)} 
+                                                    style={{margin: 5}}
+                                                > 
+                                                    Modifier 
+                                                </Button>
+                                                <Button 
+                                                    variant="contained" 
+                                                    color="error" 
+                                                    onClick={(e) => deleteTypeActiviteById(type.id)} 
+                                                    style={{margin: 5}}
+                                                >
+                                                    Supprimer 
+                                                </Button>
                                             </TableCell>
                                         </TableRow>
                                     ))) :
