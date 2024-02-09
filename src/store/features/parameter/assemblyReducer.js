@@ -11,16 +11,7 @@ export const fetchAssemblyById = createAsyncThunk('assembly/fetchAssemblyById', 
 
 const assemblyState = {
     loading: true,
-    assemblies: [
-      {
-        id : 1, 
-        name: 'Djibi Tapis rouge', 
-        subCenter : {
-            id: 1,
-            name: 'Angré'
-        }
-      }
-    ],
+    assemblies: [],
     error: ''
 }
 
@@ -35,7 +26,7 @@ export const assemblySlice = createSlice({
   
           getAssembly(state, action) {
             let assembly = action.payload;
-            return state.assemblies.filter(r => r.id === assembly.id);
+            return state.assemblies.find(r => r.id === assembly.id);
           },
   
           getAssemblies(state, action) {

@@ -85,7 +85,6 @@ export const fetchTypeActiviteById = createAsyncThunk(`typeActivite/fetchTypeAct
   return TypeActiviteService.getTypeActivite(id);
 });
 
-export const { SearchTypeActivite, getTypeActivites, SelectTypeActivite, DeleteTypeActivite, UpdateTypeActivite, addTypeActivite } =
-  TypeActiviteSlice.actions;
+export const { SearchTypeActivite, getTypeActivites, SelectTypeActivite, DeleteTypeActivite, UpdateTypeActivite, addTypeActivite } = TypeActiviteSlice.actions;
 
 export default TypeActiviteSlice.reducer;

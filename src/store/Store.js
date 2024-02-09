@@ -13,6 +13,7 @@ import assemblyReducer from './features/parameter/assemblyReducer';
 import subCenterReducer from './features/parameter/subCenterReducer';
 import memberSlice from './features/effective/memberSlice';
 import TypeActiviteReducer from './features/parameter/TypeActiviteSlice';
+import ActiviteReducer from './features/parameter/ActiviteSlice';
 
 export const store = configureStore({
   reducer: {
@@ -29,7 +30,8 @@ export const store = configureStore({
     assemblies: assemblyReducer,
     subCenters: subCenterReducer,
     members: memberSlice,
-    typeActivitesReducer: TypeActiviteReducer
+    typeActivitesReducer: TypeActiviteReducer,
+    activiteReducer: ActiviteReducer
   },
 });
 

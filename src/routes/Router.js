@@ -20,6 +20,9 @@ const FormulaireMembre = Loadable(lazy(() => import('../views/effective/member/A
 const ListeTypeActivite = Loadable(lazy(() => import('../views/parameter/type-activite/TypeActiviteList')));
 const FormulaireTypeActivite = Loadable(lazy(() => import('../views/parameter/type-activite/TypeActiviteForm')));
 
+const ListeActivites = Loadable(lazy(() => import('../views/parameter/activite/ActiviteList')));
+const FormulaireActivite = Loadable(lazy(() => import('../views/parameter/activite/ActiviteForm')));
+
 // authentication
 const Login = Loadable(lazy(() => import('../views/authentication/auth1/Login')));
 const Login2 = Loadable(lazy(() => import('../views/authentication/auth2/Login2')));
@@ -49,6 +52,9 @@ const Router = [
       { path: '/type-activites', exact: true, element: <ListeTypeActivite />},
       { path: '/type-activite', exact: true, element: <FormulaireTypeActivite />},
       { path: '/type-activite/:id', exact: true, element: <FormulaireTypeActivite />},
+      { path: '/activites', exact: true, element: <ListeActivites />},
+      { path: '/activite', exact: true, element: <FormulaireActivite />},
+      { path: '/activite/:id', exact: true, element: <FormulaireActivite />},
       { path: '/region/:id', exact: true, element: <FormulaireRegion />},
       { path: '/assemblees', exact: true, element: <ListeAssemblee />},
       { path: '/assemblee', exact: true, element: <FormulaireAssemblee />},
