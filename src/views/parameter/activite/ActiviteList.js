@@ -144,7 +144,7 @@ const ActiviteList = () => {
                                     (
                                         <Box m={2}>
                                           <Alert severity="error" variant="filled" sx={{ color: 'white' }}>
-                                            No Notes Found!
+                                            Aucune activité trouvée!
                                           </Alert>
                                         </Box>
                                     )
