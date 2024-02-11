@@ -113,7 +113,7 @@ const ActiviteList = () => {
                                             </TableCell>
                                             <TableCell>
                                                 <Typography color="textSecondary" variant="subtitle2" fontWeight={400}>
-                                                    {activite.type}
+                                                    {activite.typeLabel}
                                                 </Typography>
                                             </TableCell>
                                             <TableCell>

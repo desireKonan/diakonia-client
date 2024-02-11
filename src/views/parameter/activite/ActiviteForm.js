@@ -3,7 +3,6 @@ import TabContext from '@mui/lab/TabContext';
 import TabList from '@mui/lab/TabList';
 import TabPanel from '@mui/lab/TabPanel';
 
-
 import { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import { useNavigate, useParams } from "react-router";
@@ -16,6 +15,7 @@ import CustomFormLabel from "src/components/forms/theme-elements/CustomFormLabel
 import CustomTextField from "src/components/forms/theme-elements/CustomTextField";
 import { TypeActiviteService } from "src/services/type-activite.service";
 import CustomSelect from "src/components/forms/theme-elements/CustomSelect";
+import { date } from "src/utils/utils";
 
 
 const ActiviteForm = () => {
@@ -23,7 +23,9 @@ const ActiviteForm = () => {
         label: "",
         description: "",
         details: {},
-        typeId: ""
+        typeId: "",
+        startDate: null,
+        endDate: null
     });
     const [typesActivites, setTypeActivites] = useState([]);
     const [tabState, setTabState] = useState("1");
@@ -34,22 +36,21 @@ const ActiviteForm = () => {
 
     useEffect(() => {
         if(params.id) {
-            ActiviteService.getActivite(params.id).then(typeActivite => {
-                var labelRef = document.getElementById('label');
-                labelRef.value = typeActivite.label;
-
-                var descriptionRef = document.getElementById('description');
-                descriptionRef.value = typeActivite.description;
-
-                var typeActiviteRef = document.getElementById('activity-type');
-                console.log(typeActivite.activityTypeId);
-                typeActiviteRef.value = typeActivite.activityTypeId;
-
-                TypeActiviteService.getTypeActivites().then(typeActivites => {
-                    setTypeActivites(typeActivites);
+            ActiviteService.getActivite(params.id).then(activite => {
+                setFormData({
+                    label: activite.label,
+                    description: activite.description,
+                    typeId: activite.activityTypeId,
+                    details: activite.activityDetails,
+                    startDate: activite.startDate ? date(activite.startDate) : null,
+                    endDate: activite.endDate ? date(activite.endDate) : null
                 });
             });   
         }
+
+        TypeActiviteService.getTypeActivites().then(typeActivites => {
+            setTypeActivites(typeActivites);
+        });
     }, []);
 
     const handleInputChange = event => {
@@ -68,7 +69,6 @@ const ActiviteForm = () => {
 
     const addDetails = (event) => {
         event.preventDefault();
-
         let detail = (
             <>
                 <Grid item xs={12} sm={12} lg={6}>
@@ -102,15 +102,17 @@ const ActiviteForm = () => {
     
     const submitActivite = (event) => {
         event.preventDefault();
-        let typeActivite = {};
+        let activite = {};
         if(params.id) {
-            typeActivite.id = params.id;
+            activite.id = params.id;
         }
-        typeActivite.label = formData.label;
-        typeActivite.description = formData.description;
-        typeActivite.activityTypeId = formData.typeId;
+        activite.label = formData.label;
+        activite.description = formData.description;
+        activite.activityTypeId = formData.typeId;
+        activite.start = formData.startDate;
+        activite.end = formData.endDate;
 
-        ActiviteService.postActivite(typeActivite)
+        ActiviteService.postActivite(activite)
             .then(response => dispatch(addActivite(response.data)));
     }
 
@@ -139,6 +141,7 @@ const ActiviteForm = () => {
                                         variant="outlined"
                                         fullWidth
                                         size="large"
+                                        value={formData.label}
                                         onChange={handleInputChange}
                                     />
                                 </Grid>
@@ -153,6 +156,7 @@ const ActiviteForm = () => {
                                         rows={4}
                                         fullWidth
                                         size="large"
+                                        value={formData.description}
                                         onChange={handleInputChange}
                                     />
                                 </Grid>
@@ -163,6 +167,7 @@ const ActiviteForm = () => {
                                         id="activity-type" 
                                         fullWidth
                                         name="typeId"
+                                        value={formData.typeId}
                                         onChange={handleInputChange}
                                     >
                                         {
@@ -173,6 +178,42 @@ const ActiviteForm = () => {
                                             ) : null
                                         }
                                     </CustomSelect>
+                                </Grid>
+                                <Grid item xs={12} sm={12} lg={6}>
+                                    <CustomFormLabel htmlFor="startDate">Date de départ</CustomFormLabel>
+                                    <CustomTextField
+                                        id="date"
+                                        type="date"
+                                        variant="outlined"
+                                        fullWidth
+                                        placeholder="Entrez la date de départ"
+                                        value={formData.startDate}
+                                        onChange={(newValue) => {
+                                            console.log(newValue);
+                                            handleInputChange(newValue);
+                                        }}
+                                        InputLabelProps={{
+                                        shrink: true,
+                                        }}
+                                    />
+                                </Grid>
+                                <Grid item xs={12} sm={12} lg={6}>
+                                    <CustomFormLabel htmlFor="startDate">Date de fin</CustomFormLabel>
+                                    <CustomTextField
+                                        id="date"
+                                        type="date"
+                                        variant="outlined"
+                                        fullWidth
+                                        placeholder="Entrez la date de fin"
+                                        value={formData.endDate}
+                                        onClick={(newValue) => {
+                                            console.log(newValue);
+                                            handleInputChange(newValue);
+                                        }}
+                                        InputLabelProps={{
+                                            shrink: true,
+                                        }}
+                                    />
                                 </Grid>
                             </Grid>
                         </TabPanel>
