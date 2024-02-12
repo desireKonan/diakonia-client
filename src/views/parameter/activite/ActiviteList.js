@@ -140,7 +140,7 @@ const ActiviteList = () => {
                                         </TableRow>
                                     ))) :
                                     (
-                                        <TableRow key={``}>
+                                        <TableRow key={`Aucune`}>
                                             <TableCell rowSpan={4}>
                                                 <Typography color="textSecondary" variant="subtitle2" fontWeight={400}>
                                                     Aucune activité disponible
