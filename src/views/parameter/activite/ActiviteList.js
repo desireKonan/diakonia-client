@@ -8,8 +8,6 @@ import {
     Button,
     Paper,
     TableContainer,
-    Box,
-    Alert
 } from "@mui/material";
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
@@ -142,11 +140,13 @@ const ActiviteList = () => {
                                         </TableRow>
                                     ))) :
                                     (
-                                        <Box m={2}>
-                                          <Alert severity="error" variant="filled" sx={{ color: 'white' }}>
-                                            Aucune activité trouvée!
-                                          </Alert>
-                                        </Box>
+                                        <TableRow key={``}>
+                                            <TableCell rowSpan={4}>
+                                                <Typography color="textSecondary" variant="subtitle2" fontWeight={400}>
+                                                    Aucune activité disponible
+                                                </Typography>
+                                            </TableCell>
+                                        </TableRow>
                                     )
                                 }
                             </TableBody>

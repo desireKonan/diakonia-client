@@ -5,6 +5,11 @@ export function dateTimeValue(dateTime) {
 }
 
 export function date(dateValue) {
-    var newDate = new Date(dateValue);
+    var newDate = null;
+    if(dateValue) {
+        newDate = new Date(dateValue);
+    } else {
+        newDate = new Date();
+    }
     return moment(newDate).format('yyyy-MM-DD');
 }

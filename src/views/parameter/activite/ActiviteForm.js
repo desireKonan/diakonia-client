@@ -1,4 +1,4 @@
-import { Button, Grid, Stack, MenuItem, Tab, Box, Typography } from "@mui/material";
+import { Button, Grid, Stack, MenuItem, Tab, Box } from "@mui/material";
 import TabContext from '@mui/lab/TabContext';
 import TabList from '@mui/lab/TabList';
 import TabPanel from '@mui/lab/TabPanel';
@@ -15,7 +15,12 @@ import CustomFormLabel from "src/components/forms/theme-elements/CustomFormLabel
 import CustomTextField from "src/components/forms/theme-elements/CustomTextField";
 import { TypeActiviteService } from "src/services/type-activite.service";
 import CustomSelect from "src/components/forms/theme-elements/CustomSelect";
-import { date } from "src/utils/utils";
+import { date, dateTimeValue } from "src/utils/utils";
+import { DatePicker, LocalizationProvider } from '@mui/x-date-pickers';
+import { AdapterDateFns } from "@mui/x-date-pickers/AdapterDateFns";
+import AddButtonDetails from "src/components/custom/AddButtonDetails";
+import useAddDetails from "src/custom-hooks/useAddDetails";
+import { IconTrash } from "@tabler/icons";
 
 
 const ActiviteForm = () => {
@@ -29,7 +34,12 @@ const ActiviteForm = () => {
     });
     const [typesActivites, setTypeActivites] = useState([]);
     const [tabState, setTabState] = useState("1");
-    const [details, setDetails] = useState([]);
+    const {
+        details, 
+        addDetails,
+        removeDetails, 
+        detailsJson
+    } = useAddDetails();
     const params = useParams();
     const navigate = useNavigate();
     const dispatch = useDispatch();
@@ -41,9 +51,9 @@ const ActiviteForm = () => {
                     label: activite.label,
                     description: activite.description,
                     typeId: activite.activityTypeId,
-                    details: activite.activityDetails,
-                    startDate: activite.startDate ? date(activite.startDate) : null,
-                    endDate: activite.endDate ? date(activite.endDate) : null
+                    details: activite.details,
+                    startDate: activite.startDate ? dateTimeValue(activite.startDate) : null,
+                    endDate: activite.endDate ? dateTimeValue(activite.endDate) : null
                 });
             });   
         }
@@ -53,51 +63,31 @@ const ActiviteForm = () => {
         });
     }, []);
 
-    const handleInputChange = event => {
-        event.preventDefault();
+    const handleInputChange = (event) => {
         setFormData({
           ...formData,
           [event.target.name]: event.target.value
         });
     }
 
+    const setStartDate = (event) => {
+        setFormData({
+            ...formData,
+            ['startDate']: event ? date(event): null
+        });
+    }
+
+    
+    const setEndDate = (event) => {
+        setFormData({
+            ...formData,
+            ['endDate']: event ? date(event): null
+        });
+    }
 
     const handleTabChange = (event, newValue) => {
         setTabState(newValue);
     };
-
-
-    const addDetails = (event) => {
-        event.preventDefault();
-        let detail = (
-            <>
-                <Grid item xs={12} sm={12} lg={6}>
-                    <CustomFormLabel htmlFor="label">Titre du détails</CustomFormLabel>
-                    <CustomTextField
-                        id="titleDetails"
-                        name="titleDetails[]"
-                        placeholder="Entrer une titre de détails"
-                        variant="outlined"
-                        fullWidth
-                        size="large"
-                    />
-                </Grid>
-                <Grid item xs={12} sm={12} lg={6}>
-                    <CustomFormLabel htmlFor="label">Valeur du détails</CustomFormLabel>
-                    <CustomTextField
-                        id="detailValue"
-                        name="detailValue[]"
-                        placeholder="Entrer une valeur de détails"
-                        variant="outlined"
-                        fullWidth
-                        size="large"
-                    />
-                </Grid>
-            </>
-        );
-        console.log(detail);
-        setDetails([...details, detail]);
-    }
 
     
     const submitActivite = (event) => {
@@ -109,8 +99,9 @@ const ActiviteForm = () => {
         activite.label = formData.label;
         activite.description = formData.description;
         activite.activityTypeId = formData.typeId;
-        activite.start = formData.startDate;
-        activite.end = formData.endDate;
+        activite.activityDetails = detailsJson;
+        activite.start = date(formData.startDate);
+        activite.end = date(formData.endDate);
 
         ActiviteService.postActivite(activite)
             .then(response => dispatch(addActivite(response.data)));
@@ -181,55 +172,102 @@ const ActiviteForm = () => {
                                 </Grid>
                                 <Grid item xs={12} sm={12} lg={6}>
                                     <CustomFormLabel htmlFor="startDate">Date de départ</CustomFormLabel>
-                                    <CustomTextField
-                                        id="date"
-                                        type="date"
-                                        variant="outlined"
-                                        fullWidth
-                                        placeholder="Entrez la date de départ"
-                                        value={formData.startDate}
-                                        onChange={(newValue) => {
-                                            console.log(newValue);
-                                            handleInputChange(newValue);
-                                        }}
-                                        InputLabelProps={{
-                                        shrink: true,
-                                        }}
-                                    />
+                                    <LocalizationProvider dateAdapter={AdapterDateFns}>
+                                        <DatePicker
+                                            id="date"
+                                            name="startDate"
+                                            renderInput={(props) => <CustomTextField {...props} fullWidth size="large" sx={{
+                                            '& .MuiSvgIcon-root': {
+                                                width: 18,
+                                                height: 18,
+                                            },
+                                            '& .MuiFormHelperText-root': {
+                                                display: 'none',
+                                            },
+                                            }} />}
+                                            placeholder="Entrez la date de depart"
+                                            value={formData.startDate}
+                                            onChange={(newValue) => {
+                                                console.log(newValue);
+                                                setStartDate(newValue);
+                                            }}
+                                        />
+                                    </LocalizationProvider>
                                 </Grid>
                                 <Grid item xs={12} sm={12} lg={6}>
                                     <CustomFormLabel htmlFor="startDate">Date de fin</CustomFormLabel>
-                                    <CustomTextField
-                                        id="date"
-                                        type="date"
-                                        variant="outlined"
-                                        fullWidth
-                                        placeholder="Entrez la date de fin"
-                                        value={formData.endDate}
-                                        onClick={(newValue) => {
-                                            console.log(newValue);
-                                            handleInputChange(newValue);
-                                        }}
-                                        InputLabelProps={{
-                                            shrink: true,
-                                        }}
-                                    />
+                                    <LocalizationProvider dateAdapter={AdapterDateFns}>
+                                        <DatePicker
+                                            id="date"
+                                            name="endDate"
+                                            renderInput={(props) => <CustomTextField {...props} fullWidth size="large" sx={{
+                                            '& .MuiSvgIcon-root': {
+                                                width: 18,
+                                                height: 18,
+                                            },
+                                            '& .MuiFormHelperText-root': {
+                                                display: 'none',
+                                            },
+                                            }} />}
+                                            placeholder="Entrez la date de fin"
+                                            value={formData.endDate}
+                                            onChange={(newValue) => {
+                                                console.log(newValue);
+                                                setEndDate(newValue);
+                                            }}
+                                        />
+                                    </LocalizationProvider>
                                 </Grid>
                             </Grid>
                         </TabPanel>
                         <TabPanel value="2">
                             <Grid container spacing={2} justifyContent="center">
-                                <Grid item xs={12} sm={12} lg={12}>
-                                    <Stack direction="row" justifyContent="space-between" alignItems="center" mb={4}>
-                                        <Typography variant="h4" color="textSecondary">
-                                            Détails de l'activité
-                                        </Typography>
-                                        <Button variant="contained" color="primary" onClick={addDetails}>
-                                            Ajouter des détails
-                                        </Button>
-                                    </Stack>
+                                <AddButtonDetails 
+                                    typography={`Détails de l'activité`} 
+                                    label={`Ajouter des détails`}
+                                    onClicked={(e) => addDetails()}
+                                >
+                                </AddButtonDetails>
+                                <Grid container spacing={2} justifyContent="center">    
+                                    { 
+                                        formData.details ? Object.entries(formData.details).map(([key, value]) => {
+                                            return <>
+                                                <Grid key={`title-${key}`} item xs={12} sm={12} lg={5}>
+                                                    <CustomFormLabel htmlFor="label">Titre du détails</CustomFormLabel>
+                                                    <CustomTextField
+                                                        id="titleDetails"
+                                                        name="titleDetails[]"
+                                                        placeholder="Entrer une titre de détails"
+                                                        variant="outlined"
+                                                        value={key}
+                                                        fullWidth
+                                                        size="large"
+                                                    />
+                                                </Grid>
+                                                <Grid key={`value-${key}`} item xs={12} sm={12} lg={5}>
+                                                    <CustomFormLabel htmlFor="label">Valeur du détails</CustomFormLabel>
+                                                    <CustomTextField
+                                                        id="detailValue"
+                                                        name="detailValue[]"
+                                                        placeholder="Entrer une valeur de détails"
+                                                        variant="outlined"
+                                                        value={value}
+                                                        fullWidth
+                                                        size="large"
+                                                    />
+                                                </Grid>
+                                                <Grid key={`row-${key}`} item xs={12} sm={12} lg={2} justifyContent="center">
+                                                    <Button color="error" startIcon={<IconTrash width={18} />} onClick={() => removeDetails(key)}>
+                                                        Supprimer
+                                                    </Button>
+                                                </Grid>
+                                            </>;
+                                        }) : null
+                                    }
+                                    {
+                                        (details ?? null)
+                                    }
                                 </Grid>
-                                { details ?? null }
                             </Grid>
                         </TabPanel>
                     </TabContext>
