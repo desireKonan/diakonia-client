@@ -6,7 +6,7 @@ import TabPanel from '@mui/lab/TabPanel';
 import { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import { useNavigate, useParams } from "react-router";
-import { addActivite } from "src/store/features/parameter/ActiviteSlice";
+import { addActivite } from "src/store/features/apps/ActiviteSlice";
 import { ActiviteService } from 'src/services/activite.service';
 import PageContainer from "src/components/container/PageContainer";
 import Breadcrumb from "src/layouts/full/shared/breadcrumb/Breadcrumb";
@@ -73,7 +73,7 @@ const ActiviteForm = () => {
     const setStartDate = (event) => {
         setFormData({
             ...formData,
-            ['startDate']: event ? date(event): null
+            startDate: event ? date(event): null
         });
     }
 
@@ -81,7 +81,7 @@ const ActiviteForm = () => {
     const setEndDate = (event) => {
         setFormData({
             ...formData,
-            ['endDate']: event ? date(event): null
+            endDate: event ? date(event): null
         });
     }
 

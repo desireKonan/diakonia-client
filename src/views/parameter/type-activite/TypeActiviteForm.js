@@ -2,7 +2,7 @@ import { Button, Grid, Stack } from "@mui/material";
 import { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import { useNavigate, useParams } from "react-router";
-import { addTypeActivite } from "src/store/features/parameter/TypeActiviteSlice";
+import { addTypeActivite } from "src/store/features/apps/TypeActiviteSlice";
 import { TypeActiviteService } from 'src/services/type-activite.service';
 import PageContainer from "src/components/container/PageContainer";
 import Breadcrumb from "src/layouts/full/shared/breadcrumb/Breadcrumb";

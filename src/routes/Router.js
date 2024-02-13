@@ -23,6 +23,8 @@ const FormulaireTypeActivite = Loadable(lazy(() => import('../views/parameter/ty
 const ListeActivites = Loadable(lazy(() => import('../views/parameter/activite/ActiviteList')));
 const FormulaireActivite = Loadable(lazy(() => import('../views/parameter/activite/ActiviteForm')));
 
+const ListeParticipants = Loadable(lazy(() => import('../views/parameter/activite/participants/ParticipantList')));
+
 // authentication
 const Login = Loadable(lazy(() => import('../views/authentication/auth1/Login')));
 const Login2 = Loadable(lazy(() => import('../views/authentication/auth2/Login2')));
@@ -53,6 +55,7 @@ const Router = [
       { path: '/type-activite', exact: true, element: <FormulaireTypeActivite />},
       { path: '/type-activite/:id', exact: true, element: <FormulaireTypeActivite />},
       { path: '/activites', exact: true, element: <ListeActivites />},
+      { path: '/activite/:id/participants', exact: true, element: <ListeParticipants />},
       { path: '/activite', exact: true, element: <FormulaireActivite />},
       { path: '/activite/:id', exact: true, element: <FormulaireActivite />},
       { path: '/region/:id', exact: true, element: <FormulaireRegion />},

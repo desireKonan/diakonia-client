@@ -12,8 +12,9 @@ import regionReducer from './features/parameter/regionReducer';
 import assemblyReducer from './features/parameter/assemblyReducer';
 import subCenterReducer from './features/parameter/subCenterReducer';
 import memberSlice from './features/effective/memberSlice';
-import TypeActiviteReducer from './features/parameter/TypeActiviteSlice';
-import ActiviteReducer from './features/parameter/ActiviteSlice';
+import TypeActiviteReducer from './features/apps/TypeActiviteSlice';
+import ActiviteReducer from './features/apps/ActiviteSlice';
+import ParticipantReducer from './features/apps/ParticipantSlice';
 
 export const store = configureStore({
   reducer: {
@@ -31,7 +32,8 @@ export const store = configureStore({
     subCenters: subCenterReducer,
     members: memberSlice,
     typeActivitesReducer: TypeActiviteReducer,
-    activiteReducer: ActiviteReducer
+    activiteReducer: ActiviteReducer,
+    participantReducer: ParticipantReducer
   },
 });
 

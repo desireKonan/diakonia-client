@@ -15,7 +15,7 @@ import { NavLink, useNavigate } from "react-router-dom";
 import ParentCard from "src/components/shared/ParentCard";
 import PageContainer from "src/components/container/PageContainer";
 import Breadcrumb from "src/layouts/full/shared/breadcrumb/Breadcrumb";
-import { deleteActivite, fetchActivites } from "src/store/features/parameter/ActiviteSlice";
+import { deleteActivite, fetchActivites } from "src/store/features/apps/ActiviteSlice";
 import { ActiviteService } from "src/services/activite.service";
 
 
@@ -130,6 +130,14 @@ const ActiviteList = () => {
                                                 </Button>
                                                 <Button 
                                                     variant="contained" 
+                                                    color="primary" 
+                                                    onClick={(e) => navigate(`/activite/${activite.id}/participants`)} 
+                                                    style={{margin: 5}}
+                                                > 
+                                                    Ajouter des participants 
+                                                </Button>
+                                                <Button 
+                                                    variant="contained" 
                                                     color="error" 
                                                     onClick={(e) => deleteActiviteById(activite.id)} 
                                                     style={{margin: 5}}
@@ -143,7 +151,7 @@ const ActiviteList = () => {
                                         <TableRow key={`Aucune`}>
                                             <TableCell rowSpan={4}>
                                                 <Typography color="textSecondary" variant="subtitle2" fontWeight={400}>
-                                                    Aucune activité disponible
+                                                    Aucune activités disponibles
                                                 </Typography>
                                             </TableCell>
                                         </TableRow>
