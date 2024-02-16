@@ -54,6 +54,27 @@ export const ActiviteSlice = createSlice({
         return { payload: { id, title, description } };
       },
     },
+    addParticipant: {
+      reducer: (state, action) => {
+        console.log(action.payload, state.activites);
+        if(action.payload.participant && action.payload.participant.id) {
+          console.log(state.activites);
+          let activite = state.activites.find(activite => activite.id === action.payload.activityId);
+          if(activite) {
+            let participant = activite.find(participant => participant.id === action.payload.participant.id);
+            participant = action.payload;
+          }
+        } else {
+          let activite = state.activites.find(activite => activite.id === action.payload.activityId);
+          if(activite) {
+              activite.participants.push(action.payload);
+          }
+        }
+      },
+      prepare: (id, fullname, discipleId, details, prevStartDate, prevEndDate, effectiveStartDate, effectiveEndDate) => {
+        return { payload: { id, fullname, discipleId, details, prevStartDate, prevEndDate, effectiveStartDate, effectiveEndDate } };
+      },
+    },
   },
   extraReducers: (builder) => {
     builder.addCase(fetchActivites.pending, (state) => {
@@ -82,6 +103,6 @@ export const fetchActiviteById = createAsyncThunk(`activite/fetchActiviteById`, 
   return ActiviteService.getActivite(id);
 });
 
-export const { searchActivite, getActivites, selectActivite, deleteActivite, updateActivite, addActivite } = ActiviteSlice.actions;
+export const { searchActivite, getActivites, selectActivite, deleteActivite, updateActivite, addActivite, addParticipant } = ActiviteSlice.actions;
 
 export default ActiviteSlice.reducer;

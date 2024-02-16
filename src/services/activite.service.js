@@ -1,3 +1,4 @@
+import { date } from "src/utils/utils";
 import http from "./http";
 
 const ACTIVITE_URL = "api/activite";
@@ -40,6 +41,17 @@ export class ActiviteService {
             console.log(err);
         }
         return message;
+    }
+
+    static async postParticipant(participant) {
+        var data = {};
+        try {
+            var response = await http.post(`${ACTIVITE_URL}/participants`, participant);
+            data = response.data;
+        } catch(err) {
+            console.log(err);
+        }
+        return data;
     }
 
 

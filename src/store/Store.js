@@ -11,10 +11,11 @@ import BlogReducer from './apps/blog/BlogSlice';
 import regionReducer from './features/parameter/regionReducer';
 import assemblyReducer from './features/parameter/assemblyReducer';
 import subCenterReducer from './features/parameter/subCenterReducer';
-import memberSlice from './features/effective/memberSlice';
 import TypeActiviteReducer from './features/apps/TypeActiviteSlice';
 import ActiviteReducer from './features/apps/ActiviteSlice';
 import ParticipantReducer from './features/apps/ParticipantSlice';
+import DiscipleReducer from './features/apps/DiscipleSlice';
+import MemberSlice from './features/effective/MemberSlice';
 
 export const store = configureStore({
   reducer: {
@@ -30,10 +31,11 @@ export const store = configureStore({
     regions: regionReducer,
     assemblies: assemblyReducer,
     subCenters: subCenterReducer,
-    members: memberSlice,
+    memberSlice: MemberSlice,
     typeActivitesReducer: TypeActiviteReducer,
     activiteReducer: ActiviteReducer,
-    participantReducer: ParticipantReducer
+    participantReducer: ParticipantReducer,
+    discipleReducer: DiscipleReducer
   },
 });
 

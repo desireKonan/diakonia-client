@@ -10,13 +10,17 @@ import {
     TableContainer,
 } from "@mui/material";
 import { useDispatch, useSelector } from "react-redux";
-import { NavLink, useNavigate } from "react-router-dom";
+import { NavLink, useNavigate, useParams } from "react-router-dom";
 import ParentCard from "src/components/shared/ParentCard";
 import PageContainer from "src/components/container/PageContainer";
 import Breadcrumb from "src/layouts/full/shared/breadcrumb/Breadcrumb";
+import { date } from "src/utils/utils";
+import CustomDialog from "src/components/custom/CustomDialog";
+import ParticipantForm from "./ParticipantForm";
 
 const ParticipantList = () => {
-    const participants = useSelector((state) => state.participantReducer.participants);
+    const params = useParams();
+    const participants = useSelector((state) => state.activiteReducer.activites.find(activite => activite.id === params.id).participants);
     const dispatch = useDispatch();
     const navigate = useNavigate();
 
@@ -24,9 +28,15 @@ const ParticipantList = () => {
         <PageContainer title="Liste des participants" description="Liste des participants">
             <Breadcrumb title="Liste des participants" subtitle="Liste des participants" />
             <ParentCard title="Liste des participants" action={
-                <NavLink to="/participant">
-                    <Button variant="contained" color="info">Ajouter une participant</Button>
-                </NavLink>
+                <CustomDialog 
+                    label={`Ajouter un participant`} 
+                    title={`Formulaire d'ajout d'un participant`}
+                    description={`Ce formulaire permet de sauvegarder une information sur un participant`}
+                    form={
+                        <ParticipantForm activityId={params.id}/>
+                    }
+
+                ></CustomDialog>
             }>
                 <Paper variant="outlined">
                     <TableContainer>
@@ -46,22 +56,37 @@ const ParticipantList = () => {
                                     </TableCell>
                                     <TableCell>
                                         <Typography variant="subtitle2" fontWeight={600}>
-                                            Libéllé
+                                            Nom complet
                                         </Typography>
                                     </TableCell>
                                     <TableCell>
                                         <Typography variant="subtitle2" fontWeight={600}>
-                                            Description
+                                            Activité
                                         </Typography>
                                     </TableCell>
                                     <TableCell>
                                         <Typography variant="subtitle2" fontWeight={600}>
-                                            Type d'participants
+                                            Disciple
                                         </Typography>
                                     </TableCell>
                                     <TableCell>
                                         <Typography variant="subtitle2" fontWeight={600}>
-                                            Détails
+                                            Date de debut prévisionelle
+                                        </Typography>
+                                    </TableCell>
+                                    <TableCell>
+                                        <Typography variant="subtitle2" fontWeight={600}>
+                                            Date de fin prévisionelle
+                                        </Typography>
+                                    </TableCell>
+                                    <TableCell>
+                                        <Typography variant="subtitle2" fontWeight={600}>
+                                            Date de debut effective
+                                        </Typography>
+                                    </TableCell>
+                                    <TableCell>
+                                        <Typography variant="subtitle2" fontWeight={600}>
+                                            Date de fin effective
                                         </Typography>
                                     </TableCell>
                                     <TableCell>
@@ -72,7 +97,7 @@ const ParticipantList = () => {
                                 </TableRow>
                             </TableHead>
                             <TableBody>
-                                {(participants && participants.length !== 0)? (participants.map((participant) => (
+                                {(participants && participants.length !== 0) ? (participants.map((participant) => (
                                         <TableRow key={participant.id}>
                                             <TableCell>
                                                 <Typography
@@ -86,33 +111,49 @@ const ParticipantList = () => {
                                             </TableCell>
                                             <TableCell>
                                                 <Typography color="textSecondary" variant="subtitle2" fontWeight={400}>
-                                                    {participant.label}
+                                                    {participant.fullname}
                                                 </Typography>
                                             </TableCell>
                                             <TableCell>
                                                 <Typography color="textSecondary" variant="subtitle2" fontWeight={400}>
-                                                    {participant.description}
+                                                    {participant.activityLabel}
                                                 </Typography>
                                             </TableCell>
                                             <TableCell>
                                                 <Typography color="textSecondary" variant="subtitle2" fontWeight={400}>
-                                                    {participant.typeLabel}
+                                                    {participant.discipleName}
                                                 </Typography>
                                             </TableCell>
                                             <TableCell>
                                                 <Typography color="textSecondary" variant="subtitle2" fontWeight={400}>
-                                                    {JSON.stringify(participant.details)}
+                                                    {date(participant.previsionalStartDate)}
                                                 </Typography>
                                             </TableCell>
                                             <TableCell>
-                                                <Button 
-                                                    variant="contained" 
-                                                    color="warning" 
-                                                    onClick={(e) => navigate(`/participant/${participant.id}`)} 
-                                                    style={{margin: 5}}
-                                                > 
-                                                    Modifier 
-                                                </Button>
+                                                <Typography color="textSecondary" variant="subtitle2" fontWeight={400}>
+                                                    {date(participant.previsionalEndDate)}
+                                                </Typography>
+                                            </TableCell>
+                                            <TableCell>
+                                                <Typography color="textSecondary" variant="subtitle2" fontWeight={400}>
+                                                    {date(participant.effectiveStartDate)}
+                                                </Typography>
+                                            </TableCell>
+                                            <TableCell>
+                                                <Typography color="textSecondary" variant="subtitle2" fontWeight={400}>
+                                                    {date(participant.effectiveEndDate)}
+                                                </Typography>
+                                            </TableCell>
+                                            <TableCell>
+                                                <CustomDialog 
+                                                    label={`Modifier un participant`} 
+                                                    title={`Formulaire de modification d'un participant`}
+                                                    description={`Ce formulaire permet de sauvegarder une information sur un participant`}
+                                                    form={
+                                                        <ParticipantForm activityId={params.id} participant={participant} />
+                                                    }
+                                                    style={{margin: 3}}
+                                                ></CustomDialog>
                                                 <Button 
                                                     variant="contained" 
                                                     color="error" 

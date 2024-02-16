@@ -16,7 +16,7 @@ import { MemberService } from "src/services/member.service";
 import PageContainer from "src/components/container/PageContainer";
 import Breadcrumb from "src/layouts/full/shared/breadcrumb/Breadcrumb";
 import ParentCard from "src/components/shared/ParentCard";
-import { fetchMembers, deleteMember } from "src/store/features/effective/memberSlice";
+import { fetchMembers, deleteMember } from "src/store/features/effective/MemberSlice";
 
 const MemberMemberList = () => {
     const data = useSelector((state) => state.members);

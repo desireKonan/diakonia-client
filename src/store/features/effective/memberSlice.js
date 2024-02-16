@@ -24,7 +24,7 @@ const initialState = {
   error: ''
 };
 
-export const memberSlice = createSlice({
+export const MemberSlice = createSlice({
   name: 'members',
   initialState,
   reducers: {
@@ -147,10 +147,10 @@ export const {
   sortByPrice,
   filterReset,
   sortByColor,
-} = memberSlice.actions;
+} = MemberSlice.actions;
 
 export const fetchMembers = createAsyncThunk('assembly/members', (assemblyId) => {
     return MemberService.getMembers(assemblyId);
 });
 
-export default memberSlice.reducer;
+export default MemberSlice.reducer;
