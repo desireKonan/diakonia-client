@@ -17,6 +17,9 @@ export const ActiviteSlice = createSlice({
     getActivites: (state, action) => {
       state.activites = action.payload;
     },
+    getActivite: (state, action) => {
+      return state.activites.find(activite => activite.id === action.payload);
+    },
     searchActivite: (state, action) => {
       state.activiteSearch = action.payload;
     },
@@ -56,18 +59,16 @@ export const ActiviteSlice = createSlice({
     },
     addParticipant: {
       reducer: (state, action) => {
-        console.log(action.payload, state.activites);
-        if(action.payload.participant && action.payload.participant.id) {
-          console.log(state.activites);
-          let activite = state.activites.find(activite => activite.id === action.payload.activityId);
+        let participant = action.payload.id;
+        if(participant) {
+          let activite = state.activites.find(activite => activite.id === participant.activityId);
           if(activite) {
-            let participant = activite.find(participant => participant.id === action.payload.participant.id);
-            participant = action.payload;
-          }
-        } else {
-          let activite = state.activites.find(activite => activite.id === action.payload.activityId);
-          if(activite) {
-              activite.participants.push(action.payload);
+            let newParticipant = activite.participants.find(p => p.id === participant.id);
+            if(newParticipant) {
+              newParticipant = participant;
+            } else {
+              activite.participants.push(participant);
+            }
           }
         }
       },

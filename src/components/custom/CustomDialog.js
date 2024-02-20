@@ -1,8 +1,9 @@
 import { useState } from "react";
 import { Button, Dialog, DialogTitle, DialogContent, DialogContentText, DialogActions, Box } from '@mui/material';
 import CustomTextField from "../forms/theme-elements/CustomTextField";
+import Breadcrumb from "src/layouts/full/shared/breadcrumb/Breadcrumb";
 
-const CustomDialog = ({ label, title, description, form }) => {
+const CustomDialog = ({ label, title, form, color }) => {
     const [open , setOpen] = useState(false);
 
     const openDialog = () => {
@@ -15,15 +16,12 @@ const CustomDialog = ({ label, title, description, form }) => {
 
     return (
         <>
-            <Button variant="contained" color="warning" fullWidth onClick={openDialog}>
+            <Button variant="contained" color={ !color ? "primary": "warning" } fullWidth onClick={openDialog}>
                { label }
             </Button>
             <Dialog open={open} onClose={closeDialog}>
-                <DialogTitle> { title } </DialogTitle>
+                <Breadcrumb title={ title }/>
                 <DialogContent>
-                    <DialogContentText>
-                        { description }
-                    </DialogContentText>
                     { form }
                 </DialogContent>
                 <DialogActions>

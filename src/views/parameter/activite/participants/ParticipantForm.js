@@ -2,13 +2,12 @@ import { Button, Grid, Stack, MenuItem } from "@mui/material";
 import { AdapterDateFns } from "@mui/x-date-pickers/AdapterDateFns";
 
 import { useEffect, useState } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router";
 import CustomSelect from "src/components/forms/theme-elements/CustomSelect";
 import { date, dateTimeValue } from "src/utils/utils";
 import { DatePicker, LocalizationProvider } from '@mui/x-date-pickers';
 import PageContainer from "src/components/container/PageContainer";
-import Breadcrumb from "src/layouts/full/shared/breadcrumb/Breadcrumb";
 import ParentCard from "src/components/shared/ParentCard";
 import CustomFormLabel from "src/components/forms/theme-elements/CustomFormLabel";
 import CustomTextField from "src/components/forms/theme-elements/CustomTextField";
@@ -25,6 +24,7 @@ const ParticipantForm = ({ activityId , participant }) => {
         effectiveStartDate: null,
         effectiveEndDate: null
     }); 
+    const activite = useSelector(state => state.activiteReducer.activites.find(activite => activite.id === activityId));
 
     const [discipleInfos, setDiscipleInfos] = useState([]);
     const navigate = useNavigate();
@@ -62,17 +62,11 @@ const ParticipantForm = ({ activityId , participant }) => {
         });
     }
 
+
     const setDate = (key, value) => {
         setFormData({
           ...formData,
           [key]: value
-        });
-    }
-
-    const setField = (key, value) => {
-        setFormData({
-            ...formData,
-            [key]: value
         });
     }
 
@@ -84,9 +78,12 @@ const ParticipantForm = ({ activityId , participant }) => {
             participantCommand.id = participant.id;
         }
         participantCommand.discipleId = formData.discipleId;
-        var discipleInfo = discipleInfos.find(info => info.id === formData.discipleId);
+        var discipleInfo = discipleInfos.find(info => info.discipleId === formData.discipleId);
+        console.log(discipleInfos, formData);
         if(discipleInfo) {
             participantCommand.fullname = discipleInfo.fullname;
+            participantCommand.activityLabel = activite.label;
+            participantCommand.discipleName = discipleInfo.fullname;
         }
         participantCommand.activityId = activityId;
         participantCommand.prevStartDate = formData.prevStartDate;
@@ -100,8 +97,6 @@ const ParticipantForm = ({ activityId , participant }) => {
 
     return (
         <PageContainer title="Formulaire de participant" description="Formulaire de participant">
-            <Breadcrumb title="Formulaire de participant" subtitle="Formulaire de participant"/>
-            
             <ParentCard title="Formulaire de participant">
                 <form method="POST" onSubmit={submitParticipant}>
                     <Grid container spacing={3}>
@@ -142,7 +137,6 @@ const ParticipantForm = ({ activityId , participant }) => {
                                     value={formData.prevStartDate}
                                     onChange={(newValue) => {
                                         var prevStartDate = date(newValue);
-                                        console.log(newValue, prevStartDate);
                                         setDate("prevStartDate", prevStartDate);
                                     }}
                                 />
@@ -166,7 +160,6 @@ const ParticipantForm = ({ activityId , participant }) => {
                                     value={formData.prevEndDate}
                                     onChange={(newValue) => {
                                         var prevEndDate = date(newValue);
-                                        console.log(newValue, prevEndDate);
                                         setDate("prevEndDate", prevEndDate);
                                     }}
                                 />
@@ -190,7 +183,6 @@ const ParticipantForm = ({ activityId , participant }) => {
                                     value={formData.effectiveStartDate}
                                     onChange={(newValue) => {
                                         var effectiveStartDate = date(newValue);
-                                        console.log(newValue, effectiveStartDate);
                                         setDate("effectiveStartDate", effectiveStartDate);
                                     }}
                                 />
@@ -214,7 +206,6 @@ const ParticipantForm = ({ activityId , participant }) => {
                                     value={formData.effectiveEndDate}
                                     onChange={(newValue) => {
                                         var effectiveEndDate = date(newValue);
-                                        console.log(newValue, effectiveEndDate);
                                         setDate("effectiveEndDate", effectiveEndDate);
                                     }}
                                 />
@@ -225,8 +216,8 @@ const ParticipantForm = ({ activityId , participant }) => {
                     <Grid item xs={12} md={12} lg={4}>
                         <Stack direction={{ xs: 'column', sm: 'row' }} spacing={2} justifyContent="space-between" mt={2}>
                             <Stack spacing={1} direction="row">
-                                <Button variant="contained" color={participant && participant.id ? "warning": "primary"} type="submit"> 
-                                    { participant && participant.id ? 'Modifier': 'Ajouter' } un participant 
+                                <Button variant="contained" color={(participant && participant.id) ? "warning": "primary"} type="submit"> 
+                                    { (participant && participant.id) ? 'Modifier': 'Ajouter' } un participant 
                                 </Button>
                             </Stack>
                         </Stack>

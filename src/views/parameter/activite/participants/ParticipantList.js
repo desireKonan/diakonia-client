@@ -8,9 +8,10 @@ import {
     Button,
     Paper,
     TableContainer,
+    TableFooter
 } from "@mui/material";
 import { useDispatch, useSelector } from "react-redux";
-import { NavLink, useNavigate, useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import ParentCard from "src/components/shared/ParentCard";
 import PageContainer from "src/components/container/PageContainer";
 import Breadcrumb from "src/layouts/full/shared/breadcrumb/Breadcrumb";
@@ -31,7 +32,6 @@ const ParticipantList = () => {
                 <CustomDialog 
                     label={`Ajouter un participant`} 
                     title={`Formulaire d'ajout d'un participant`}
-                    description={`Ce formulaire permet de sauvegarder une information sur un participant`}
                     form={
                         <ParticipantForm activityId={params.id}/>
                     }
@@ -148,7 +148,7 @@ const ParticipantList = () => {
                                                 <CustomDialog 
                                                     label={`Modifier un participant`} 
                                                     title={`Formulaire de modification d'un participant`}
-                                                    description={`Ce formulaire permet de sauvegarder une information sur un participant`}
+                                                    color={`warning`}
                                                     form={
                                                         <ParticipantForm activityId={params.id} participant={participant} />
                                                     }
@@ -176,6 +176,11 @@ const ParticipantList = () => {
                                     )
                                 }
                             </TableBody>
+                            <TableFooter>
+                                <TableCell>
+                                    <Button> Sauvegarder les participants </Button>
+                                </TableCell>
+                            </TableFooter>
                         </Table>
                     </TableContainer>
                 </Paper>
