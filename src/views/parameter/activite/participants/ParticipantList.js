@@ -15,15 +15,32 @@ import { useNavigate, useParams } from "react-router-dom";
 import ParentCard from "src/components/shared/ParentCard";
 import PageContainer from "src/components/container/PageContainer";
 import Breadcrumb from "src/layouts/full/shared/breadcrumb/Breadcrumb";
-import { date } from "src/utils/utils";
+import { date, mapParticipant } from "src/utils/utils";
 import CustomDialog from "src/components/custom/CustomDialog";
 import ParticipantForm from "./ParticipantForm";
+import { ParticipantService } from "src/services/participant.service";
 
 const ParticipantList = () => {
     const params = useParams();
     const participants = useSelector((state) => state.activiteReducer.activites.find(activite => activite.id === params.id).participants);
     const dispatch = useDispatch();
     const navigate = useNavigate();
+
+    console.log(participants);
+
+    const saveParticipants = (event) => {
+        event.preventDefault();
+        var participantCommands = participants.map(participant => mapParticipant(participant));
+        let saveParticipantCommand = {
+            activityId: params.id,
+            participants: participantCommands
+        };
+
+        ParticipantService.postParticipant(saveParticipantCommand).then(participant => {
+            console.log(participant);
+        });
+    }
+
 
     return (
         <PageContainer title="Liste des participants" description="Liste des participants">
@@ -177,9 +194,11 @@ const ParticipantList = () => {
                                 }
                             </TableBody>
                             <TableFooter>
-                                <TableCell>
-                                    <Button> Sauvegarder les participants </Button>
-                                </TableCell>
+                                <TableRow>
+                                    <TableCell>
+                                        <Button onClick={saveParticipants}> Sauvegarder les participants </Button>
+                                    </TableCell>
+                                </TableRow>
                             </TableFooter>
                         </Table>
                     </TableContainer>

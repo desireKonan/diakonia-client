@@ -7,30 +7,6 @@ const PARTICIPANT_URL = "api/activite/participants";
  */
 export class ParticipantService {
 
-    static async getParticipants() {
-        var participants = [];
-        try {
-            var response = await http.get(`${PARTICIPANT_URL}`);
-            participants = response.data;
-        } catch(e) {
-            console.error(e);
-        }
-        return participants;
-    }
-
-
-    static async getParticipant(id) {
-        var participant = {};
-        try {
-            var response = await http.get(`${PARTICIPANT_URL}/${id}`);
-            participant = response.data;
-        } catch(err) {
-            console.log(err);
-        }
-        return participant;
-    }
-
-
     static async postParticipant(participant) {
         var message = "";
         try {
@@ -40,18 +16,6 @@ export class ParticipantService {
             console.log(err);
         }
         return message;
-    }
-
-
-    static async deleteParticipant(id) {
-        var participant = "";
-        try {
-            var response = await http.delete(`${PARTICIPANT_URL}/${id}`);
-            participant = response.data;
-        } catch(err) {
-            console.log(err);
-        }
-        return participant;
     }
 }
 

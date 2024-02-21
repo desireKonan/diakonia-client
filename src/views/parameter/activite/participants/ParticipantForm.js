@@ -32,7 +32,7 @@ const ParticipantForm = ({ activityId , participant }) => {
 
 
     useEffect(() => {
-        if(participant && participant.id) {
+        if(participant) {
             setFormData({
                 fullname: participant.fullname,
                 discipleId: participant.discipleId,
@@ -42,15 +42,14 @@ const ParticipantForm = ({ activityId , participant }) => {
                 effectiveStartDate: participant.effectiveStartDate ? dateTimeValue(participant.effectiveStartDate) : null,
                 effectiveStartDate: participant.effectiveEndDate ? dateTimeValue(participant.effectiveEndDate) : null,
             });
-        } else {
-            DiscipleService.getDisciples().then(disciples => {
-                var discipleInfos = disciples.map(disciple => ({
-                    fullname: `${disciple.firstName} ${disciple.lastName}`,
-                    discipleId: disciple.id
-                }));
-                setDiscipleInfos(discipleInfos);
-            });
-        }
+        } 
+        DiscipleService.getDisciples().then(disciples => {
+            var discipleInfos = disciples.map(disciple => ({
+                fullname: `${disciple.firstName} ${disciple.lastName}`,
+                discipleId: disciple.id
+            }));
+            setDiscipleInfos(discipleInfos);
+        });
     }, []);
 
 

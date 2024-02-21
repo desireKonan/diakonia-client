@@ -13,3 +13,17 @@ export function date(dateValue) {
     }
     return moment(newDate).format('yyyy-MM-DD');
 }
+
+
+export function mapParticipant(participant) {
+    return ({
+        id: participant.id,
+        fullname: participant.fullname,
+        discipleId: participant.discipleId,
+        details: participant.details,
+        prevStartDate: participant.prevStartDate,
+        prevEndDate: participant.prevEndDate,
+        effectiveStartDate: participant.effectiveStartDate,
+        effectiveEndDate: participant.effectiveEndDate
+    });
+}
