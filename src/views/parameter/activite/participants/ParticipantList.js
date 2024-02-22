@@ -7,18 +7,18 @@ import {
     TableRow,
     Button,
     Paper,
-    TableContainer,
-    TableFooter
+    TableContainer
 } from "@mui/material";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate, useParams } from "react-router-dom";
 import ParentCard from "src/components/shared/ParentCard";
 import PageContainer from "src/components/container/PageContainer";
 import Breadcrumb from "src/layouts/full/shared/breadcrumb/Breadcrumb";
-import { date, mapParticipant } from "src/utils/utils";
+import { date } from "src/utils/utils";
 import CustomDialog from "src/components/custom/CustomDialog";
 import ParticipantForm from "./ParticipantForm";
 import { ParticipantService } from "src/services/participant.service";
+import { removeParticipant } from "src/store/features/apps/ActiviteSlice";
 
 const ParticipantList = () => {
     const params = useParams();
@@ -26,21 +26,20 @@ const ParticipantList = () => {
     const dispatch = useDispatch();
     const navigate = useNavigate();
 
-    console.log(participants);
-
-    const saveParticipants = (event) => {
-        event.preventDefault();
-        var participantCommands = participants.map(participant => mapParticipant(participant));
-        let saveParticipantCommand = {
-            activityId: params.id,
-            participants: participantCommands
+    const deleteParticipant = (activityId, participantId) => {
+        let removedParticipantCommand = {
+            activityId: activityId,
+            participantIds: [
+                participantId
+            ]
         };
-
-        ParticipantService.postParticipant(saveParticipantCommand).then(participant => {
-            console.log(participant);
+        console.log(removedParticipantCommand);
+        ParticipantService.deleteParticipant(removedParticipantCommand).then(() => {
+            dispatch(removeParticipant(removedParticipantCommand));
         });
-    }
 
+        navigate("/activites");
+    }
 
     return (
         <PageContainer title="Liste des participants" description="Liste des participants">
@@ -143,12 +142,12 @@ const ParticipantList = () => {
                                             </TableCell>
                                             <TableCell>
                                                 <Typography color="textSecondary" variant="subtitle2" fontWeight={400}>
-                                                    {date(participant.previsionalStartDate)}
+                                                    {date(participant.prevStartDate)}
                                                 </Typography>
                                             </TableCell>
                                             <TableCell>
                                                 <Typography color="textSecondary" variant="subtitle2" fontWeight={400}>
-                                                    {date(participant.previsionalEndDate)}
+                                                    {date(participant.prevEndDate)}
                                                 </Typography>
                                             </TableCell>
                                             <TableCell>
@@ -174,7 +173,7 @@ const ParticipantList = () => {
                                                 <Button 
                                                     variant="contained" 
                                                     color="error" 
-                                                    onClick={(e) => null} 
+                                                    onClick={(e) => deleteParticipant(params.id, participant.id)} 
                                                     style={{margin: 5}}
                                                 >
                                                     Supprimer 
@@ -193,13 +192,6 @@ const ParticipantList = () => {
                                     )
                                 }
                             </TableBody>
-                            <TableFooter>
-                                <TableRow>
-                                    <TableCell>
-                                        <Button onClick={saveParticipants}> Sauvegarder les participants </Button>
-                                    </TableCell>
-                                </TableRow>
-                            </TableFooter>
                         </Table>
                     </TableContainer>
                 </Paper>

@@ -12,7 +12,7 @@ import ParentCard from "src/components/shared/ParentCard";
 import CustomFormLabel from "src/components/forms/theme-elements/CustomFormLabel";
 import CustomTextField from "src/components/forms/theme-elements/CustomTextField";
 import { DiscipleService } from "src/services/disciple.service";
-import { addParticipant } from "src/store/features/apps/ActiviteSlice";
+import { ParticipantService } from "src/services/participant.service";
 
 
 const ParticipantForm = ({ activityId , participant }) => {
@@ -40,7 +40,7 @@ const ParticipantForm = ({ activityId , participant }) => {
                 prevStartDate: participant.prevStartDate ? dateTimeValue(participant.prevStartDate) : null,
                 prevEndDate: participant.prevEndDate ? dateTimeValue(participant.prevEndDate) : null,
                 effectiveStartDate: participant.effectiveStartDate ? dateTimeValue(participant.effectiveStartDate) : null,
-                effectiveStartDate: participant.effectiveEndDate ? dateTimeValue(participant.effectiveEndDate) : null,
+                effectiveEndDate: participant.effectiveEndDate ? dateTimeValue(participant.effectiveEndDate) : null,
             });
         } 
         DiscipleService.getDisciples().then(disciples => {
@@ -54,7 +54,6 @@ const ParticipantForm = ({ activityId , participant }) => {
 
 
     const handleInputChange = (event) => {
-        console.log(event.target);
         setFormData({
           ...formData,
           [event.target.name]: event.target.value
@@ -62,7 +61,7 @@ const ParticipantForm = ({ activityId , participant }) => {
     }
 
 
-    const setDate = (key, value) => {
+    const setField = (key, value) => {
         setFormData({
           ...formData,
           [key]: value
@@ -78,19 +77,23 @@ const ParticipantForm = ({ activityId , participant }) => {
         }
         participantCommand.discipleId = formData.discipleId;
         var discipleInfo = discipleInfos.find(info => info.discipleId === formData.discipleId);
-        console.log(discipleInfos, formData);
         if(discipleInfo) {
             participantCommand.fullname = discipleInfo.fullname;
             participantCommand.activityLabel = activite.label;
-            participantCommand.discipleName = discipleInfo.fullname;
         }
-        participantCommand.activityId = activityId;
-        participantCommand.prevStartDate = formData.prevStartDate;
-        participantCommand.prevEndDate = formData.prevEndDate;
-        participantCommand.effectiveStartDate = formData.effectiveStartDate;
-        participantCommand.effectiveEndDate = formData.effectiveEndDate;
-
-        dispatch(addParticipant(participantCommand));
+        participantCommand.prevStartDate = date(formData.prevStartDate);
+        participantCommand.prevEndDate = date(formData.prevEndDate);
+        participantCommand.effectiveStartDate = date(formData.effectiveStartDate);
+        participantCommand.effectiveEndDate = date(formData.effectiveEndDate);
+        let saveParticipantCommand = {
+            activityId: activityId,
+            participants: [
+                participantCommand
+            ]
+        };
+        ParticipantService.postParticipant(saveParticipantCommand).then(() => {
+            navigate("/activites");
+        });
     }
 
 
@@ -136,7 +139,7 @@ const ParticipantForm = ({ activityId , participant }) => {
                                     value={formData.prevStartDate}
                                     onChange={(newValue) => {
                                         var prevStartDate = date(newValue);
-                                        setDate("prevStartDate", prevStartDate);
+                                        setField("prevStartDate", prevStartDate);
                                     }}
                                 />
                             </LocalizationProvider>
@@ -159,7 +162,7 @@ const ParticipantForm = ({ activityId , participant }) => {
                                     value={formData.prevEndDate}
                                     onChange={(newValue) => {
                                         var prevEndDate = date(newValue);
-                                        setDate("prevEndDate", prevEndDate);
+                                        setField("prevEndDate", prevEndDate);
                                     }}
                                 />
                             </LocalizationProvider>
@@ -182,7 +185,7 @@ const ParticipantForm = ({ activityId , participant }) => {
                                     value={formData.effectiveStartDate}
                                     onChange={(newValue) => {
                                         var effectiveStartDate = date(newValue);
-                                        setDate("effectiveStartDate", effectiveStartDate);
+                                        setField("effectiveStartDate", effectiveStartDate);
                                     }}
                                 />
                             </LocalizationProvider>
@@ -205,7 +208,7 @@ const ParticipantForm = ({ activityId , participant }) => {
                                     value={formData.effectiveEndDate}
                                     onChange={(newValue) => {
                                         var effectiveEndDate = date(newValue);
-                                        setDate("effectiveEndDate", effectiveEndDate);
+                                        setField("effectiveEndDate", effectiveEndDate);
                                     }}
                                 />
                             </LocalizationProvider>

@@ -57,25 +57,17 @@ export const ActiviteSlice = createSlice({
         return { payload: { id, title, description } };
       },
     },
-    addParticipant: {
-      reducer: (state, action) => {
-        let participant = action.payload.id;
-        if(participant) {
-          let activite = state.activites.find(activite => activite.id === participant.activityId);
-          if(activite) {
-            let newParticipant = activite.participants.find(p => p.id === participant.id);
-            if(newParticipant) {
-              newParticipant = participant;
-            } else {
-              activite.participants.push(participant);
-            }
-          }
+    removeParticipant: (state, action) => {
+      let removedParticipantCommand = action.payload.id;
+      console.log(removedParticipantCommand);
+      if(removedParticipantCommand) {
+        let activite = state.activites.find(activite => activite.id === removedParticipantCommand.activityId);
+        if(activite) {
+          let participant = activite.participants.findIndex((activite) => activite.id === removedParticipantCommand.participantIds[0]);
+          activite.participants.slice(participant, 1);
         }
-      },
-      prepare: (id, fullname, discipleId, details, prevStartDate, prevEndDate, effectiveStartDate, effectiveEndDate) => {
-        return { payload: { id, fullname, discipleId, details, prevStartDate, prevEndDate, effectiveStartDate, effectiveEndDate } };
-      },
-    },
+      }
+    }
   },
   extraReducers: (builder) => {
     builder.addCase(fetchActivites.pending, (state) => {
@@ -104,6 +96,6 @@ export const fetchActiviteById = createAsyncThunk(`activite/fetchActiviteById`, 
   return ActiviteService.getActivite(id);
 });
 
-export const { searchActivite, getActivites, selectActivite, deleteActivite, updateActivite, addActivite, addParticipant } = ActiviteSlice.actions;
+export const { searchActivite, getActivites, selectActivite, deleteActivite, updateActivite, addActivite, addParticipant, removeParticipant } = ActiviteSlice.actions;
 
 export default ActiviteSlice.reducer;
