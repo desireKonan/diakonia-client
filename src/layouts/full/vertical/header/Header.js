@@ -8,7 +8,6 @@ import { IconMenu2 } from '@tabler/icons';
 // components
 import Notifications from './Notifications';
 import Profile from './Profile';
-import Cart from './Cart';
 import Search from './Search';
 import Language from './Language';
 import Navigation from './Navigation';
@@ -61,15 +60,8 @@ const Header = () => {
 
         <Box flexGrow={1} />
         <Stack spacing={1} direction="row" alignItems="center">
-
           <Language />
-          {/* ------------------------------------------- */}
-          {/* Ecommerce Dropdown */}
-          {/* ------------------------------------------- */}
-          <Cart />
-          {/* ------------------------------------------- */}
-          {/* End Ecommerce Dropdown */}
-          {/* ------------------------------------------- */}
+          
           <Notifications />
            {/* ------------------------------------------- */}
           {/* Toggle Right Sidebar for mobile */}

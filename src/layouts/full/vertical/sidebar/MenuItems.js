@@ -4,7 +4,8 @@ import {
   IconUserCircle,
   IconList,
   IconHome,
-  IconDashboard
+  IconDashboard,
+  IconMeteor
 } from '@tabler/icons';
 
 import { uniqueId } from 'lodash';
@@ -63,6 +64,21 @@ const Menuitems = [
         title: 'Activité',
         icon: IconPoint,
         href: '/activites',
+        chipColor: 'secondary',
+      },
+    ],
+  },
+  {
+    id: uniqueId(),
+    title: 'Rencontre',
+    icon: IconMeteor,
+    href: '/#/',
+    children: [
+      {
+        id: uniqueId(),
+        title: 'Type de rencontres',
+        icon: IconPoint,
+        href: '/type-rencontres/',
         chipColor: 'secondary',
       },
     ],

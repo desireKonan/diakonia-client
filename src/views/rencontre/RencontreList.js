@@ -16,41 +16,20 @@ import PageContainer from "src/components/container/PageContainer";
 import Breadcrumb from "src/layouts/full/shared/breadcrumb/Breadcrumb";
 import { date } from "src/utils/utils";
 import CustomDialog from "src/components/custom/CustomDialog";
-import ParticipantForm from "./ParticipantForm";
-import { ParticipantService } from "src/services/participant.service";
-import { removeParticipant } from "src/store/features/apps/ActiviteSlice";
 
-const ParticipantList = () => {
+const RencontreList = () => {
     const params = useParams();
-    const participants = useSelector((state) => state.activiteReducer.activites.find(activite => activite.id === params.id).participants);
+    const rencontres = useSelector((state) => state.rencontreReducer.rencontres);
     const dispatch = useDispatch();
     const navigate = useNavigate();
 
-    const deleteParticipant = (activityId, participantId) => {
-        let removedParticipantCommand = {
-            activityId: activityId,
-            participantIds: [
-                participantId
-            ]
-        };
-        ParticipantService.deleteParticipant(removedParticipantCommand).then(() => {
-            dispatch(removeParticipant(removedParticipantCommand));
-        });
-
-        navigate("/activites");
-    }
-
     return (
-        <PageContainer title="Liste des participants" description="Liste des participants">
-            <Breadcrumb title="Liste des participants" subtitle="Liste des participants" />
-            <ParentCard title="Liste des participants" action={
+        <PageContainer title="Liste des rencontres" description="Liste des rencontres">
+            <Breadcrumb title="Liste des rencontres" subtitle="Liste des rencontres" />
+            <ParentCard title="Liste des rencontres" action={
                 <CustomDialog 
-                    label={`Ajouter un participant`} 
-                    title={`Formulaire d'ajout d'un participant`}
-                    form={
-                        <ParticipantForm activityId={params.id}/>
-                    }
-
+                    label={`Ajouter un rencontre`} 
+                    title={`Formulaire d'ajout d'un rencontre`}
                 ></CustomDialog>
             }>
                 <Paper variant="outlined">
@@ -112,8 +91,8 @@ const ParticipantList = () => {
                                 </TableRow>
                             </TableHead>
                             <TableBody>
-                                {(participants && participants.length !== 0) ? (participants.map((participant) => (
-                                        <TableRow key={participant.id}>
+                                {(rencontres && rencontres.length !== 0) ? (rencontres.map((rencontre) => (
+                                        <TableRow key={rencontre.id}>
                                             <TableCell>
                                                 <Typography
                                                     sx={{
@@ -121,58 +100,55 @@ const ParticipantList = () => {
                                                         fontWeight: "500",
                                                     }}
                                                 >
-                                                    {participant.id}
+                                                    {rencontre.id}
                                                 </Typography>
                                             </TableCell>
                                             <TableCell>
                                                 <Typography color="textSecondary" variant="subtitle2" fontWeight={400}>
-                                                    {participant.fullname}
+                                                    {rencontre.fullname}
                                                 </Typography>
                                             </TableCell>
                                             <TableCell>
                                                 <Typography color="textSecondary" variant="subtitle2" fontWeight={400}>
-                                                    {participant.activityLabel}
+                                                    {rencontre.activityLabel}
                                                 </Typography>
                                             </TableCell>
                                             <TableCell>
                                                 <Typography color="textSecondary" variant="subtitle2" fontWeight={400}>
-                                                    {participant.discipleName}
+                                                    {rencontre.discipleName}
                                                 </Typography>
                                             </TableCell>
                                             <TableCell>
                                                 <Typography color="textSecondary" variant="subtitle2" fontWeight={400}>
-                                                    {date(participant.prevStartDate)}
+                                                    {date(rencontre.prevStartDate)}
                                                 </Typography>
                                             </TableCell>
                                             <TableCell>
                                                 <Typography color="textSecondary" variant="subtitle2" fontWeight={400}>
-                                                    {date(participant.prevEndDate)}
+                                                    {date(rencontre.prevEndDate)}
                                                 </Typography>
                                             </TableCell>
                                             <TableCell>
                                                 <Typography color="textSecondary" variant="subtitle2" fontWeight={400}>
-                                                    {date(participant.effectiveStartDate)}
+                                                    {date(rencontre.effectiveStartDate)}
                                                 </Typography>
                                             </TableCell>
                                             <TableCell>
                                                 <Typography color="textSecondary" variant="subtitle2" fontWeight={400}>
-                                                    {date(participant.effectiveEndDate)}
+                                                    {date(rencontre.effectiveEndDate)}
                                                 </Typography>
                                             </TableCell>
                                             <TableCell>
                                                 <CustomDialog 
-                                                    label={`Modifier un participant`} 
-                                                    title={`Formulaire de modification d'un participant`}
+                                                    label={`Modifier un rencontre`} 
+                                                    title={`Formulaire de modification d'un rencontre`}
                                                     color={`warning`}
-                                                    form={
-                                                        <ParticipantForm activityId={params.id} participant={participant} />
-                                                    }
                                                     style={{margin: 3}}
                                                 ></CustomDialog>
                                                 <Button 
                                                     variant="contained" 
                                                     color="error" 
-                                                    onClick={(e) => deleteParticipant(params.id, participant.id)} 
+                                                    onClick={(e) => null} 
                                                     style={{margin: 5}}
                                                 >
                                                     Supprimer 
@@ -184,7 +160,7 @@ const ParticipantList = () => {
                                         <TableRow key={`Aucune`}>
                                             <TableCell rowSpan={4}>
                                                 <Typography color="textSecondary" variant="subtitle2" fontWeight={400}>
-                                                    Aucune participants disponibles
+                                                    Aucune rencontres disponibles
                                                 </Typography>
                                             </TableCell>
                                         </TableRow>
@@ -199,4 +175,5 @@ const ParticipantList = () => {
     );
 }
 
-export default ParticipantList;
+
+export default RencontreList;
