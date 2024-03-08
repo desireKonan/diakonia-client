@@ -76,11 +76,18 @@ const Menuitems = [
     children: [
       {
         id: uniqueId(),
+        title: 'Rencontres',
+        icon: IconPoint,
+        href: '/rencontres/',
+        chipColor: 'secondary',
+      },
+      {
+        id: uniqueId(),
         title: 'Type de rencontres',
         icon: IconPoint,
         href: '/type-rencontres/',
         chipColor: 'secondary',
-      },
+      }
     ],
   },
   {

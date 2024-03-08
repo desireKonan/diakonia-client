@@ -3,7 +3,7 @@ import {
     Table,
     TableBody,
     TableCell,
-    TableHead,
+    TableHead,  
     TableRow,
     Button,
     Paper,
@@ -16,6 +16,7 @@ import PageContainer from "src/components/container/PageContainer";
 import Breadcrumb from "src/layouts/full/shared/breadcrumb/Breadcrumb";
 import { date } from "src/utils/utils";
 import CustomDialog from "src/components/custom/CustomDialog";
+import RencontreForm from "./RencontreForm";
 
 const RencontreList = () => {
     const params = useParams();
@@ -30,6 +31,7 @@ const RencontreList = () => {
                 <CustomDialog 
                     label={`Ajouter un rencontre`} 
                     title={`Formulaire d'ajout d'un rencontre`}
+                    form={<RencontreForm />}
                 ></CustomDialog>
             }>
                 <Paper variant="outlined">
