@@ -10,37 +10,15 @@ import {
     Paper,
     TableContainer
 } from "@mui/material";
-import { useParams } from "react-router-dom";
-import ParentCard from "src/components/shared/ParentCard";
 import PageContainer from "src/components/container/PageContainer";
+import ParentCard from "src/components/shared/ParentCard";
 import Breadcrumb from "src/layouts/full/shared/breadcrumb/Breadcrumb";
-import { date, dateTime } from "src/utils/utils";
-import CustomDialog from "src/components/custom/CustomDialog";
-import RencontreForm from "./RencontreForm";
-import useFetch from "src/services/useFetch";
-import { RencontreService } from "src/services/rencontre.service";
-import Tooltip from '@mui/material/Tooltip';
-import { IconPlus, IconTrash } from "@tabler/icons";
 
-const RencontreList = () => {
-    const params = useParams();
-    const {data: rencontres, error, loading } = useFetch('/api/rencontre');
-    
-    const deleteRencontre = async(id) => {
-        await RencontreService.deleteRencontre(id);
-        window.location.reload(true);
-    }
-
+const RencontrePresenteList = () => {
     return (
-        <PageContainer title="Liste des rencontres" description="Liste des rencontres">
-            <Breadcrumb title="Liste des rencontres" subtitle="Liste des rencontres" />
-            <ParentCard title="Liste des rencontres" action={
-                <CustomDialog 
-                    label={`Ajouter un rencontre`} 
-                    title={`Formulaire d'ajout d'un rencontre`}
-                    form={<RencontreForm />}
-                ></CustomDialog>
-            }>
+        <PageContainer title="Liste des personnes présentes" description="Liste des personnes présentes">
+            <Breadcrumb title="Liste des personnes présentes" subtitle="Liste des personnes présentes" />
+            <ParentCard title="Liste des personnes présentes">
                 <Paper variant="outlined">
                     <TableContainer>
                         <Table
@@ -209,8 +187,7 @@ const RencontreList = () => {
                 </Paper>
             </ParentCard>
         </PageContainer>
-    );
+    )
 }
 
-
-export default RencontreList;
+export default RencontrePresenteList;

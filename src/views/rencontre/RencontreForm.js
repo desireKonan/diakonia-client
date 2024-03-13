@@ -8,7 +8,7 @@ import CustomTextField from "src/components/forms/theme-elements/CustomTextField
 import ParentCard from "src/components/shared/ParentCard";
 import Breadcrumb from "src/layouts/full/shared/breadcrumb/Breadcrumb";
 import useFetch from "src/services/useFetch";
-import { LocationType, date, dateTimeValue } from "src/utils/utils";
+import { LocationType, dateTime } from "src/utils/utils";
 import { LocalizationProvider } from '@mui/x-date-pickers';
 import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns'
 import { DateTimePicker } from '@mui/x-date-pickers/DateTimePicker'
@@ -19,22 +19,14 @@ import 'react-toastify/dist/ReactToastify.css';
 
 const validationSchema = yup.object({
     label: yup.string()
-        .required("Le libéllé est requis !"),
-    description: yup.string()
-        .required("La description est requis !"),
-    localization: yup.string()
-        .required("La localisation est requis !"),
-    meetingTypeId: yup.string()
-        .required("La type de rencontre est requis !"),
-    localizationType: yup.string()
-        .required("La type de localisation est requis !")
+        .required("Le libéllé est requis !")
 });
 
 
 
 const saveRencontre = async(values) => {
+    console.log(values);
     var rencontre = await RencontreService.postRencontre(values);
-    //console.log(rencontre);
     if(rencontre.error && rencontre.error != null) {
         toast(`Erreur: ${rencontre.error}`);
         return;
@@ -48,15 +40,15 @@ const RencontreForm = ({ rencontre }) => {
         initialValues: {
             id: rencontre ? rencontre.id : '',
             label: rencontre ? rencontre.label : '',
-            description: rencontre ? rencontre.description : '',
-            localisation: rencontre ? rencontre.localisation : '',
+            localization: rencontre ? rencontre.localization : '',
             meetingTypeId: rencontre ? rencontre.meetingTypeId : '',
-            locationType: rencontre ? rencontre.locationType : '',
-            start: rencontre ? date(rencontre.start) : null,
-            end: rencontre ? date(rencontre.end) : null
+            locationType: rencontre ? rencontre.type : '',
+            start: rencontre ? dateTime(rencontre.start) : null,
+            end: rencontre ? dateTime(rencontre.end) : null
         },
         validationSchema: validationSchema,
         onSubmit: (values) => {
+            console.log(values);
             saveRencontre(values);
         },
     });
@@ -69,6 +61,9 @@ const RencontreForm = ({ rencontre }) => {
             <Breadcrumb title="Formulaire de rencontre" subtitle="Formulaire de rencontres"/>
             <ParentCard title="Formulaire de rencontres">
                 <form onSubmit={formik.handleSubmit}>
+                    {
+                        formik.values.id ? (<input type="hidden" name="id" value={formik.values.id} />) : ""
+                    }
                     <Grid container spacing={2}>
                         <Grid item xs={12}>
                             <CustomFormLabel>Libéllé</CustomFormLabel>
@@ -82,20 +77,8 @@ const RencontreForm = ({ rencontre }) => {
                                 helperText={formik.touched.label && formik.errors.label}
                             />
                         </Grid>
-                        <Grid item xs={12}>
-                            <CustomFormLabel>Description</CustomFormLabel>
-                            <CustomTextField
-                                fullWidth
-                                id="description"
-                                name="description"
-                                value={formik.values.description}
-                                onChange={formik.handleChange}
-                                error={formik.touched.description && Boolean(formik.errors.description)}
-                                helperText={formik.touched.description && formik.errors.description}
-                            />
-                        </Grid>
                         <Grid item xs={4}>
-                            <CustomFormLabel>Type de rencontre</CustomFormLabel>
+                            <CustomFormLabel>Zone</CustomFormLabel>
                             <CustomSelect
                                 labelId="locationType"
                                 id="locationType" 
@@ -114,11 +97,11 @@ const RencontreForm = ({ rencontre }) => {
                         <Grid item xs={4}>
                             <CustomFormLabel>Localisation</CustomFormLabel>
                             <CustomSelect
-                                labelId="localisation"
-                                id="localisation" 
+                                labelId="localization"
+                                id="localization" 
                                 fullWidth
-                                name="localisation"
-                                value={formik.values.localisation}
+                                name="localization"
+                                value={formik.values.localization}
                                 onChange={formik.handleChange}
                             >
                                 {
@@ -129,7 +112,7 @@ const RencontreForm = ({ rencontre }) => {
                             </CustomSelect>
                         </Grid>
                         <Grid item xs={4}>
-                            <CustomFormLabel>Type de lieu</CustomFormLabel>
+                            <CustomFormLabel>Type de rencontre</CustomFormLabel>
                             <CustomSelect
                                 labelId="meetingTypeId"
                                 id="meetingTypeId" 
@@ -164,9 +147,9 @@ const RencontreForm = ({ rencontre }) => {
                                     placeholder="Entrez la date de depart"
                                     value={formik.values.start}
                                     onChange={(newValue) => {
-                                        var start = date(newValue);
+                                        var start = dateTime(newValue);
                                         console.log(start);
-                                        formik.handleChange(start);
+                                        formik.setFieldValue('start', start);
                                     }}
                                 />
                             </LocalizationProvider>
@@ -190,8 +173,9 @@ const RencontreForm = ({ rencontre }) => {
                                     placeholder="Entrez la date de fin"
                                     value={formik.values.end}
                                     onChange={(newValue) => {
-                                        var end = date(newValue); 
-                                        formik.handleChange(end);
+                                        var end = dateTime(newValue); 
+                                        console.log(end);
+                                        formik.setFieldValue('end', end);
                                     }}
                                 />
                             </LocalizationProvider>

@@ -34,6 +34,7 @@ export class RencontreService {
     static async postRencontre(rencontre) {
         var message = "";
         try {
+            console.log(rencontre);
             var response = await http.post(RENCONTRE_URL, rencontre);
             message = response.data;
         } catch(err) {

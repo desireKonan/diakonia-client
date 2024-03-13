@@ -21,10 +21,9 @@ import useFetch from "src/services/useFetch";
 import { TypeRencontreService } from "src/services/type-rencontre.service";
 
 const TypeRencontreList = () => {
-    const typeRencontres = useSelector((state) => state.rencontreReducer.typeRencontres);
     const dispatch = useDispatch();
     const navigate = useNavigate();
-    const { data, loading } = useFetch('/api/type-rencontre');
+    const { data: typeRencontres, loading } = useFetch('/api/type-rencontre');
 
     const deleteTypeRencontre = async(id) => {
         await TypeRencontreService.deleteTypeRencontre(id);
@@ -87,7 +86,7 @@ const TypeRencontreList = () => {
                                         </TableRow>
                                     </TableHead>
                                     <TableBody>
-                                        {(data && data.length !== 0) ? (data.map((typeRencontre) => (
+                                        {(typeRencontres && typeRencontres.length !== 0) ? (typeRencontres.map((typeRencontre) => (
                                                 <TableRow key={typeRencontre.id}>
                                                     <TableCell>
                                                         <Typography

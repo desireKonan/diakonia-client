@@ -3,24 +3,23 @@ import http from "./http";
 const { useState, useEffect } = require("react")
 
 const useFetch = (url = "") => {
-    const [loading, setLoading] = useState(null);
+    const [loading, setLoading] = useState(false);
     const [data, setData] = useState([]);
-    const [error, setError] = useState(null);
+    const [error, setError] = useState("");
 
     useEffect(() => {
-        setLoading('Loading...');
+        setLoading(true);
         setData([]);
-        setError(null);
+        setError("");
         http.get(url)
             .then(res => {
-                setLoading(false);
+                console.log(res.data);
                 setData(res.data);
-
             })
             .catch(error => {
-                setLoading(false);
                 setError(`Error: ${error}`);
             });
+        setLoading(false);
     }, []);
 
     return { data, error, loading };

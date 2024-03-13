@@ -4,10 +4,32 @@ export function dateTimeValue(dateTime) {
     return Date.parse(dateTime);
 }
 
+export function dateTime(dateTime) {
+    var newDate = null;
+    if(dateTime) {
+        if((dateTime instanceof Number || dateTime instanceof String)) {
+            newDate = new Date(dateTime);
+        } else if(dateTime instanceof Array) {
+            newDate = new Date(...dateTime);
+        } else {
+            newDate = dateTime;
+        }
+    } else {
+        newDate = new Date();
+    }
+    return moment(newDate).format('yyyy-MM-DDTHH:mm:ss');
+}
+
 export function date(dateValue) {
     var newDate = null;
     if(dateValue) {
-        newDate = new Date(dateValue);
+        if(dateTime instanceof Number || dateTime instanceof String) {
+            newDate = new Date(dateValue);
+        } else if(dateTime instanceof Array) {
+            newDate = new Date(...dateValue);
+        } else {
+            newDate = dateTime;
+        }
     } else {
         newDate = new Date();
     }

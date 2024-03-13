@@ -51,6 +51,8 @@ const Router = [
       { path: '/assemblee/:assemblyId/membre/:membreId', exact: true, element: <FormulaireMembre />},
       { path: '/type-rencontres', exact: true, element: <ListeTypeRencontre />},
       { path: '/rencontres', exact: true, element: <ListeRencontre />},
+      { path: '/rencontres/personnes', exact: true, element: <ListeRencontre />},
+      { path: '/rencontres/ames', exact: true, element: <ListeRencontre />},
       { path: '/assemblee/:id/membres', exact: true, element: <ListeMembre /> },
       { path: '*', element: <Navigate to="/auth/404" /> },
     ],
