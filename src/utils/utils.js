@@ -27,3 +27,10 @@ export function mapParticipant(participant) {
         effectiveEndDate: participant.effectiveEndDate
     });
 }
+
+
+export const LocationType = Object.freeze({
+    ZONE: "ZONE",
+    SUB_ZONE: "SUB_ZONE",
+    HOUSE_CHURCH: "HOUSE_CHURCH"
+});
