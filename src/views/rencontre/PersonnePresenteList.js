@@ -5,20 +5,33 @@ import {
     TableCell,
     TableHead,  
     TableRow,
-    Button,
     IconButton,
     Paper,
     TableContainer
 } from "@mui/material";
+import { useParams } from "react-router";
 import PageContainer from "src/components/container/PageContainer";
 import ParentCard from "src/components/shared/ParentCard";
 import Breadcrumb from "src/layouts/full/shared/breadcrumb/Breadcrumb";
+import { dateTime } from "src/utils/utils";
+import CustomDialog from "src/components/custom/CustomDialog";
+import useFetch from "src/services/useFetch";
+import Tooltip from '@mui/material/Tooltip';
+import { IconTrash } from "@tabler/icons";
 
 const RencontrePresenteList = () => {
+    const params = useParams();
+    const {data: rencontre, error, loading } = useFetch(`/api/rencontre/${params.id}`, {});
+
     return (
         <PageContainer title="Liste des personnes présentes" description="Liste des personnes présentes">
             <Breadcrumb title="Liste des personnes présentes" subtitle="Liste des personnes présentes" />
-            <ParentCard title="Liste des personnes présentes">
+            <ParentCard title="Liste des personnes présentes" action={
+                <CustomDialog 
+                    label={`Ajouter un rencontre`} 
+                    title={`Formulaire d'ajout d'un rencontre`}
+                ></CustomDialog>
+            }>
                 <Paper variant="outlined">
                     <TableContainer>
                         <Table
@@ -37,32 +50,37 @@ const RencontrePresenteList = () => {
                                     </TableCell>
                                     <TableCell>
                                         <Typography variant="subtitle2" fontWeight={600}>
-                                            Libéllé
+                                            Nom complet
                                         </Typography>
                                     </TableCell>
                                     <TableCell>
                                         <Typography variant="subtitle2" fontWeight={600}>
-                                            Lieu
+                                            Type de personne
                                         </Typography>
                                     </TableCell>
                                     <TableCell>
                                         <Typography variant="subtitle2" fontWeight={600}>
-                                            Zone
+                                            Contacts
                                         </Typography>
                                     </TableCell>
                                     <TableCell>
                                         <Typography variant="subtitle2" fontWeight={600}>
-                                            Type de rencontre
+                                            Date d'arrivée
                                         </Typography>
                                     </TableCell>
                                     <TableCell>
                                         <Typography variant="subtitle2" fontWeight={600}>
-                                            Date de debut de la rencontre
+                                            Date de départ
                                         </Typography>
                                     </TableCell>
                                     <TableCell>
                                         <Typography variant="subtitle2" fontWeight={600}>
-                                            Date de fin de la rencontre
+                                            Date de création
+                                        </Typography>
+                                    </TableCell>
+                                    <TableCell>
+                                        <Typography variant="subtitle2" fontWeight={600}>
+                                            Date de mise à jour
                                         </Typography>
                                     </TableCell>
                                     <TableCell>
@@ -97,8 +115,9 @@ const RencontrePresenteList = () => {
                                     ): null
                                 }
 
-                                {(rencontres && rencontres.length !== 0) ? (rencontres.map((rencontre) => (
-                                        <TableRow key={rencontre.id}>
+                                {
+                                    (rencontre.presentPersons && rencontre.presentPersons.length !== 0) ? (rencontre.presentPersons.map((person) => (
+                                        <TableRow key={person.id}>
                                             <TableCell>
                                                 <Typography
                                                     sx={{
@@ -106,63 +125,63 @@ const RencontrePresenteList = () => {
                                                         fontWeight: "500",
                                                     }}
                                                 >
-                                                    {rencontre.id}
+                                                    {person.id}
                                                 </Typography>
                                             </TableCell>
                                             <TableCell>
                                                 <Typography color="textSecondary" variant="subtitle2" fontWeight={400}>
-                                                    {rencontre.label}
+                                                    {person.fullname}
                                                 </Typography>
                                             </TableCell>
                                             <TableCell>
                                                 <Typography color="textSecondary" variant="subtitle2" fontWeight={400}>
-                                                    {rencontre.localization}
+                                                    {person.type}
                                                 </Typography>
                                             </TableCell>
                                             <TableCell>
                                                 <Typography color="textSecondary" variant="subtitle2" fontWeight={400}>
-                                                    {rencontre.type}
+                                                    <ul>
+                                                        {
+                                                            person.contacts.map(contact => (
+                                                                <li> {contact} </li>
+                                                            ))
+                                                        }
+                                                    </ul>
                                                 </Typography>
                                             </TableCell>
                                             <TableCell>
                                                 <Typography color="textSecondary" variant="subtitle2" fontWeight={400}>
-                                                    {rencontre.meetingTypeLabel}
+                                                    {dateTime(person.arrivingTime)}
                                                 </Typography>
                                             </TableCell>
                                             <TableCell>
                                                 <Typography color="textSecondary" variant="subtitle2" fontWeight={400}>
-                                                    {dateTime(rencontre.start)}
+                                                    {dateTime(person.departureTime)}
                                                 </Typography>
                                             </TableCell>
                                             <TableCell>
                                                 <Typography color="textSecondary" variant="subtitle2" fontWeight={400}>
-                                                    {dateTime(rencontre.end)}
+                                                    {dateTime(person.createdAt)}
+                                                </Typography>
+                                            </TableCell>
+                                            <TableCell>
+                                                <Typography color="textSecondary" variant="subtitle2" fontWeight={400}>
+                                                    {dateTime(person.deleteAt)}
                                                 </Typography>
                                             </TableCell>
                                             <TableCell>
                                                 <CustomDialog 
-                                                        label={`Modifier un rencontre`} 
-                                                        title={`Formulaire de modification d'un rencontre`}
+                                                        label={`Modifier les informations d'une personne présente`} 
+                                                        title={`Formulaire de modification les informations d'une personne présente`}
                                                         color={`warning`}
                                                         style={{margin: 3}}
-                                                        form={<RencontreForm rencontre={rencontre} />}
                                                 ></CustomDialog>
-                                                <Tooltip title="Ajouter la liste des personnes présentes à la rencontre">
-                                                    <IconButton
-                                                        variant="contained" 
-                                                        color="primary" 
-                                                        onClick={(e) => null} 
-                                                        style={{margin: 5}}
-                                                    >
-                                                        <IconPlus width={30} height={30} />
-                                                    </IconButton>
-                                                </Tooltip>
-
-                                                <Tooltip title="Supprimer une rencontre">
+                                                
+                                                <Tooltip title="Supprimer les informations d'une personne présente">
                                                     <IconButton
                                                         variant="contained" 
                                                         color="error" 
-                                                        onClick={(e) => deleteRencontre(rencontre.id)} 
+                                                        onClick={(e) => null} 
                                                         style={{margin: 5}}
                                                     >
                                                         <IconTrash width={30} height={30} />
@@ -175,7 +194,7 @@ const RencontrePresenteList = () => {
                                         <TableRow key={`Aucune`}>
                                             <TableCell rowSpan={4}>
                                                 <Typography color="textSecondary" variant="subtitle2" fontWeight={400}>
-                                                    Aucune rencontres disponibles
+                                                    Aucune personnes présentes disponibles
                                                 </Typography>
                                             </TableCell>
                                         </TableRow>
@@ -187,7 +206,7 @@ const RencontrePresenteList = () => {
                 </Paper>
             </ParentCard>
         </PageContainer>
-    )
+    );
 }
 
 export default RencontrePresenteList;

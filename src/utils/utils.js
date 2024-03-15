@@ -56,3 +56,10 @@ export const LocationType = Object.freeze({
     SUB_ZONE: "SUB_ZONE",
     HOUSE_CHURCH: "HOUSE_CHURCH"
 });
+
+
+export const PersonType = Object.freeze({
+    BROTHER: "BROTHER",
+    GUEST: "GUEST",
+    VISITOR: "VISITOR"
+});

@@ -53,8 +53,8 @@ const RencontreForm = ({ rencontre }) => {
         },
     });
 
-    const { data } = useFetch("/api/ville/subzones");
-    const meetingTypes = useFetch("/api/type-rencontre").data;
+    const { data: subzones } = useFetch("/api/ville/subzones");
+    const { data: meetingTypes } = useFetch("/api/type-rencontre");
 
     return (
         <PageContainer title="Formulaire de rencontre" description="Formulaire de rencontres">
@@ -105,7 +105,7 @@ const RencontreForm = ({ rencontre }) => {
                                 onChange={formik.handleChange}
                             >
                                 {
-                                    data.map(subzone => {
+                                    subzones.map(subzone => {
                                         return (<MenuItem key={subzone} value={subzone}> {subzone} </MenuItem>)
                                     })
                                 }   

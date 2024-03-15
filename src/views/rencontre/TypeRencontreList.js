@@ -9,8 +9,6 @@ import {
     Paper,
     TableContainer,
 } from "@mui/material";
-import { useDispatch, useSelector } from "react-redux";
-import { useNavigate, useParams } from "react-router-dom";
 import ParentCard from "src/components/shared/ParentCard";
 import PageContainer from "src/components/container/PageContainer";
 import Breadcrumb from "src/layouts/full/shared/breadcrumb/Breadcrumb";
@@ -21,8 +19,6 @@ import useFetch from "src/services/useFetch";
 import { TypeRencontreService } from "src/services/type-rencontre.service";
 
 const TypeRencontreList = () => {
-    const dispatch = useDispatch();
-    const navigate = useNavigate();
     const { data: typeRencontres, loading } = useFetch('/api/type-rencontre');
 
     const deleteTypeRencontre = async(id) => {

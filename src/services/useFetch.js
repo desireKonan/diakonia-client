@@ -2,23 +2,27 @@ import http from "./http";
 
 const { useState, useEffect } = require("react")
 
-const useFetch = (url = "") => {
+const useFetch = (url = "", initialData) => {
     const [loading, setLoading] = useState(false);
-    const [data, setData] = useState([]);
+    const [data, setData] = useState(initialData);
     const [error, setError] = useState("");
+
+    const fetchData = async(url) => {
+        try {
+            var response = await http.get(url);
+            if(response.status === 200) {
+                setData(response.data);
+            }
+        } catch(err) {
+            setError(`Error: ${error}`);
+        }
+    }
 
     useEffect(() => {
         setLoading(true);
-        setData([]);
+        setData(initialData);
         setError("");
-        http.get(url)
-            .then(res => {
-                console.log(res.data);
-                setData(res.data);
-            })
-            .catch(error => {
-                setError(`Error: ${error}`);
-            });
+        fetchData(url);
         setLoading(false);
     }, []);
 

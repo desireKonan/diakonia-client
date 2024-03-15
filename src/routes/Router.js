@@ -22,6 +22,8 @@ const FormulaireTypeActivite = Loadable(lazy(() => import('../views/parameter/ty
 const ListeTypeRencontre = Loadable(lazy(() => import('../views/rencontre/TypeRencontreList')));
 const ListeRencontre = Loadable(lazy(() => import('../views/rencontre/RencontreList')));
 
+const ListePersonnePresente = Loadable(lazy(() => import('../views/rencontre/PersonnePresenteList')));
+
 const ListeActivites = Loadable(lazy(() => import('../views/parameter/activite/ActiviteList')));
 const FormulaireActivite = Loadable(lazy(() => import('../views/parameter/activite/ActiviteForm')));
 
@@ -51,8 +53,7 @@ const Router = [
       { path: '/assemblee/:assemblyId/membre/:membreId', exact: true, element: <FormulaireMembre />},
       { path: '/type-rencontres', exact: true, element: <ListeTypeRencontre />},
       { path: '/rencontres', exact: true, element: <ListeRencontre />},
-      { path: '/rencontres/personnes', exact: true, element: <ListeRencontre />},
-      { path: '/rencontres/ames', exact: true, element: <ListeRencontre />},
+      { path: '/rencontre/:id/personnes', exact: true, element: <ListePersonnePresente />},
       { path: '/assemblee/:id/membres', exact: true, element: <ListeMembre /> },
       { path: '*', element: <Navigate to="/auth/404" /> },
     ],

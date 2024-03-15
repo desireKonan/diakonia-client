@@ -5,26 +5,26 @@ import {
     TableCell,
     TableHead,  
     TableRow,
-    Button,
     IconButton,
     Paper,
     TableContainer
 } from "@mui/material";
-import { useParams } from "react-router-dom";
 import ParentCard from "src/components/shared/ParentCard";
 import PageContainer from "src/components/container/PageContainer";
 import Breadcrumb from "src/layouts/full/shared/breadcrumb/Breadcrumb";
-import { date, dateTime } from "src/utils/utils";
+import { dateTime } from "src/utils/utils";
 import CustomDialog from "src/components/custom/CustomDialog";
 import RencontreForm from "./RencontreForm";
 import useFetch from "src/services/useFetch";
 import { RencontreService } from "src/services/rencontre.service";
 import Tooltip from '@mui/material/Tooltip';
 import { IconPlus, IconTrash } from "@tabler/icons";
+import { useNavigate } from "react-router";
+
 
 const RencontreList = () => {
-    const params = useParams();
-    const {data: rencontres, error, loading } = useFetch('/api/rencontre');
+    const {data: rencontres, error, loading } = useFetch('/api/rencontre', []);
+    const navigate = useNavigate();
     
     const deleteRencontre = async(id) => {
         await RencontreService.deleteRencontre(id);
@@ -173,7 +173,7 @@ const RencontreList = () => {
                                                     <IconButton
                                                         variant="contained" 
                                                         color="primary" 
-                                                        onClick={(e) => null} 
+                                                        onClick={(e) => navigate(`/rencontre/${rencontre.id}/personnes`)} 
                                                         style={{margin: 5}}
                                                     >
                                                         <IconPlus width={30} height={30} />
