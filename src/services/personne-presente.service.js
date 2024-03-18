@@ -1,4 +1,3 @@
-import { deletePersonne } from "src/store/features/apps/PersonneSlice";
 import http from "./http";
 
 const PARTICIPANT_URL = "api/activite/participants";

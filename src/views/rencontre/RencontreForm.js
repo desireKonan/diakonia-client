@@ -53,8 +53,8 @@ const RencontreForm = ({ rencontre }) => {
         },
     });
 
-    const { data: subzones } = useFetch("/api/ville/subzones");
-    const { data: meetingTypes } = useFetch("/api/type-rencontre");
+    const { data: subzones } = useFetch("/api/ville/subzones", []);
+    const { data: meetingTypes } = useFetch("/api/type-rencontre", []);
 
     return (
         <PageContainer title="Formulaire de rencontre" description="Formulaire de rencontres">

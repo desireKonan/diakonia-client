@@ -7,23 +7,24 @@ const useFetch = (url = "", initialData) => {
     const [data, setData] = useState(initialData);
     const [error, setError] = useState("");
 
-    const fetchData = async(url) => {
-        try {
-            var response = await http.get(url);
-            if(response.status === 200) {
-                setData(response.data);
-            }
-        } catch(err) {
-            setError(`Error: ${error}`);
-        }
-    }
-
     useEffect(() => {
+        const fetchData = async (_url) => {
+            try {
+                const response = await http.get(_url);
+                if(response.status === 200) {
+                    console.log(response.data);
+                    setData(response.data);
+                }
+            } catch(err) {
+                setError(`Error: ${error}`);
+            }
+            setLoading(false);
+        }
+
         setLoading(true);
         setData(initialData);
         setError("");
         fetchData(url);
-        setLoading(false);
     }, []);
 
     return { data, error, loading };

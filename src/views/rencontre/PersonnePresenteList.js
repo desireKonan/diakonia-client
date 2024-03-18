@@ -18,6 +18,8 @@ import CustomDialog from "src/components/custom/CustomDialog";
 import useFetch from "src/services/useFetch";
 import Tooltip from '@mui/material/Tooltip';
 import { IconTrash } from "@tabler/icons";
+import PersonnePresenteForm from "./PersonnePresenteForm";
+import { uniqueId } from "lodash";
 
 const RencontrePresenteList = () => {
     const params = useParams();
@@ -28,8 +30,9 @@ const RencontrePresenteList = () => {
             <Breadcrumb title="Liste des personnes présentes" subtitle="Liste des personnes présentes" />
             <ParentCard title="Liste des personnes présentes" action={
                 <CustomDialog 
-                    label={`Ajouter un rencontre`} 
-                    title={`Formulaire d'ajout d'un rencontre`}
+                    label={`Ajouter une personne présente`} 
+                    title={`Formulaire d'ajout d'une personne présente`}
+                    form={<PersonnePresenteForm />}
                 ></CustomDialog>
             }>
                 <Paper variant="outlined">
@@ -92,30 +95,6 @@ const RencontrePresenteList = () => {
                             </TableHead>
                             <TableBody>
                                 {
-                                    loading ? (
-                                        <TableRow key={`Aucune`}>
-                                            <TableCell rowSpan={4}>
-                                                <Typography color="textSecondary" variant="subtitle2" fontWeight={400}>
-                                                    Chargement... {loading}
-                                                </Typography>
-                                            </TableCell>
-                                        </TableRow>
-                                    ): null
-                                }
-
-                                {
-                                    error ? (
-                                        <TableRow key={`Aucune`}>
-                                            <TableCell rowSpan={4}>
-                                                <Typography color="textSecondary" variant="subtitle2" fontWeight={400}>
-                                                    { error }
-                                                </Typography>
-                                            </TableCell>
-                                        </TableRow>
-                                    ): null
-                                }
-
-                                {
                                     (rencontre.presentPersons && rencontre.presentPersons.length !== 0) ? (rencontre.presentPersons.map((person) => (
                                         <TableRow key={person.id}>
                                             <TableCell>
@@ -175,6 +154,7 @@ const RencontrePresenteList = () => {
                                                         title={`Formulaire de modification les informations d'une personne présente`}
                                                         color={`warning`}
                                                         style={{margin: 3}}
+                                                        form={<PersonnePresenteForm personne={person} />}
                                                 ></CustomDialog>
                                                 
                                                 <Tooltip title="Supprimer les informations d'une personne présente">
@@ -191,8 +171,8 @@ const RencontrePresenteList = () => {
                                         </TableRow>
                                     ))) :
                                     (
-                                        <TableRow key={`Aucune`}>
-                                            <TableCell rowSpan={4}>
+                                        <TableRow key={uniqueId()}>
+                                            <TableCell rowSpan={9}>
                                                 <Typography color="textSecondary" variant="subtitle2" fontWeight={400}>
                                                     Aucune personnes présentes disponibles
                                                 </Typography>
