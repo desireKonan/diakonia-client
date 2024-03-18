@@ -8,7 +8,6 @@ import CustomFormLabel from "src/components/forms/theme-elements/CustomFormLabel
 import CustomSelect from "src/components/forms/theme-elements/CustomSelect";
 import CustomTextField from "src/components/forms/theme-elements/CustomTextField";
 import * as yup from 'yup';
-import { PersonnePresenteService } from "src/services/personne-presente.service";
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { PersonType, dateTime } from 'src/utils/utils';
@@ -17,10 +16,24 @@ import { LocalizationProvider } from '@mui/x-date-pickers';
 import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns';
 import { DateTimePicker } from '@mui/x-date-pickers/DateTimePicker';
 import 'react-toastify/dist/ReactToastify.css';
+import { httpAdapter } from 'src/services/http-adapter.service';
+import { useState } from 'react';
 
-const savePersonnePresente = async(values) => {
-    var personne = await PersonnePresenteService.postPersonnePresente(values);
-    console.log(personne);
+const savePersonnePresente = async(values, meetingId) => {
+    var personne = await httpAdapter.saveData(`api/rencontre/personnes`, {
+        meetingId: meetingId, 
+        presentPersons: [
+            {
+                id: values['id'],
+                fullname: values['fullname'],
+                contacts: [values['contacts']],
+                discipleId: values['discipleId'],
+                type: values['type'],
+                arrivingTime: values['arrivingTime'],
+                departureTime: values['departureTime']
+            }
+        ]
+    });
     if(personne.error && personne.error != null) {
         toast(`Erreur: ${personne.error}`);
         return;
@@ -29,23 +42,22 @@ const savePersonnePresente = async(values) => {
 }
 
 const PersonnePresenteForm = ({ personne, meetingId }) => {
+    const [isGuest, setGuest] = useState(false);
     const formik = useFormik({
         initialValues: {
             id: personne ? personne.id : '',
             fullname: personne ? personne.fullname : '',
-            discipleId: personne ? personne.discipleId : '',
             type: personne ? personne.type : '',
+            discipleId: personne ? personne.discipleId : '',
             contacts: personne ? personne.contacts : [],
-            arrivingTime: personne ? dateTime(personne.arrivingTime) : '',
-            departureTime: personne ? dateTime(personne.departureTime) : '',
+            arrivingTime: personne ? dateTime(personne.arrivingTime) : null,
+            departureTime: personne ? dateTime(personne.departureTime) : null,
         },
         onSubmit: (values) => {
             savePersonnePresente(values, meetingId);
         },
     });
     const { data: disciples } = useFetch('/api/disciple', []);
-
-    console.log(disciples);
 
     return (
         <PageContainer title="Formulaire des personnes présentes" description="Formulaire des personnes présentes">
@@ -58,23 +70,6 @@ const PersonnePresenteForm = ({ personne, meetingId }) => {
                           formik.values.id ? (<input type="hidden" name="id" value={formik.values.id} />) : ""
                         }
                         <Box>
-                            <CustomFormLabel>Nom complet</CustomFormLabel>
-                            <CustomSelect
-                                labelId="fullname"
-                                id="fullname" 
-                                fullWidth
-                                name="fullname"
-                                value={formik.values.fullname}
-                                onChange={formik.handleChange}
-                            >
-                                {
-                                    disciples.map(disciple => (
-                                        <MenuItem key={disciple.id} value={`${disciple.firstName} ${disciple.lastName}`}> {`${disciple.firstName} ${disciple.lastName}`} </MenuItem>
-                                    ))
-                                }   
-                            </CustomSelect>
-                        </Box>
-                        <Box>
                             <CustomFormLabel>Type</CustomFormLabel>
                             <CustomSelect
                                 labelId="type"
@@ -82,7 +77,14 @@ const PersonnePresenteForm = ({ personne, meetingId }) => {
                                 fullWidth
                                 name="type"
                                 value={formik.values.type}
-                                onChange={formik.handleChange}
+                                onChange={(e) => {
+                                    formik.handleChange(e);
+                                    if(PersonType.GUEST === e.target.value) {
+                                        setGuest(true);
+                                    } else {
+                                        setGuest(false);
+                                    }
+                                }}
                             >
                                 {
                                     Object.keys(PersonType).map(person => (
@@ -90,6 +92,42 @@ const PersonnePresenteForm = ({ personne, meetingId }) => {
                                     ))
                                 }   
                             </CustomSelect>
+                        </Box>
+                        <Box>
+                            <CustomFormLabel>Nom complet</CustomFormLabel>
+                            {
+                                isGuest ? (
+                                    <CustomTextField 
+                                        fullWidth
+                                        id="fullname"
+                                        name="fullname"
+                                        value={formik.values.fullname}
+                                        onChange={formik.handleChange}
+                                        error={formik.touched.fullname && Boolean(formik.errors.fullname)}
+                                        helperText={formik.touched.fullname && formik.errors.fullname}
+                                    />
+                                ) : (
+                                    <CustomSelect
+                                        labelId="discipleId"
+                                        id="discipleId" 
+                                        fullWidth
+                                        name="discipleId"
+                                        value={formik.values.discipleId}
+                                        onChange={e => {
+                                            formik.handleChange(e);
+                                            const disciple = disciples.find(disciple => disciple.id === e.target.value);
+                                            formik.setFieldValue('fullname', `${disciple.firstName} ${disciple.lastName}`);
+                                        }}
+                                    >
+                                        {
+                                            disciples.map(disciple => (
+                                                <MenuItem key={disciple.id} value={`${disciple.id}`}> {`${disciple.firstName} ${disciple.lastName}`} </MenuItem>
+                                            ))
+                                        }   
+                                    </CustomSelect>
+                                )
+                            }
+                            
                         </Box>
                         <Box>
                             <CustomFormLabel>Contacts</CustomFormLabel>
@@ -121,11 +159,11 @@ const PersonnePresenteForm = ({ personne, meetingId }) => {
                                         }}
                                     />}
                                     placeholder="Entrez la date de depart"
-                                    value={formik.values.start}
+                                    value={formik.values.arrivingTime}
                                     onChange={(newValue) => {
                                         var start = dateTime(newValue);
                                         console.log(start);
-                                        formik.setFieldValue('start', start);
+                                        formik.setFieldValue('arrivingTime', start);
                                     }}
                                 />
                             </LocalizationProvider>
@@ -147,11 +185,11 @@ const PersonnePresenteForm = ({ personne, meetingId }) => {
                                         }}
                                     />}
                                     placeholder="Entrez la date de fin"
-                                    value={formik.values.end}
+                                    value={formik.values.departureTime}
                                     onChange={(newValue) => {
                                         var end = dateTime(newValue); 
                                         console.log(end);
-                                        formik.setFieldValue('end', end);
+                                        formik.setFieldValue('departureTime', end);
                                     }}
                                 />
                             </LocalizationProvider>

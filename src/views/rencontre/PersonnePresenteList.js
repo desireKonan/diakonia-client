@@ -20,10 +20,16 @@ import Tooltip from '@mui/material/Tooltip';
 import { IconTrash } from "@tabler/icons";
 import PersonnePresenteForm from "./PersonnePresenteForm";
 import { uniqueId } from "lodash";
+import { httpAdapter } from "src/services/http-adapter.service";
 
 const RencontrePresenteList = () => {
     const params = useParams();
     const {data: rencontre, error, loading } = useFetch(`/api/rencontre/${params.id}`, {});
+
+    const deletePersonne = (data) => {
+        httpAdapter.deleteDatas(`api/rencontre/personnes/supprimer`, data);
+        window.location.reload(true);
+    }
 
     return (
         <PageContainer title="Liste des personnes présentes" description="Liste des personnes présentes">
@@ -32,7 +38,7 @@ const RencontrePresenteList = () => {
                 <CustomDialog 
                     label={`Ajouter une personne présente`} 
                     title={`Formulaire d'ajout d'une personne présente`}
-                    form={<PersonnePresenteForm />}
+                    form={<PersonnePresenteForm meetingId={params.id} />}
                 ></CustomDialog>
             }>
                 <Paper variant="outlined">
@@ -122,7 +128,7 @@ const RencontrePresenteList = () => {
                                                     <ul>
                                                         {
                                                             person.contacts.map(contact => (
-                                                                <li> {contact} </li>
+                                                                <li key={contact}> {contact} </li>
                                                             ))
                                                         }
                                                     </ul>
@@ -150,18 +156,21 @@ const RencontrePresenteList = () => {
                                             </TableCell>
                                             <TableCell>
                                                 <CustomDialog 
-                                                        label={`Modifier les informations d'une personne présente`} 
+                                                        label={`Modifier les informations `} 
                                                         title={`Formulaire de modification les informations d'une personne présente`}
                                                         color={`warning`}
                                                         style={{margin: 3}}
-                                                        form={<PersonnePresenteForm personne={person} />}
+                                                        form={<PersonnePresenteForm personne={person} meetingId={params.id} />}
                                                 ></CustomDialog>
                                                 
                                                 <Tooltip title="Supprimer les informations d'une personne présente">
                                                     <IconButton
                                                         variant="contained" 
                                                         color="error" 
-                                                        onClick={(e) => null} 
+                                                        onClick={(e) => deletePersonne({
+                                                            meetingId: params.id,
+                                                            personIds: [person.id]
+                                                        })} 
                                                         style={{margin: 5}}
                                                     >
                                                         <IconTrash width={30} height={30} />
