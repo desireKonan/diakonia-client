@@ -23,12 +23,12 @@ export function dateTime(dateTime) {
 export function date(dateValue) {
     var newDate = null;
     if(dateValue) {
-        if(dateTime instanceof Number || dateTime instanceof String) {
+        if(dateValue instanceof Number || dateValue instanceof String) {
             newDate = new Date(dateValue);
-        } else if(dateTime instanceof Array) {
+        } else if(dateValue instanceof Array) {
             newDate = new Date(...dateValue);
         } else {
-            newDate = dateTime;
+            newDate = dateValue;
         }
     } else {
         newDate = new Date();

@@ -195,8 +195,8 @@ const PersonnePresenteForm = ({ personne, meetingId }) => {
                             </LocalizationProvider>
                         </Grid>
                         <Box mt={2}>
-                            <Button color="primary" variant="contained" type="submit">
-                                Ajouter
+                        <Button color={ personne ? "warning" : "primary"} variant="contained" type="submit">
+                                { personne ? `Modifier` : `Ajouter` }
                             </Button>
                         </Box>
                     </Stack>

@@ -3,70 +3,70 @@ import {
     Table,
     TableBody,
     TableCell,
-    TableHead,  
+    TableHead,
     TableRow,
-    IconButton,
     Paper,
+    TableContainer,
     Grid,
-    Button,
-    TableContainer
+    IconButton,
 } from "@mui/material";
+import { useParams } from "react-router";
 import ParentCard from "src/components/shared/ParentCard";
 import PageContainer from "src/components/container/PageContainer";
 import Breadcrumb from "src/layouts/full/shared/breadcrumb/Breadcrumb";
-import { dateTime } from "src/utils/utils";
-import CustomDialog from "src/components/custom/CustomDialog";
-import RencontreForm from "./RencontreForm";
-import useFetch from "src/services/useFetch";
-import { RencontreService } from "src/services/rencontre.service";
 import Tooltip from '@mui/material/Tooltip';
-import { IconPlus, IconTrash } from "@tabler/icons";
-import { useNavigate } from "react-router";
+import { IconTrash } from "@tabler/icons";
+import { date } from "src/utils/utils";
+import CustomDialog from "src/components/custom/CustomDialog";
+import useFetch from "src/services/useFetch";
+import AmeForm from "./AmeForm";
+import { uniqueId } from "lodash";
 import ChildCard from "src/components/shared/ChildCard";
+import { httpAdapter } from "src/services/http-adapter.service";
 
 
-const RencontreList = () => {
-    const {data: rencontres, error, loading } = useFetch('/api/rencontre', []);
-    const navigate = useNavigate();
-    
-    const deleteRencontre = async(id) => {
-        await RencontreService.deleteRencontre(id);
+const AmeList = () => {
+    const params = useParams();
+    const { data: rencontre, loading, error } = useFetch(`/api/rencontre/${params.id}`, {});
+
+    const deleteAme = async(data) => {
+        await httpAdapter.deleteDatas(`api/rencontre/ames/suppression`, data);
         window.location.reload(true);
     }
 
     return (
-        <PageContainer title="Liste des rencontres" description="Liste des rencontres">
-            <Breadcrumb title="Liste des rencontres" subtitle="Liste des rencontres" />
-            <ParentCard title="Liste des rencontres" action={
+        <PageContainer title="Liste des âmes" description="Liste des âmes">
+            <Breadcrumb title="Liste des âmes" subtitle="Liste des âmes" />
+            <ParentCard title="Liste des âmes" action={
                 <CustomDialog 
-                    label={`Ajouter un rencontre`} 
-                    title={`Formulaire d'ajout d'un rencontre`}
-                    form={<RencontreForm />}
+                    label={`Ajouter une âme`} 
+                    title={`Formulaire d'ajout d'une âme`}
+                    form={<AmeForm meetingId={params.id} />}
                 ></CustomDialog>
             }>
                 <Paper variant="outlined">
                     {
                         error ? (
                             <Grid item xs={12} lg={4} sm={6} display="flex" alignItems="stretch">
-                                <ChildCard title="Error">
-                                    <Typography color="textSecondary" variant="subtitle2" fontWeight={400}>
+                                <ChildCard key={uniqueId()} title="Error">
+                                    <Typography key={uniqueId()} color="textSecondary" variant="subtitle2" fontWeight={400}>
                                         { error }
                                     </Typography>
                                 </ChildCard>
                             </Grid>
-                        ): null
-                    }   
+                        ) : null
+                    }
 
                     {
                         loading ? (
                             <Grid item xs={12} lg={4} sm={6} display="flex" alignItems="stretch">
-                                <ChildCard title="Error">
-                                    <Typography color="textSecondary" variant="subtitle2" fontWeight={400}>
+                                <ChildCard key={uniqueId()} title="Error">
+                                    <Typography key={uniqueId()} color="textSecondary" variant="subtitle2" fontWeight={400}>
                                         { loading }
                                     </Typography>
                                 </ChildCard>
                             </Grid>
-                        ): (
+                        ) : (
                             <TableContainer>
                                 <Table
                                     aria-label="simple table"
@@ -84,7 +84,12 @@ const RencontreList = () => {
                                             </TableCell>
                                             <TableCell>
                                                 <Typography variant="subtitle2" fontWeight={600}>
-                                                    Libéllé
+                                                    Nom complet
+                                                </Typography>
+                                            </TableCell>
+                                            <TableCell>
+                                                <Typography variant="subtitle2" fontWeight={600}>
+                                                    Contacts
                                                 </Typography>
                                             </TableCell>
                                             <TableCell>
@@ -94,22 +99,32 @@ const RencontreList = () => {
                                             </TableCell>
                                             <TableCell>
                                                 <Typography variant="subtitle2" fontWeight={600}>
-                                                    Zone
+                                                    Date de repentance
                                                 </Typography>
                                             </TableCell>
                                             <TableCell>
                                                 <Typography variant="subtitle2" fontWeight={600}>
-                                                    Type de rencontre
+                                                    Date de baptême
                                                 </Typography>
                                             </TableCell>
                                             <TableCell>
                                                 <Typography variant="subtitle2" fontWeight={600}>
-                                                    Date de debut de la rencontre
+                                                    Date d'intégration
                                                 </Typography>
                                             </TableCell>
                                             <TableCell>
                                                 <Typography variant="subtitle2" fontWeight={600}>
-                                                    Date de fin de la rencontre
+                                                    Date d'évangélisation
+                                                </Typography>
+                                            </TableCell>
+                                            <TableCell>
+                                                <Typography variant="subtitle2" fontWeight={600}>
+                                                    Date de création
+                                                </Typography>
+                                            </TableCell>
+                                            <TableCell>
+                                                <Typography variant="subtitle2" fontWeight={600}>
+                                                    Date de mise à jour
                                                 </Typography>
                                             </TableCell>
                                             <TableCell>
@@ -120,8 +135,8 @@ const RencontreList = () => {
                                         </TableRow>
                                     </TableHead>
                                     <TableBody>
-                                        {(rencontres && rencontres.length !== 0) ? (rencontres.map((rencontre) => (
-                                                <TableRow key={rencontre.id}>
+                                        {(rencontre.souls && rencontre.souls.length !== 0) ? (rencontre.souls.map((soul) => (
+                                                <TableRow key={soul.id}>
                                                     <TableCell>
                                                         <Typography
                                                             sx={{
@@ -129,73 +144,81 @@ const RencontreList = () => {
                                                                 fontWeight: "500",
                                                             }}
                                                         >
-                                                            {rencontre.id}
+                                                            {soul.id}
                                                         </Typography>
                                                     </TableCell>
                                                     <TableCell>
                                                         <Typography color="textSecondary" variant="subtitle2" fontWeight={400}>
-                                                            {rencontre.label}
+                                                            {soul.fullname}
                                                         </Typography>
                                                     </TableCell>
                                                     <TableCell>
                                                         <Typography color="textSecondary" variant="subtitle2" fontWeight={400}>
-                                                            {rencontre.localization}
+                                                            { 
+                                                                <ul>
+                                                                    {
+                                                                        soul.contacts.map(contact => (
+                                                                            <li key={contact}> {contact} </li>
+                                                                        ))
+                                                                    }
+                                                                </ul>
+                                                            }
                                                         </Typography>
                                                     </TableCell>
                                                     <TableCell>
                                                         <Typography color="textSecondary" variant="subtitle2" fontWeight={400}>
-                                                            {rencontre.type}
+                                                            {soul.place}
                                                         </Typography>
                                                     </TableCell>
                                                     <TableCell>
                                                         <Typography color="textSecondary" variant="subtitle2" fontWeight={400}>
-                                                            {rencontre.meetingTypeLabel}
+                                                            {date(soul.repentDate)}
                                                         </Typography>
                                                     </TableCell>
                                                     <TableCell>
                                                         <Typography color="textSecondary" variant="subtitle2" fontWeight={400}>
-                                                            {dateTime(rencontre.start)}
+                                                            {date(soul.baptizeDate)}
                                                         </Typography>
                                                     </TableCell>
                                                     <TableCell>
                                                         <Typography color="textSecondary" variant="subtitle2" fontWeight={400}>
-                                                            {dateTime(rencontre.end)}
+                                                            {date(soul.integrationDate)}
+                                                        </Typography>
+                                                    </TableCell>
+                                                    <TableCell>
+                                                        <Typography color="textSecondary" variant="subtitle2" fontWeight={400}>
+                                                            {date(soul.evangelizeDate)}
+                                                        </Typography>
+                                                    </TableCell>
+                                                    <TableCell>
+                                                        <Typography color="textSecondary" variant="subtitle2" fontWeight={400}>
+                                                            {date(soul.createdAt)}
+                                                        </Typography>
+                                                    </TableCell>
+                                                    <TableCell>
+                                                        <Typography color="textSecondary" variant="subtitle2" fontWeight={400}>
+                                                            {date(soul.updatedAt)}
                                                         </Typography>
                                                     </TableCell>
                                                     <TableCell>
                                                         <CustomDialog 
-                                                                label={`Modifier un rencontre`} 
-                                                                title={`Formulaire de modification d'un rencontre`}
-                                                                color={`warning`}
-                                                                style={{margin: 3}}
-                                                                form={<RencontreForm rencontre={rencontre} />}
+                                                            label={`Modifier une âme`} 
+                                                            title={`Formulaire de modification d'une âme`}
+                                                            color={`warning`}
+                                                            style={{margin: 3}}
+                                                            form={
+                                                                <AmeForm ame={soul} meetingId={params.id}/>
+                                                            }
                                                         ></CustomDialog>
-                                                        <Tooltip title="Liste des âmes">
-                                                            <Button 
-                                                                variant="contained" 
-                                                                color="secondary" 
-                                                                onClick={(e) => navigate(`/rencontre/${rencontre.id}/ames`)} 
-                                                                style={{margin: 5}}
-                                                            >
-                                                                Liste des âmes
-                                                            </Button>
-                                                        </Tooltip>
-                                                        <Tooltip title="Liste des personnes présentes à la rencontre">
-                                                            <IconButton
-                                                                variant="contained" 
-                                                                color="primary" 
-                                                                onClick={(e) => navigate(`/rencontre/${rencontre.id}/personnes`)} 
-                                                                style={{margin: 5}}
-                                                            >
-                                                                <IconPlus width={30} height={30} />
-                                                            </IconButton>
-                                                        </Tooltip>
 
-                                                        <Tooltip title="Supprimer une rencontre">
+                                                        <Tooltip title="Archiver l'âme">
                                                             <IconButton
                                                                 variant="contained" 
                                                                 color="error" 
-                                                                onClick={(e) => deleteRencontre(rencontre.id)} 
+                                                                onClick={(e) => deleteAme({
+                                                                    meetingId: params.id,
+                                                                    soulIds: [soul.id]
+                                                                })} 
                                                                 style={{margin: 5}}
                                                             >
                                                                 <IconTrash width={30} height={30} />
@@ -205,10 +228,10 @@ const RencontreList = () => {
                                                 </TableRow>
                                             ))) :
                                             (
-                                                <TableRow key={`Aucune`}>
+                                                <TableRow key={uniqueId()}>
                                                     <TableCell rowSpan={4}>
                                                         <Typography color="textSecondary" variant="subtitle2" fontWeight={400}>
-                                                            Aucune rencontres disponibles
+                                                            Il n'y a pas d'âmes
                                                         </Typography>
                                                     </TableCell>
                                                 </TableRow>
@@ -217,8 +240,8 @@ const RencontreList = () => {
                                     </TableBody>
                                 </Table>
                             </TableContainer>
-                        )
-                    }                 
+                        ) 
+                    }
                 </Paper>
             </ParentCard>
         </PageContainer>
@@ -226,4 +249,4 @@ const RencontreList = () => {
 }
 
 
-export default RencontreList;
+export default AmeList;

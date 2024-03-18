@@ -12,7 +12,6 @@ const useFetch = (url = "", initialData) => {
             try {
                 const response = await http.get(_url);
                 if(response.status === 200) {
-                    console.log(response.data);
                     setData(response.data);
                 }
             } catch(err) {
