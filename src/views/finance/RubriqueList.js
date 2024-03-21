@@ -15,8 +15,9 @@ import Breadcrumb from "src/layouts/full/shared/breadcrumb/Breadcrumb";
 import CustomDialog from "src/components/custom/CustomDialog";
 import RubriqueForm from "./RubriqueForm";
 import useFetch from "src/services/useFetch";
-import { date } from "src/utils/utils";
+import { instant } from "src/utils/utils";
 import { httpAdapter } from "src/services/http-adapter.service";
+import { uniqueId } from "lodash";
 
 
 const RubriqueList = () => {
@@ -97,7 +98,7 @@ const RubriqueList = () => {
                                                     </TableCell>
                                                     <TableCell>
                                                         <Typography color="textSecondary" variant="subtitle2" fontWeight={400}>
-                                                            {rubrique.name}
+                                                            {rubrique.label}
                                                         </Typography>
                                                     </TableCell>
                                                     <TableCell>
@@ -107,12 +108,12 @@ const RubriqueList = () => {
                                                     </TableCell>
                                                     <TableCell>
                                                         <Typography color="textSecondary" variant="subtitle2" fontWeight={400}>
-                                                            {date(rubrique.createdAt)}
+                                                            {instant(rubrique.createdAt)}
                                                         </Typography>
                                                     </TableCell>
                                                     <TableCell>
                                                         <Typography color="textSecondary" variant="subtitle2" fontWeight={400}>
-                                                            {date(rubrique.updatedAt)}
+                                                            {instant(rubrique.updatedAt)}
                                                         </Typography>
                                                     </TableCell>
                                                     <TableCell>
@@ -137,7 +138,7 @@ const RubriqueList = () => {
                                                 </TableRow>
                                             ))) :
                                             (
-                                                <TableRow key={`Aucune rubrique`}>
+                                                <TableRow key={`${uniqueId()}`}>
                                                     <TableCell rowSpan={4}>
                                                         <Typography color="textSecondary" variant="subtitle2" fontWeight={400}>
                                                             Aucune rubriques disponibles

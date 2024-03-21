@@ -7,7 +7,6 @@ import { useFormik } from "formik";
 import * as yup from 'yup';
 import { httpAdapter } from "src/services/http-adapter.service";
 
-
 const validationSchema = yup.object({
     label: yup.string()
         .required("Le libéllé est requis !"),
@@ -16,7 +15,6 @@ const validationSchema = yup.object({
 });
 
 const saveRubrique = async(values) => {
-    console.log(values);
     var rubrique = await httpAdapter.saveData(`api/rubrique-financiere`, values);
     if(rubrique.error && rubrique.error != null) {
         toast(`Erreur: ${rubrique.error}`);
@@ -34,6 +32,7 @@ const RubriqueForm = ({ rubrique }) => {
         },
         validationSchema: validationSchema,
         onSubmit: (values) => {
+            console.log(values);
             saveRubrique(values);
         },
     });
@@ -43,7 +42,7 @@ const RubriqueForm = ({ rubrique }) => {
             <ToastContainer />
             <Stack>
                 {
-                    formik.values.id ? (<input rubrique="hidden" name="id" value={formik.values.id} />) : ""
+                    formik.values.id ? (<input type="hidden" name="id" value={formik.values.id} />) : ""
                 }
                 <Box>
                     <CustomFormLabel>Libéllé</CustomFormLabel>
@@ -70,14 +69,13 @@ const RubriqueForm = ({ rubrique }) => {
                     />
                 </Box>
                 <Box mt={2}>
-                    <Button color="primary" variant="contained" rubrique="submit">
+                    <Button color="primary" variant="contained" type="submit">
                         Ajouter
                     </Button>
                 </Box>
             </Stack>
         </form>
-        );
-    }
-    
-    
-    export default RubriqueForm;
+    );
+}
+        
+export default RubriqueForm;

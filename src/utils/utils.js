@@ -4,20 +4,27 @@ export function dateTimeValue(dateTime) {
     return Date.parse(dateTime);
 }
 
+export function instant(dateTime) {
+    if(!dateTime) {
+        return 'Aucune date';
+    }
+    console.log(new Date(dateTime));
+    return new Date(dateTime).toUTCString();
+}
+
 export function dateTime(dateTime) {
     var newDate = null;
     if(dateTime) {
         if((dateTime instanceof Number || dateTime instanceof String)) {
-            newDate = new Date(dateTime);
+            return new Date(dateTime);
         } else if(dateTime instanceof Array) {
             newDate = new Date(...dateTime);
         } else {
             newDate = dateTime;
         }
-    } else {
-        newDate = new Date();
-    }
-    return moment(newDate).format('yyyy-MM-DDTHH:mm:ss');
+        return moment(newDate).format('yyyy-MM-DDTHH:mm:ss');
+    } 
+    return 'Aucune Date';
 }
 
 export function date(dateValue) {
@@ -30,10 +37,9 @@ export function date(dateValue) {
         } else {
             newDate = dateValue;
         }
-    } else {
-        newDate = new Date();
-    }
-    return moment(newDate).format('yyyy-MM-DD');
+        return moment(newDate).format('yyyy-MM-DD');
+    } 
+    return 'Aucune date';
 }
 
 
