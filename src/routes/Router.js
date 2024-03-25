@@ -26,7 +26,8 @@ const ListePersonnePresente = Loadable(lazy(() => import('../views/rencontre/Per
 const ListeAmes = Loadable(lazy(() => import('../views/rencontre/AmeList')));
 
 const ListeRubriques = Loadable(lazy(() => import('../views/finance/RubriqueList')));
- 
+const ListeLigneFinancieres = Loadable(lazy(() => import('../views/finance/LigneFinanciereListe'))); 
+
 const ListeActivites = Loadable(lazy(() => import('../views/parameter/activite/ActiviteList')));
 const FormulaireActivite = Loadable(lazy(() => import('../views/parameter/activite/ActiviteForm')));
 
@@ -59,7 +60,8 @@ const Router = [
       { path: '/rubriques', exact: true, element: <ListeRubriques />},
       { path: '/rencontre/:id/personnes', exact: true, element: <ListePersonnePresente />},
       { path: '/rencontre/:id/ames', exact: true, element: <ListeAmes />},
-      { path: '/assemblee/:id/membres', exact: true, element: <ListeMembre /> },
+      { path: '/assemblee/:id/membres', exact: true, element: <ListeMembre />},
+      { path: '/assemblee/:id/ligne-financiere', exact: true, element: <ListeLigneFinancieres />},
       { path: '*', element: <Navigate to="/auth/404" /> },
     ],
   },
