@@ -7,7 +7,6 @@ import ParentCard from "src/components/shared/ParentCard";
 import CustomFormLabel from "src/components/forms/theme-elements/CustomFormLabel";
 import CustomSelect from "src/components/forms/theme-elements/CustomSelect";
 import CustomTextField from "src/components/forms/theme-elements/CustomTextField";
-import * as yup from 'yup';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { PersonType, dateTime } from 'src/utils/utils';

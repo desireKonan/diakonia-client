@@ -13,8 +13,6 @@ import ParentCard from "src/components/shared/ParentCard";
 import PageContainer from "src/components/container/PageContainer";
 import Breadcrumb from "src/layouts/full/shared/breadcrumb/Breadcrumb";
 import CustomDialog from "src/components/custom/CustomDialog";
-import { NavLink, useNavigate } from "react-router-dom";
-import { IconEdit, IconTrash } from "@tabler/icons";
 import { useParams } from "react-router";
 import LigneFinanciereForm from "./LigneFinanciereForm";
 import { instant } from "src/utils/utils";
@@ -25,7 +23,7 @@ import useFetch from "src/services/useFetch";
 
 const LigneFinanciereListe = () => {
     const params = useParams();
-    const { data: assemblee, loading, error } = useFetch(`/api/assemblee/${params.id}`, {});
+    const { data: assemblee, loading } = useFetch(`/api/assemblee/${params.id}`, {});
 
     const deleteLigneFinanciere = async(id) => {
         await httpAdapter.deleteData(`/api/assemblee/ligne-financiere/${id}`);

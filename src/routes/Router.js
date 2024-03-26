@@ -13,8 +13,8 @@ const FormulaireRegion = Loadable(lazy(() => import('../views/parameter/ville/Vi
 
 const ListeAssemblee = Loadable(lazy(() => import('../views/parameter/assembly/AssemblyList')));
 const FormulaireAssemblee = Loadable(lazy(() => import('../views/parameter/assembly/AssemblyForm')));
-const ListeMembre = Loadable(lazy(() => import('../views/effective/member/AssemblyMemberList')));
-const FormulaireMembre = Loadable(lazy(() => import('../views/effective/member/AssemblyMemberForm')));
+const ListeMembre = Loadable(lazy(() => import('../views/effective/member/MemberList')));
+const FormulaireMembre = Loadable(lazy(() => import('../views/effective/member/MemberForm')));
 
 const ListeTypeActivite = Loadable(lazy(() => import('../views/parameter/type-activite/TypeActiviteList')));
 const FormulaireTypeActivite = Loadable(lazy(() => import('../views/parameter/type-activite/TypeActiviteForm')));
