@@ -9,7 +9,7 @@ import {
     Paper,
     TableContainer
 } from "@mui/material";
-import { NavLink, useNavigate, useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import PageContainer from "src/components/container/PageContainer";
 import Breadcrumb from "src/layouts/full/shared/breadcrumb/Breadcrumb";
 import ParentCard from "src/components/shared/ParentCard";
@@ -17,6 +17,8 @@ import useFetch from "src/services/useFetch";
 import { uniqueId } from "lodash";
 import { httpAdapter } from "src/services/http-adapter.service";
 import { date, instant } from "src/utils/utils";
+import CustomDialog from "src/components/custom/CustomDialog";
+import MembreForm from "./MembreForm";
 
 const MemberList = () => {
     const params = useParams();
@@ -32,13 +34,16 @@ const MemberList = () => {
         <PageContainer title={`Liste des membres de assemblée ${assemblee.name}`} description={`Liste des membres de assemblée ${assemblee.name}`}>
             <Breadcrumb title={`Liste des membres de assemblée ${assemblee.name}`} subtitle={`Liste des membres de assemblée ${assemblee.name}`} />
             <ParentCard title="Liste des membres d'une assemblée" action={
-                <NavLink to={`/assemblee/${params.id}/membre`}>
-                    <Button variant="contained" color="info">Ajouter une membre</Button>
-                </NavLink>
+                <CustomDialog
+                    label={`Ajouter un membre`} 
+                    title={`Formulaire d'ajout d'un membre`}
+                    form={<MembreForm assemblyId={params.id} />}
+                >
+                </CustomDialog>
             }>
                 <Paper variant="outlined">
                     {
-                        error ? "" : (
+                        error ? error : (
                             loading ? loading : (
                                 <TableContainer>
                                     <Table

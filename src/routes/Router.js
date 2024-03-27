@@ -13,8 +13,7 @@ const FormulaireRegion = Loadable(lazy(() => import('../views/parameter/ville/Vi
 
 const ListeAssemblee = Loadable(lazy(() => import('../views/parameter/assembly/AssemblyList')));
 const FormulaireAssemblee = Loadable(lazy(() => import('../views/parameter/assembly/AssemblyForm')));
-const ListeMembre = Loadable(lazy(() => import('../views/effective/member/MemberList')));
-const FormulaireMembre = Loadable(lazy(() => import('../views/effective/member/MemberForm')));
+const ListeMembre = Loadable(lazy(() => import('../views/effective/member/MembreList')));
 
 const ListeTypeActivite = Loadable(lazy(() => import('../views/parameter/type-activite/TypeActiviteList')));
 const FormulaireTypeActivite = Loadable(lazy(() => import('../views/parameter/type-activite/TypeActiviteForm')));
@@ -54,7 +53,6 @@ const Router = [
       { path: '/assemblee', exact: true, element: <FormulaireAssemblee />},
       { path: '/assemblee/:id', exact: true, element: <FormulaireAssemblee />},
       { path: '/assemblee/:id/membre', exact: true, element: <ListeMembre />},
-      { path: '/assemblee/:assemblyId/membre/:membreId', exact: true, element: <FormulaireMembre />},
       { path: '/type-rencontres', exact: true, element: <ListeTypeRencontre />},
       { path: '/rencontres', exact: true, element: <ListeRencontre />},
       { path: '/rubriques', exact: true, element: <ListeRubriques />},
