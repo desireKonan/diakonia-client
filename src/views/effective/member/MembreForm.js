@@ -36,8 +36,7 @@ const submitMember = async(values, assemblyId) => {
         rejoinedAt: values['rejoinedAt'],
         leftAt: values['leftAt']
     };
-    console.log(values, assemblyId, member);
-
+    
     let url = null;
     if(values['memberId'] === '') {
         url = 'api/assemblee/membre';
@@ -53,7 +52,6 @@ const submitMember = async(values, assemblyId) => {
 }
 
 const MembreForm = ({ membre, assemblyId }) => {
-    console.log(membre);
     const formik = useFormik({
         initialValues: {
             id: membre ? membre.id : '',

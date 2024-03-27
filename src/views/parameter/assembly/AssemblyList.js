@@ -10,7 +10,7 @@ import {
     TableContainer,
     IconButton
 } from "@mui/material";
-import { NavLink, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import PageContainer from "src/components/container/PageContainer";
 import Breadcrumb from "src/layouts/full/shared/breadcrumb/Breadcrumb";
 import ParentCard from "src/components/shared/ParentCard";
@@ -19,6 +19,8 @@ import { IconEdit, IconTrash } from "@tabler/icons";
 import useFetch from "src/services/useFetch";
 import { uniqueId } from "lodash";
 import { httpAdapter } from "src/services/http-adapter.service";
+import CustomDialog from "src/components/custom/CustomDialog";
+import AssemblyForm from "./AssemblyForm";
 
 const AssemblyList = () => {
     const navigate = useNavigate();
@@ -33,9 +35,12 @@ const AssemblyList = () => {
         <PageContainer title="Liste des assemblées" description="Liste des assemblées">
             <Breadcrumb title="Liste des assemblées" subtitle="Liste des assemblées" />
             <ParentCard title="Liste des assemblées" action={
-                <NavLink to="/assembly">
-                    <Button variant="contained" color="info">Ajouter une assemblée</Button>
-                </NavLink>
+                <CustomDialog
+                    label={`Ajouter une assemblée`} 
+                    title={`Formulaire d'ajout d'une assemblée`}
+                    form={<AssemblyForm />}
+                >
+                </CustomDialog>
             }>
                 <Paper variant="outlined">
                     {
@@ -118,16 +123,14 @@ const AssemblyList = () => {
                                                                     Livre comptable
                                                                 </Button>
                                                             </Tooltip>
-                                                            <Tooltip title="Modifier une assemblée">
-                                                                    <IconButton
-                                                                        variant="contained" 
-                                                                        color="warning" 
-                                                                        onClick={(e) => navigate(`/assemblee/${assembly.id}`)} 
-                                                                        style={{margin: 5}}
-                                                                    >
-                                                                        <IconEdit width={30} height={30} />
-                                                                    </IconButton>
-                                                            </Tooltip>
+                                                            <CustomDialog
+                                                                isIconButton={true}
+                                                                color={true}
+                                                                label={`Ajouter une assemblée`} 
+                                                                title={`Formulaire d'ajout d'une assemblée`}
+                                                                form={<AssemblyForm assembly={assembly} />}
+                                                            >
+                                                            </CustomDialog>
                                                             <Tooltip title="Supprimer une assemblée">
                                                                     <IconButton
                                                                         variant="contained" 

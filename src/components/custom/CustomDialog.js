@@ -1,9 +1,11 @@
 import { useState } from "react";
-import { Button, Dialog, DialogContent, DialogActions } from '@mui/material';
+import { Button, Dialog, DialogContent, DialogActions, IconButton } from '@mui/material';
 import Breadcrumb from "src/layouts/full/shared/breadcrumb/Breadcrumb";
+import { IconEdit, IconPlus } from "@tabler/icons";
+import Tooltip from '@mui/material/Tooltip';
 
 
-const CustomDialog = ({ label, title, form, color }) => {
+const CustomDialog = ({ isIconButton, label, title, form, color }) => {
     const [open , setOpen] = useState(false);
 
     const openDialog = () => {
@@ -16,9 +18,25 @@ const CustomDialog = ({ label, title, form, color }) => {
 
     return (
         <>
-            <Button variant="contained" color={ !color ? "primary": "warning" } onClick={openDialog}>
-               { label }
-            </Button>
+            {
+                isIconButton ? (
+                    <Tooltip title="Modifier une assemblée">
+                        <IconButton
+                            variant="contained" 
+                            color={ !color ? "primary": "warning" } 
+                            onClick={openDialog}
+                            style={{margin: 5}}
+                        >
+                            { !color ? (<IconPlus width={30} height={30} />) : (<IconEdit width={30} height={30} />) }
+                        </IconButton>
+                    </Tooltip>
+                ) : (
+                    <Button variant="contained" color={ !color ? "primary": "warning" } onClick={openDialog}>
+                        { label }
+                    </Button>
+                )
+            }
+            
             <Dialog fullWidth={true} open={open} maxWidth={'lg'} onClose={closeDialog}>
                 <Breadcrumb title={ title }/>
                 <DialogContent>
