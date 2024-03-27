@@ -15,7 +15,7 @@ import PageContainer from "src/components/container/PageContainer";
 import Breadcrumb from "src/layouts/full/shared/breadcrumb/Breadcrumb";
 import ParentCard from "src/components/shared/ParentCard";
 import Tooltip from '@mui/material/Tooltip';
-import { IconEdit, IconTrash } from "@tabler/icons";
+import { IconTrash } from "@tabler/icons";
 import useFetch from "src/services/useFetch";
 import { uniqueId } from "lodash";
 import { httpAdapter } from "src/services/http-adapter.service";
@@ -159,7 +159,6 @@ const AssemblyList = () => {
                             )
                         )
                     }
-                    
                 </Paper>
             </ParentCard>
         </PageContainer>

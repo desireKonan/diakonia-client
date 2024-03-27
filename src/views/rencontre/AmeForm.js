@@ -17,7 +17,6 @@ import { httpAdapter } from 'src/services/http-adapter.service';
 import { DatePicker, LocalizationProvider } from '@mui/x-date-pickers';
 
 const saveAme = async(values, meetingId) => {
-    console.log(values, meetingId);
     var ame = await httpAdapter.saveData(`api/rencontre/ames`, {
         meetingId: meetingId, 
         souls: [

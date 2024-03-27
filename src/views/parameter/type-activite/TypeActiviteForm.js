@@ -1,132 +1,79 @@
-import { Button, Grid, Stack } from "@mui/material";
-import { useEffect, useState } from "react";
-import { useDispatch } from "react-redux";
-import { useNavigate, useParams } from "react-router";
-import { addTypeActivite } from "src/store/features/apps/TypeActiviteSlice";
-import { TypeActiviteService } from 'src/services/type-activite.service';
-import PageContainer from "src/components/container/PageContainer";
-import Breadcrumb from "src/layouts/full/shared/breadcrumb/Breadcrumb";
-import ParentCard from "src/components/shared/ParentCard";
+import { Button, Stack, Box } from "@mui/material";
 import CustomFormLabel from "src/components/forms/theme-elements/CustomFormLabel";
 import CustomTextField from "src/components/forms/theme-elements/CustomTextField";
+import { useFormik } from "formik";
+import { httpAdapter } from "src/services/http-adapter.service";
+import { ToastContainer, toast } from 'react-toastify';
+import * as yup from 'yup';
 
 
-const TypeActiviteForm = () => {
-    const [formData, setFormData] = useState({
-        label: "",
-        description: ""
+const validationSchema = yup.object({
+    label: yup.string()
+        .required("Le libéllé est requis !"),
+    description: yup.string()
+        .required("La description est requis !")
+});
+
+const saveTypeActivite = async(values) => {
+    var type = await httpAdapter.saveData(`/api/type-activite`, values);
+    if(type.error && type.error != null) {
+        toast(`Erreur: ${type.error}`);
+        return;
+    }
+    window.location.reload(true);
+}
+
+const TypeActiviteForm = ({ type }) => {
+    const formik = useFormik({
+        initialValues: {
+            id: type ? type.id : '',
+            label: type ? type.label : '',
+            description: type ? type.description : ''
+        },
+        validationSchema: validationSchema,
+        onSubmit: (values) => {
+            saveTypeActivite(values);
+        },
     });
-    const params = useParams();
-    const navigate = useNavigate();
-    const dispatch = useDispatch();
-
-    useEffect(() => {
-        if(params.id) {
-            TypeActiviteService.getTypeActivite(params.id).then(typeActivite => {
-                var labelRef = document.getElementById('label');
-                labelRef.value = typeActivite.label;
-
-                var descriptionRef = document.getElementById('description');
-                descriptionRef.value = typeActivite.description;
-            });   
-        }
-    }, [params, formData]);
-
-    const handleInputChange = event => {
-        setFormData({
-          ...formData,
-          [event.target.name]: event.target.value
-        });
-    }
-
-    const submitTypeActivite = (event) => {
-        event.preventDefault();
-        let typeActivite = {};
-        if(params.id) {
-            typeActivite.id = params.id;
-        }
-        typeActivite.label = formData.label;
-        typeActivite.description = formData.description;
-
-        TypeActiviteService.postTypeActivite(typeActivite)
-            .then(response => dispatch(addTypeActivite(response)));
-    }
 
     return (
-        <PageContainer title="Formulaire de type d'activité" description="Formulaire de type d'activité">
-            <Breadcrumb title="Formulaire de type d'activité" subtitle="Formulaire de type d'activité"/>
-            
-            <ParentCard title="Formulaire de type d'activité">
-                <form method="POST" onSubmit={submitTypeActivite}>
-                    <Grid container spacing={3}>
-                        {
-                            params.id ? (
-                                <Grid item xs={12} sm={12} lg={4}>
-                                    <CustomFormLabel>Ancien Libéllé</CustomFormLabel>
-                                    <CustomTextField
-                                        id="label"
-                                        variant="outlined"
-                                        fullWidth
-                                        size="large"
-                                        disabled
-                                    />
-                                </Grid>   
-                            ): null
-                        }
-                        <Grid item xs={12} sm={12} lg={8}>
-                            <CustomFormLabel htmlFor="label">Libellé</CustomFormLabel>
-                            <CustomTextField
-                                name="label"
-                                placeholder="Entrer un libéllé"
-                                variant="outlined"
-                                fullWidth
-                                size="large"
-                                value={formData.label}
-                                onChange={handleInputChange}
-                            />
-                        </Grid>
-                        {
-                            params.id ? (
-                                <Grid item xs={12} sm={12} lg={4}>
-                                    <CustomFormLabel>Ancienne Description</CustomFormLabel>
-                                    <CustomTextField
-                                        id="description"
-                                        variant="outlined"
-                                        fullWidth
-                                        size="large"
-                                        disabled
-                                    />
-                                </Grid>   
-                            ): null
-                        }
-                        <Grid item xs={12} sm={12} lg={8}>
-                            <CustomFormLabel htmlFor="label">Description</CustomFormLabel>
-                            <CustomTextField
-                                name="description"
-                                placeholder="Entrer une description"
-                                variant="outlined"
-                                fullWidth
-                                size="large"
-                                value={formData.description}
-                                onChange={handleInputChange}
-                            />
-                        </Grid>
-                    </Grid>
-                    <Grid item xs={12} md={12} lg={4}>
-                        <Stack direction={{ xs: 'column', sm: 'row' }} spacing={2} justifyContent="space-between" mt={2}>
-                            <Stack spacing={1} direction="row">
-                                <Button variant="contained" color={params.id ? "warning": "primary"} type="submit"> 
-                                    { params.id ? 'Modifier': 'Ajouter' } un type d'activité 
-                                </Button>
-                                <Button variant="contained" color="secondary" onClick={(e) => navigate("/type-activites")}> 
-                                    Retour
-                                </Button>
-                            </Stack>
-                        </Stack>
-                    </Grid>
-                </form>
-            </ParentCard>
-        </PageContainer>
+        <form onSubmit={formik.handleSubmit}>
+            <ToastContainer />
+            <Stack>
+                {
+                    formik.values.id ? (<input type="hidden" name="id" value={formik.values.id} />) : ""
+                }
+                <Box>
+                    <CustomFormLabel>Libéllé</CustomFormLabel>
+                    <CustomTextField
+                        fullWidth
+                        id="label"
+                        name="label"
+                        value={formik.values.label}
+                        onChange={formik.handleChange}
+                        error={formik.touched.label && Boolean(formik.errors.label)}
+                        helperText={formik.touched.label && formik.errors.label}
+                    />
+                </Box>
+                <Box>
+                    <CustomFormLabel>Description</CustomFormLabel>
+                    <CustomTextField
+                        fullWidth
+                        id="description"
+                        name="description"
+                        value={formik.values.description}
+                        onChange={formik.handleChange}
+                        error={formik.touched.description && Boolean(formik.errors.description)}
+                        helperText={formik.touched.description && formik.errors.description}
+                    />
+                </Box>
+                <Box mt={2}>
+                    <Button color={ type ? "warning" : "primary"} variant="contained" type="submit">
+                        { type ? 'Modifier': 'Ajouter' }
+                    </Button>
+                </Box>
+            </Stack>
+        </form>
     );
 };
 

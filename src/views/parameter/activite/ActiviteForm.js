@@ -3,117 +3,71 @@ import TabContext from '@mui/lab/TabContext';
 import TabList from '@mui/lab/TabList';
 import TabPanel from '@mui/lab/TabPanel';
 
-import { useEffect, useState } from "react";
-import { useDispatch } from "react-redux";
-import { useNavigate, useParams } from "react-router";
-import { addActivite } from "src/store/features/apps/ActiviteSlice";
-import { ActiviteService } from 'src/services/activite.service';
-import PageContainer from "src/components/container/PageContainer";
-import Breadcrumb from "src/layouts/full/shared/breadcrumb/Breadcrumb";
-import ParentCard from "src/components/shared/ParentCard";
+import { useState } from "react";
 import CustomFormLabel from "src/components/forms/theme-elements/CustomFormLabel";
 import CustomTextField from "src/components/forms/theme-elements/CustomTextField";
-import { TypeActiviteService } from "src/services/type-activite.service";
 import CustomSelect from "src/components/forms/theme-elements/CustomSelect";
-import { date, dateTimeValue } from "src/utils/utils";
+import { date } from "src/utils/utils";
 import { DatePicker, LocalizationProvider } from '@mui/x-date-pickers';
 import { AdapterDateFns } from "@mui/x-date-pickers/AdapterDateFns";
 import AddButtonDetails from "src/components/custom/AddButtonDetails";
 import useAddDetails from "src/custom-hooks/useAddDetails";
 import { IconTrash } from "@tabler/icons";
+import { useFormik } from "formik";
+import { httpAdapter } from "src/services/http-adapter.service";
+import { ToastContainer, toast } from 'react-toastify';
+import useFetch from "src/services/useFetch";
 
-
-const ActiviteForm = () => {
-    const [formData, setFormData] = useState({
-        label: "",
-        description: "",
-        details: {},
-        typeId: "",
-        startDate: null,
-        endDate: null
+const submitActivite = async(values) => {
+    var ame = await httpAdapter.saveData(`api/activite`, {
+        id: values['id'], 
+        label: values['label'],
+        description: values['description'],
+        activityTypeId: values['typeId'],
+        //activityDetails: values['details'],
+        start: values['startDate'],
+        end: values['endDate']
     });
-    const [typesActivites, setTypeActivites] = useState([]);
+    if(ame.error && ame.error != null) {
+        toast(`Erreur: ${ame.error}`);
+        return;
+    }
+    window.location.reload(true);
+}
+
+
+const ActiviteForm = ({ activite }) => {
+    const formik = useFormik({
+        initialValues: {
+            id: activite ? activite.id : '',
+            label: activite ? activite.label : '',
+            description: activite ? activite.description : '',
+            //details: activite ? activite.details : '',
+            typeId: activite ? activite.activityTypeId : '',
+            startDate: activite ? date(activite.startDate) : null,
+            endDate: activite ? date(activite.endDate) : null
+        },
+        onSubmit: (values) => {
+            submitActivite(values);
+        },
+    });
+    const { data: typesActivites } = useFetch('/api/type-activite', []);
+
     const [tabState, setTabState] = useState("1");
     const {
         details, 
         addDetails,
         removeDetails, 
-        detailsJson
     } = useAddDetails();
-    const params = useParams();
-    const navigate = useNavigate();
-    const dispatch = useDispatch();
-
-    useEffect(() => {
-        if(params.id) {
-            ActiviteService.getActivite(params.id).then(activite => {
-                setFormData({
-                    label: activite.label,
-                    description: activite.description,
-                    typeId: activite.activityTypeId,
-                    details: activite.details,
-                    startDate: activite.startDate ? dateTimeValue(activite.startDate) : null,
-                    endDate: activite.endDate ? dateTimeValue(activite.endDate) : null
-                });
-            });   
-        }
-
-        TypeActiviteService.getTypeActivites().then(typeActivites => {
-            setTypeActivites(typeActivites);
-        });
-    }, []);
-
-    const handleInputChange = (event) => {
-        setFormData({
-          ...formData,
-          [event.target.name]: event.target.value
-        });
-    }
-
-    const setStartDate = (event) => {
-        setFormData({
-            ...formData,
-            startDate: event ? date(event): null
-        });
-    }
-
-    
-    const setEndDate = (event) => {
-        setFormData({
-            ...formData,
-            endDate: event ? date(event): null
-        });
-    }
 
     const handleTabChange = (event, newValue) => {
         setTabState(newValue);
     };
 
-    
-    const submitActivite = (event) => {
-        event.preventDefault();
-        let activite = {};
-        if(params.id) {
-            activite.id = params.id;
-        }
-        activite.label = formData.label;
-        activite.description = formData.description;
-        activite.activityTypeId = formData.typeId;
-        activite.activityDetails = detailsJson;
-        activite.start = date(formData.startDate);
-        activite.end = date(formData.endDate);
-
-        ActiviteService.postActivite(activite)
-            .then(response => dispatch(addActivite(response.data)));
-    }
-
 
     return (
-        <PageContainer title="Formulaire d'activité" description="Formulaire d'activité">
-            <Breadcrumb title="Formulaire d'activité" subtitle="Formulaire d'activité"/>
-            
-            <ParentCard title="Formulaire d'activité">
-                <form method="POST" onSubmit={submitActivite}>
+        <form onSubmit={formik.handleSubmit}>
+                    <ToastContainer />
                     <TabContext value={tabState}>
                         <Box sx={{ borderBottom: 1, borderColor: (theme) => theme.palette.divider }}>
                             <TabList onChange={handleTabChange} aria-label="lab API tabs example" variant="scrollable" scrollButtons="auto">
@@ -126,40 +80,46 @@ const ActiviteForm = () => {
                                 <Grid item xs={12} sm={12} lg={12}>
                                     <CustomFormLabel htmlFor="label">Libellé</CustomFormLabel>
                                     <CustomTextField
-                                        id="label"
+                                        labelId="label"
+                                        id="label" 
+                                        fullWidth
                                         name="label"
                                         placeholder="Entrer un libéllé"
                                         variant="outlined"
-                                        fullWidth
                                         size="large"
-                                        value={formData.label}
-                                        onChange={handleInputChange}
+                                        value={formik.values.label}
+                                        onChange={formik.handleChange}
+                                        error={formik.touched.label && Boolean(formik.errors.label)}
+                                        helperText={formik.touched.label && formik.errors.label}
                                     />
                                 </Grid>
                                 <Grid item xs={12} sm={12} lg={12}>
                                     <CustomFormLabel htmlFor="label">Description</CustomFormLabel>
                                     <CustomTextField
+                                        labelId="description"
                                         id="description"
+                                        fullWidth
                                         name="description"
                                         placeholder="Entrer une description"
                                         variant="outlined"
                                         multiline
-                                        rows={4}
-                                        fullWidth
+                                        rows={4}Z
                                         size="large"
-                                        value={formData.description}
-                                        onChange={handleInputChange}
+                                        value={formik.values.description}
+                                        onChange={formik.handleChange}
+                                        error={formik.touched.description && Boolean(formik.errors.description)}
+                                        helperText={formik.touched.description && formik.errors.description}
                                     />
                                 </Grid>
                                 <Grid item xs={12} sm={12} lg={12}>
                                     <CustomFormLabel htmlFor="activityType">Types d'activités</CustomFormLabel>
                                     <CustomSelect
-                                        labelId="activity-type"
-                                        id="activity-type" 
+                                        labelId="typeId"
+                                        id="typeId"
                                         fullWidth
                                         name="typeId"
-                                        value={formData.typeId}
-                                        onChange={handleInputChange}
+                                        value={formik.values.typeId}
+                                        onChange={formik.handleChange}
                                     >
                                         {
                                             typesActivites ? (
@@ -186,10 +146,11 @@ const ActiviteForm = () => {
                                             },
                                             }} />}
                                             placeholder="Entrez la date de depart"
-                                            value={formData.startDate}
+                                            value={formik.values.startDate}
                                             onChange={(newValue) => {
-                                                console.log(newValue);
-                                                setStartDate(newValue);
+                                                var start = date(newValue);
+                                                console.log(start);
+                                                formik.setFieldValue('startDate', start);
                                             }}
                                         />
                                     </LocalizationProvider>
@@ -210,10 +171,11 @@ const ActiviteForm = () => {
                                             },
                                             }} />}
                                             placeholder="Entrez la date de fin"
-                                            value={formData.endDate}
+                                            value={formik.values.endDate}
                                             onChange={(newValue) => {
-                                                console.log(newValue);
-                                                setEndDate(newValue);
+                                                var end = date(newValue);
+                                                console.log(end);
+                                                formik.setFieldValue('endDate', end);
                                             }}
                                         />
                                     </LocalizationProvider>
@@ -230,7 +192,7 @@ const ActiviteForm = () => {
                                 </AddButtonDetails>
                                 <Grid container spacing={2} justifyContent="center">    
                                     { 
-                                        formData.details ? Object.entries(formData.details).map(([key, value]) => {
+                                        formik.values.details ? Object.entries(formik.values.details).map(([key, value]) => {
                                             return <>
                                                 <Grid key={`title-${key}`} item xs={12} sm={12} lg={5}>
                                                     <CustomFormLabel htmlFor="label">Titre du détails</CustomFormLabel>
@@ -275,18 +237,13 @@ const ActiviteForm = () => {
                     <Grid item xs={12} md={12} lg={4}>
                         <Stack direction={{ xs: 'column', sm: 'row' }} spacing={2} justifyContent="space-between" mt={2}>
                             <Stack spacing={1} direction="row">
-                                <Button variant="contained" color={params.id ? "warning": "primary"} type="submit"> 
-                                    { params.id ? 'Modifier': 'Ajouter' } une activité 
-                                </Button>
-                                <Button variant="contained" color="secondary" onClick={(e) => navigate("/activites")}> 
-                                    Retour
+                                <Button variant="contained" color={activite ? "warning": "primary"} type="submit"> 
+                                    { activite ? 'Modifier': 'Ajouter' } une activité 
                                 </Button>
                             </Stack>
                         </Stack>
                     </Grid>
-                </form>
-            </ParentCard>
-        </PageContainer>
+        </form>
     );
 };
 
