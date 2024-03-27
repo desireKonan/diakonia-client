@@ -8,7 +8,7 @@ import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns';
 import { DateTimePicker } from '@mui/x-date-pickers/DateTimePicker';
 import CustomCheckbox from "src/components/forms/theme-elements/CustomCheckbox";
 import moment from "moment/moment";
-import { date } from "src/utils/utils";
+import { date, dateTime, SEX } from "src/utils/utils";
 import { TabContext, TabList, TabPanel } from "@mui/lab";
 import { useFormik } from "formik";
 import { httpAdapter } from "src/services/http-adapter.service";
@@ -38,13 +38,13 @@ const submitMember = async(values, assemblyId) => {
     };
     console.log(values, assemblyId, member);
 
-    var memberSaved = null;
-    if(assemblyId && values['memberId']) {
-        memberSaved = await httpAdapter.saveData(`api/assemblee/membre`, member);
+    let url = null;
+    if(values['memberId'] === '') {
+        url = 'api/assemblee/membre';
     } else {
-        memberSaved = await httpAdapter.saveData(`api/assemblee/membre/update`, member);
+        url = `api/assemblee/membre/update`;
     }
-
+    var memberSaved = await httpAdapter.saveData(url, member);
     if(memberSaved.error && memberSaved.error != null) {
         toast(`Erreur: ${memberSaved.error}`);
         return;
@@ -53,6 +53,7 @@ const submitMember = async(values, assemblyId) => {
 }
 
 const MembreForm = ({ membre, assemblyId }) => {
+    console.log(membre);
     const formik = useFormik({
         initialValues: {
             id: membre ? membre.id : '',
@@ -65,10 +66,10 @@ const MembreForm = ({ membre, assemblyId }) => {
             isLeader: membre ? membre.isLeader : false,
             active: membre ? membre.active : true,
             position: membre ? membre.position : 1,
-            establishedAt: membre ? membre.establishedAt : new Date(),
-            rejoinedAt: membre ? membre.rejoinedAt : new Date(),
-            leftAt: membre ? membre.leftAt : new Date(),
-            resignedAt: membre ? membre.resignedAt : new Date()
+            establishedAt: membre ? dateTime(membre.establishedAt) : null,
+            rejoinedAt: membre ? dateTime(membre.rejoinedAt) : null,
+            leftAt: membre ? dateTime(membre.leftAt) : null,
+            resignedAt: membre ? dateTime(membre.resignedAt) : null
         },
         onSubmit: (values) => {
             submitMember(values, assemblyId);
@@ -146,8 +147,11 @@ const MembreForm = ({ membre, assemblyId }) => {
                                 value={formik.values.sex} 
                                 onChange={formik.handleChange}
                             >
-                                <MenuItem value={`Homme`}>Homme</MenuItem>  
-                                <MenuItem value={`Femme`}>Femme</MenuItem>    
+                                {
+                                    Object.keys(SEX).map(sex => (
+                                        <MenuItem value={sex}> { sex === SEX.MALE ? `Homme` : `Femme` } </MenuItem>  
+                                    ))
+                                }
                             </CustomSelect>
                         </Grid>
                         <Grid item xs={12} sm={12} lg={4}>
@@ -183,7 +187,7 @@ const MembreForm = ({ membre, assemblyId }) => {
                         <Grid item xs={12} sm={12} lg={4}>
                             <CustomFormLabel htmlFor="integrationDate">Date de intégration à l'assemblée</CustomFormLabel>
                             <LocalizationProvider dateAdapter={AdapterDateFns}>
-                            <DatePicker
+                            <DateTimePicker
                                 id="rejoinedAt" 
                                 name="rejoinedAt"
                                 renderInput={(props) => <CustomTextField {...props} fullWidth size="large" sx={{
@@ -200,7 +204,7 @@ const MembreForm = ({ membre, assemblyId }) => {
                                 placeholder="Entrez la date de intégration à l'assemblée"
                                 value={formik.values.rejoinedAt}
                                 onChange={(newValue) => {
-                                    var rejoinedAt = date(newValue);
+                                    var rejoinedAt = dateTime(newValue);
                                     console.log(rejoinedAt, newValue);
                                     formik.setFieldValue('rejoinedAt', rejoinedAt);
                                 }} 
@@ -225,7 +229,7 @@ const MembreForm = ({ membre, assemblyId }) => {
                                     placeholder="Entrez la date de depart de l'assemblée"
                                     value={formik.values.leftAt}
                                     onChange={(newValue) => {
-                                        var leftAt = date(newValue);
+                                        var leftAt = dateTime(newValue);
                                         console.log(leftAt, newValue);
                                         formik.setFieldValue('leftAt', leftAt);
                                     }}
@@ -271,8 +275,8 @@ const MembreForm = ({ membre, assemblyId }) => {
                             <CustomFormLabel htmlFor="establishedAt">Date d'ordination du dirigeant</CustomFormLabel>
                             <LocalizationProvider dateAdapter={AdapterDateFns}>
                                 <DateTimePicker
-                                    id="leftAt" 
-                                    name="leftAt"
+                                    id="establishedAt" 
+                                    name="establishedAt"
                                     renderInput={(props) => <CustomTextField {...props} fullWidth size="large" sx={{
                                         '& .MuiSvgIcon-root': {
                                             width: 18,
@@ -285,7 +289,7 @@ const MembreForm = ({ membre, assemblyId }) => {
                                     placeholder="Entrez la date d'ordination du dirgieant"
                                     value={formik.values.establishedAt}
                                     onChange={(newValue) => {
-                                        var establishedAt = date(newValue);
+                                        var establishedAt = dateTime(newValue);
                                         console.log(establishedAt, newValue);
                                         formik.setFieldValue('establishedAt', establishedAt);
                                     }}
@@ -310,7 +314,7 @@ const MembreForm = ({ membre, assemblyId }) => {
                                     placeholder="Entrez la date de depart de fonction"
                                     value={formik.values.resignedAt}
                                     onChange={(newValue) => {
-                                        var resignedAt = date(newValue);
+                                        var resignedAt = dateTime(newValue);
                                         console.log(resignedAt, newValue);
                                         formik.setFieldValue('resignedAt', resignedAt);
                                     }}

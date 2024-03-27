@@ -9,24 +9,24 @@ import {
     Paper,
     TableContainer
 } from "@mui/material";
-import { useNavigate, useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import PageContainer from "src/components/container/PageContainer";
 import Breadcrumb from "src/layouts/full/shared/breadcrumb/Breadcrumb";
 import ParentCard from "src/components/shared/ParentCard";
 import useFetch from "src/services/useFetch";
 import { uniqueId } from "lodash";
 import { httpAdapter } from "src/services/http-adapter.service";
-import { date, instant } from "src/utils/utils";
+import { date, dateTime } from "src/utils/utils";
 import CustomDialog from "src/components/custom/CustomDialog";
+import Tooltip from '@mui/material/Tooltip';
 import MembreForm from "./MembreForm";
 
 const MemberList = () => {
     const params = useParams();
     const { data: assemblee, loading, error } = useFetch(`/api/assemblee/${params.id}`, {});
-    const navigate = useNavigate();
 
     const deleteMemberById = async(id) => {
-        await httpAdapter.deleteData(`/api/assemblee/${id}`);
+        await httpAdapter.deleteData(`/api/assemblee/membre/${id}`);
         window.location.reload(true);
     }
 
@@ -43,7 +43,11 @@ const MemberList = () => {
             }>
                 <Paper variant="outlined">
                     {
-                        error ? error : (
+                        error ? (
+                            <Typography variant="subtitle2" fontWeight={600}>
+                                { error }
+                            </Typography>
+                        ) : (
                             loading ? loading : (
                                 <TableContainer>
                                     <Table
@@ -167,22 +171,37 @@ const MemberList = () => {
                                                         </TableCell>
                                                         <TableCell>
                                                             <Typography color="textSecondary" variant="subtitle2" fontWeight={400}>
-                                                                {instant(member.establishedAt)}
+                                                                {dateTime(member.establishedAt)}
                                                             </Typography>
                                                         </TableCell>
                                                         <TableCell>
                                                             <Typography color="textSecondary" variant="subtitle2" fontWeight={400}>
-                                                                {instant(member.rejoinedAt)}
+                                                                {dateTime(member.rejoinedAt)}
                                                             </Typography>
                                                         </TableCell>
                                                         <TableCell>
                                                             <Typography color="textSecondary" variant="subtitle2" fontWeight={400}>
-                                                                {instant(member.leftAt)}
+                                                                {dateTime(member.leftAt)}
                                                             </Typography>
                                                         </TableCell>
                                                         <TableCell>
-                                                            <Button variant="contained" color="warning" onClick={(e) => navigate(`/assemblee/${member.assemblyId}/membre/${member.id}`)} style={{margin: 5}}> Modifier </Button>
-                                                            <Button variant="contained" color="error" onClick={(e) => deleteMemberById(member.memberId)} style={{margin: 5}}> Supprimer </Button>
+                                                            <CustomDialog
+                                                                label={`Modifier un membre`} 
+                                                                title={`Formulaire d'ajout d'un membre`}
+                                                                color={true}
+                                                                form={<MembreForm assemblyId={params.id} membre={member} />}
+                                                            >
+                                                            </CustomDialog>
+                                                            <Tooltip title="Supprimer un membre">
+                                                                <Button 
+                                                                    variant="contained" 
+                                                                    color="error" 
+                                                                    onClick={(e) => deleteMemberById(member.id)} 
+                                                                    style={{margin: 5}}
+                                                                >
+                                                                    Supprimer 
+                                                                </Button>
+                                                            </Tooltip>
                                                         </TableCell>
                                                     </TableRow>
                                                 )) : (

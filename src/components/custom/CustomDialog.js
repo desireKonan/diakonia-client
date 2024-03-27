@@ -19,7 +19,7 @@ const CustomDialog = ({ label, title, form, color }) => {
             <Button variant="contained" color={ !color ? "primary": "warning" } onClick={openDialog}>
                { label }
             </Button>
-            <Dialog fullWidth={true} open={open} onClose={closeDialog}>
+            <Dialog fullWidth={true} open={open} maxWidth={'lg'} onClose={closeDialog}>
                 <Breadcrumb title={ title }/>
                 <DialogContent>
                     { form }

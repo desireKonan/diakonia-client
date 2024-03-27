@@ -27,6 +27,22 @@ export function dateTime(dateTime) {
     return 'Aucune Date';
 }
 
+export function instantTime(dateTime) {
+    var newDate = null;
+    if(dateTime) {
+        if((dateTime instanceof Number || dateTime instanceof String)) {
+            return new Date(dateTime);
+        } else if(dateTime instanceof Array) {
+            newDate = new Date(...dateTime);
+        } else {
+            newDate = dateTime;
+        }
+        return moment(newDate).format('yyyy-MM-DDTHH:mm:ss.sssZ');
+    } 
+    return 'Aucune Date';
+}
+
+
 export function date(dateValue) {
     var newDate = null;
     if(dateValue) {
@@ -68,4 +84,9 @@ export const PersonType = Object.freeze({
     BROTHER: "BROTHER",
     GUEST: "GUEST",
     VISITOR: "VISITOR"
+});
+
+export const SEX = Object.freeze({
+    MALE: "MALE",
+    FEMALE: "FEMALE"
 });
