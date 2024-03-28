@@ -175,7 +175,6 @@ const MembreForm = ({ membre, assemblyId }) => {
                                     value={formik.values.birthDate}
                                     onChange={(newValue) => {
                                         var birthdate = date(newValue);
-                                        console.log(birthdate, newValue);
                                         formik.setFieldValue('birthDate', birthdate);
                                     }}
                                     format="YYYY-MM-DD"
@@ -203,7 +202,6 @@ const MembreForm = ({ membre, assemblyId }) => {
                                 value={formik.values.rejoinedAt}
                                 onChange={(newValue) => {
                                     var rejoinedAt = dateTime(newValue);
-                                    console.log(rejoinedAt, newValue);
                                     formik.setFieldValue('rejoinedAt', rejoinedAt);
                                 }} 
                             />
@@ -228,7 +226,6 @@ const MembreForm = ({ membre, assemblyId }) => {
                                     value={formik.values.leftAt}
                                     onChange={(newValue) => {
                                         var leftAt = dateTime(newValue);
-                                        console.log(leftAt, newValue);
                                         formik.setFieldValue('leftAt', leftAt);
                                     }}
                                 />
