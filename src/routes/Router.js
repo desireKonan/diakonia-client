@@ -8,7 +8,7 @@ const FullLayout = Loadable(lazy(() => import('../layouts/full/FullLayout')));
 
 /* ****Pages***** */
 const Modern = Loadable(lazy(() => import('../views/dashboard/Modern')));
-const ListRegion = Loadable(lazy(() => import('../views/parameter/ville/VilleList')));
+const ListeVille = Loadable(lazy(() => import('../views/parameter/ville/VilleList')));
 
 const ListeAssemblee = Loadable(lazy(() => import('../views/parameter/assembly/AssemblyList')));
 const ListeMembre = Loadable(lazy(() => import('../views/effective/member/MembreList')));
@@ -34,12 +34,11 @@ const Router = [
     children: [
       { path: '/', element: <Navigate to="/dashboard" /> },
       { path: '/dashboard', exact: true, element: <Modern /> },
-      { path: '/regions', exact: true, element: <ListRegion /> },
+      { path: '/regions', exact: true, element: <ListeVille /> },
       { path: '/type-activites', exact: true, element: <ListeTypeActivite />},
       { path: '/activites', exact: true, element: <ListeActivites />},
       { path: '/activite/:id/participants', exact: true, element: <ListeParticipants />},
       { path: '/assemblees', exact: true, element: <ListeAssemblee />},
-      { path: '/assemblee/:id/membre', exact: true, element: <ListeMembre />},
       { path: '/type-rencontres', exact: true, element: <ListeTypeRencontre />},
       { path: '/rencontres', exact: true, element: <ListeRencontre />},
       { path: '/rubriques', exact: true, element: <ListeRubriques />},

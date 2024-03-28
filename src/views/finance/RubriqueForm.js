@@ -32,7 +32,6 @@ const RubriqueForm = ({ rubrique }) => {
         },
         validationSchema: validationSchema,
         onSubmit: (values) => {
-            console.log(values);
             saveRubrique(values);
         },
     });

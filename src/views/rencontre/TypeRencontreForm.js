@@ -6,9 +6,9 @@ import CustomFormLabel from "src/components/forms/theme-elements/CustomFormLabel
 import CustomTextField from "src/components/forms/theme-elements/CustomTextField";
 import { useFormik } from "formik";
 import * as yup from 'yup';
-import { TypeRencontreService } from "src/services/type-rencontre.service";
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import { httpAdapter } from "src/services/http-adapter.service";
 
 const validationSchema = yup.object({
     label: yup.string()
@@ -19,7 +19,7 @@ const validationSchema = yup.object({
 
 
 const saveTypeRencontre = async(values) => {
-    var type = await TypeRencontreService.postTypeRencontre(values);
+    var type = await httpAdapter.saveData(`/api/type-rencontre`, values);
     console.log(type);
     if(type.error && type.error != null) {
         toast(`Erreur: ${type.error}`);

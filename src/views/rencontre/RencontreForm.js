@@ -12,9 +12,9 @@ import { LocationType, dateTime } from "src/utils/utils";
 import { LocalizationProvider } from '@mui/x-date-pickers';
 import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns'
 import { DateTimePicker } from '@mui/x-date-pickers/DateTimePicker'
-import { RencontreService } from "src/services/rencontre.service";
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import { httpAdapter } from "src/services/http-adapter.service";
 
 
 const validationSchema = yup.object({
@@ -25,8 +25,7 @@ const validationSchema = yup.object({
 
 
 const saveRencontre = async(values) => {
-    console.log(values);
-    var rencontre = await RencontreService.postRencontre(values);
+    var rencontre = await httpAdapter.saveData(`/api/rencontre`, values);
     if(rencontre.error && rencontre.error != null) {
         toast(`Erreur: ${rencontre.error}`);
         return;
@@ -183,8 +182,8 @@ const RencontreForm = ({ rencontre }) => {
                     </Grid>
                     <Stack>
                         <Box mt={2}>
-                            <Button color="primary" variant="contained" type="submit">
-                                Ajouter
+                            <Button color={ rencontre ? "warning" : "primary"} variant="contained" type="submit">
+                                { rencontre ? 'Modifier' : 'Ajouter'} une rencontre
                             </Button>
                         </Box>
                     </Stack>

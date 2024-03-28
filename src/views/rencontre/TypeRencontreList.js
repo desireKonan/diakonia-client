@@ -16,13 +16,14 @@ import { date } from "src/utils/utils";
 import CustomDialog from "src/components/custom/CustomDialog";
 import TypeRencontreForm from "./TypeRencontreForm";
 import useFetch from "src/services/useFetch";
-import { TypeRencontreService } from "src/services/type-rencontre.service";
+import { httpAdapter } from "src/services/http-adapter.service";
+import { uniqueId } from "lodash";
 
 const TypeRencontreList = () => {
-    const { data: typeRencontres, loading } = useFetch('/api/type-rencontre');
+    const { data: typeRencontres, loading } = useFetch('/api/type-rencontre', []);
 
     const deleteTypeRencontre = async(id) => {
-        await TypeRencontreService.deleteTypeRencontre(id);
+        await httpAdapter.deleteDatas(`api/type-rencontre/${id}`, data);
         window.location.reload(true);
     }
 
@@ -136,7 +137,7 @@ const TypeRencontreList = () => {
                                                 </TableRow>
                                             ))) :
                                             (
-                                                <TableRow key={`Aucun type de rencontre`}>
+                                                <TableRow key={uniqueId()}>
                                                     <TableCell rowSpan={4}>
                                                         <Typography color="textSecondary" variant="subtitle2" fontWeight={400}>
                                                             Aucune types de rencontres disponibles

@@ -18,11 +18,11 @@ import { dateTime } from "src/utils/utils";
 import CustomDialog from "src/components/custom/CustomDialog";
 import RencontreForm from "./RencontreForm";
 import useFetch from "src/services/useFetch";
-import { RencontreService } from "src/services/rencontre.service";
 import Tooltip from '@mui/material/Tooltip';
 import { IconPlus, IconTrash } from "@tabler/icons";
 import { useNavigate } from "react-router";
 import ChildCard from "src/components/shared/ChildCard";
+import { httpAdapter } from "src/services/http-adapter.service";
 
 
 const RencontreList = () => {
@@ -30,7 +30,7 @@ const RencontreList = () => {
     const navigate = useNavigate();
     
     const deleteRencontre = async(id) => {
-        await RencontreService.deleteRencontre(id);
+        await httpAdapter.deleteDatas(`api/rencontre/${id}`, data);
         window.location.reload(true);
     }
 
