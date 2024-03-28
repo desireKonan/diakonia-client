@@ -28,21 +28,21 @@ const Menuitems = [
   },
   {
     id: uniqueId(),
-    title: 'Zone',
+    title: 'Regions',
     icon: IconPoint,
     href: '#',
     children: [
       {
         id: uniqueId(),
-        title: 'Sous-zone',
+        title: 'Zones',
         icon: IconPoint,
-        href: '#',
+        href: '/regions'
       },
       {
         id: uniqueId(),
-        title: 'Assemblée',
+        title: 'Assemblées',
         icon: IconPoint,
-        href: '#',
+        href: '/assemblees',
       },
     ],
   },
@@ -56,7 +56,7 @@ const Menuitems = [
         id: uniqueId(),
         title: 'Type d\'activité',
         icon: IconPoint,
-        href: '/type-activites/',
+        href: '/type-activites',
         chipColor: 'secondary',
       },
       {
@@ -78,29 +78,17 @@ const Menuitems = [
         id: uniqueId(),
         title: 'Rencontres',
         icon: IconPoint,
-        href: '/rencontres/',
+        href: '/rencontres',
         chipColor: 'secondary',
       },
       {
         id: uniqueId(),
         title: 'Type de rencontres',
         icon: IconPoint,
-        href: '/type-rencontres/',
+        href: '/type-rencontres',
         chipColor: 'secondary',
       }
     ],
-  },
-  {
-    id: uniqueId(),
-    title: 'Regions',
-    icon: IconList,
-    href: '/regions',
-  },
-  {
-    id: uniqueId(),
-    title: 'Assemblées',
-    icon: IconHome,
-    href: '/assemblees',
   },
   {
     id: uniqueId(),

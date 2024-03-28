@@ -30,7 +30,7 @@ const ParticipantList = () => {
                 participantId
             ]
         });
-        //window.location.reload(true);
+        window.location.reload(true);
     }
 
     return (
