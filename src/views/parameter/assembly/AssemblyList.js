@@ -117,10 +117,10 @@ const AssemblyList = () => {
                                                                 <Button 
                                                                     variant="contained" 
                                                                     color="secondary" 
-                                                                    onClick={(e) => navigate(`/assemblee/${assembly.id}/ligne-financiere`)} 
+                                                                    onClick={(e) => navigate(`/assemblee/${assembly.id}/rencontre`)} 
                                                                     style={{margin: 5}}
                                                                 > 
-                                                                    Livre comptable
+                                                                    Liste des rencontres
                                                                 </Button>
                                                             </Tooltip>
                                                             <CustomDialog

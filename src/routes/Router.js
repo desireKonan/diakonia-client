@@ -18,11 +18,13 @@ const ListeTypeActivite = Loadable(lazy(() => import('../views/parameter/type-ac
 const ListeTypeRencontre = Loadable(lazy(() => import('../views/rencontre/TypeRencontreList')));
 const ListeRencontre = Loadable(lazy(() => import('../views/rencontre/RencontreList')));
 
+const ListeRencontresAssemblee = Loadable(() => import('../views/parameter/assembly/rencontre/RencontreAssembleeList'));
+
 const ListePersonnePresente = Loadable(lazy(() => import('../views/rencontre/PersonnePresenteList')));
 const ListeAmes = Loadable(lazy(() => import('../views/rencontre/AmeList')));
 
 const ListeRubriques = Loadable(lazy(() => import('../views/finance/RubriqueList')));
-const ListeLigneFinancieres = Loadable(lazy(() => import('../views/finance/LigneFinanciereListe'))); 
+//const ListeLigneFinancieres = Loadable(lazy(() => import('../views/finance/LigneFinanciereListe'))); 
 
 const ListeActivites = Loadable(lazy(() => import('../views/parameter/activite/ActiviteList')));
 const ListeParticipants = Loadable(lazy(() => import('../views/parameter/activite/participants/ParticipantList')));
@@ -39,13 +41,15 @@ const Router = [
       { path: '/activites', exact: true, element: <ListeActivites />},
       { path: '/activite/:id/participants', exact: true, element: <ListeParticipants />},
       { path: '/assemblees', exact: true, element: <ListeAssemblee />},
+      { path: '/assemblee/:id/membres', exact: true, element: <ListeMembre />},
+      { path: '/assemblee/:id/rencontres', exact: true, element: <ListeRencontresAssemblee />},
+      //{ path: '/rencontre/:id/ligne-financiere', exact: true, element: <ListeLigneFinancieres />},
+      //{ path: '/recnontre/:id/personne-presente', exact: true, element: <ListeLigneFinancieres />},
+      { path: '/rubriques', exact: true, element: <ListeRubriques />},
       { path: '/type-rencontres', exact: true, element: <ListeTypeRencontre />},
       { path: '/rencontres', exact: true, element: <ListeRencontre />},
-      { path: '/rubriques', exact: true, element: <ListeRubriques />},
       { path: '/rencontre/:id/personnes', exact: true, element: <ListePersonnePresente />},
       { path: '/rencontre/:id/ames', exact: true, element: <ListeAmes />},
-      { path: '/assemblee/:id/membres', exact: true, element: <ListeMembre />},
-      { path: '/assemblee/:id/ligne-financiere', exact: true, element: <ListeLigneFinancieres />},
       { path: '*', element: <Navigate to="/auth/404" /> },
     ],
   },

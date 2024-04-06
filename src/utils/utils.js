@@ -90,3 +90,12 @@ export const SEX = Object.freeze({
     MALE: "MALE",
     FEMALE: "FEMALE"
 });
+
+
+export const MeetingType = Object.freeze({
+    CULT: "CULT",
+    COMMON_CULT: "COMMON_CULT",
+    PRAYER_MEETING: "PRAYER_MEETING",
+    BREAKING_LINK: "BREAKING_LINK",
+    SPECIAL_MEETING: "SPECIAL_MEETING"
+});
