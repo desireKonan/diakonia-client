@@ -113,16 +113,16 @@ const AssemblyList = () => {
                                                                     Liste de membres
                                                                 </Button>
                                                             </Tooltip>
-                                                            <Tooltip title="Gérer le livre comptable d'une assemblée d'une assemblée">
+                                                            {/* <Tooltip title="Gérer la liste des rencontres d'une assemblée">
                                                                 <Button 
                                                                     variant="contained" 
                                                                     color="secondary" 
-                                                                    onClick={(e) => navigate(`/assemblee/${assembly.id}/rencontre`)} 
+                                                                    onClick={(e) => navigate(`/assemblee/${assembly.id}/evenements`)} 
                                                                     style={{margin: 5}}
                                                                 > 
                                                                     Liste des rencontres
                                                                 </Button>
-                                                            </Tooltip>
+                                                            </Tooltip> */}
                                                             <CustomDialog
                                                                 isIconButton={true}
                                                                 color={true}

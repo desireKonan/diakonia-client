@@ -1,6 +1,5 @@
 import http from "./http";
-
-const { useState, useEffect } = require("react")
+import { useState, useEffect } from "react";
 
 const useFetch = (url = "", initialData) => {
     const [loading, setLoading] = useState(false);
@@ -13,6 +12,7 @@ const useFetch = (url = "", initialData) => {
                 const response = await http.get(_url);
                 if(response.status === 200) {
                     setData(response.data);
+                    console.log(response.data);
                 }
             } catch(err) {
                 setError(`Error: ${error}`);

@@ -12,13 +12,12 @@ const ListeVille = Loadable(lazy(() => import('../views/parameter/ville/VilleLis
 
 const ListeAssemblee = Loadable(lazy(() => import('../views/parameter/assembly/AssemblyList')));
 const ListeMembre = Loadable(lazy(() => import('../views/effective/member/MembreList')));
+//const ListeRencontresAssemblee = Loadable(() => import('../views/parameter/assembly/rencontre/RencontreAssembleeTest'));
 
 const ListeTypeActivite = Loadable(lazy(() => import('../views/parameter/type-activite/TypeActiviteList')));
 
 const ListeTypeRencontre = Loadable(lazy(() => import('../views/rencontre/TypeRencontreList')));
 const ListeRencontre = Loadable(lazy(() => import('../views/rencontre/RencontreList')));
-
-const ListeRencontresAssemblee = Loadable(() => import('../views/parameter/assembly/rencontre/RencontreAssembleeList'));
 
 const ListePersonnePresente = Loadable(lazy(() => import('../views/rencontre/PersonnePresenteList')));
 const ListeAmes = Loadable(lazy(() => import('../views/rencontre/AmeList')));
@@ -42,9 +41,9 @@ const Router = [
       { path: '/activite/:id/participants', exact: true, element: <ListeParticipants />},
       { path: '/assemblees', exact: true, element: <ListeAssemblee />},
       { path: '/assemblee/:id/membres', exact: true, element: <ListeMembre />},
-      { path: '/assemblee/:id/rencontres', exact: true, element: <ListeRencontresAssemblee />},
-      //{ path: '/rencontre/:id/ligne-financiere', exact: true, element: <ListeLigneFinancieres />},
-      //{ path: '/recnontre/:id/personne-presente', exact: true, element: <ListeLigneFinancieres />},
+      // { path: '/assemblee/:id/evenements', exact: true, element: <ListeRencontresAssemblee />},
+      // { path: '/rencontre/:id/ligne-financiere', exact: true, element: <ListeLigneFinancieres />},
+      // { path: '/recnontre/:id/personne-presente', exact: true, element: <ListeLigneFinancieres />},
       { path: '/rubriques', exact: true, element: <ListeRubriques />},
       { path: '/type-rencontres', exact: true, element: <ListeTypeRencontre />},
       { path: '/rencontres', exact: true, element: <ListeRencontre />},

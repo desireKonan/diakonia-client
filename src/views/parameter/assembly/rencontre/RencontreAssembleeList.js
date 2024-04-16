@@ -8,7 +8,6 @@ import {
     IconButton,
     Paper,
     Grid,
-    Button,
     TableContainer
 } from "@mui/material";
 import ParentCard from "src/components/shared/ParentCard";
@@ -27,11 +26,11 @@ import RencontreAssembleeForm from "./RencontreAssembleeForm";
 
 const RencontreAssembleeList = () => {
     const params = useParams();
-    const {data: assemblee, error, loading } = useFetch(`/api/assemblee/${params.id}`, {});
+    const {data: assemblees, error, loading } = useFetch(`/api/assemblee/${params.id}`, {});
     const navigate = useNavigate();
     
     const deleteRencontre = async(id) => {
-        await httpAdapter.deleteDatas(`api/assemblee/${id}`, data);
+        await httpAdapter.deleteDatas(`/api/assemblee/${id}`, {});
         window.location.reload(true);
     }
 
@@ -42,7 +41,7 @@ const RencontreAssembleeList = () => {
                 <CustomDialog 
                     label={`Ajouter une rencontre d'assemblée`} 
                     title={`Formulaire d'ajout d'une rencontre d'assemblée`}
-                    form={<RencontreAssembleeForm />}
+                    //form={}
                 ></CustomDialog>
             }>
                 <Paper variant="outlined">
@@ -55,158 +54,156 @@ const RencontreAssembleeList = () => {
                                     </Typography>
                                 </ChildCard>
                             </Grid>
-                        ): null
-                    }   
-
-                    {
-                        loading ? (
-                            <Grid item xs={12} lg={4} sm={6} display="flex" alignItems="stretch">
-                                <ChildCard title="Error">
-                                    <Typography color="textSecondary" variant="subtitle2" fontWeight={400}>
-                                        { loading }
-                                    </Typography>
-                                </ChildCard>
-                            </Grid>
                         ): (
-                            <TableContainer>
-                                <Table
-                                    aria-label="simple table"
-                                    sx={{
-                                        whiteSpace: "nowrap",
-                                        mt: 2
-                                    }}
-                                >
-                                    <TableHead>
-                                        <TableRow>
-                                            <TableCell>
-                                                <Typography variant="subtitle2" fontWeight={600}>
-                                                    Id
-                                                </Typography>
-                                            </TableCell>
-                                            <TableCell>
-                                                <Typography variant="subtitle2" fontWeight={600}>
-                                                    Libéllé
-                                                </Typography>
-                                            </TableCell>
-                                            <TableCell>
-                                                <Typography variant="subtitle2" fontWeight={600}>
-                                                    Details
-                                                </Typography>
-                                            </TableCell>
-                                            <TableCell>
-                                                <Typography variant="subtitle2" fontWeight={600}>
-                                                    Date de debut de la rencontre
-                                                </Typography>
-                                            </TableCell>
-                                            <TableCell>
-                                                <Typography variant="subtitle2" fontWeight={600}>
-                                                    Date de fin de la rencontre
-                                                </Typography>
-                                            </TableCell>
-                                            <TableCell>
-                                                <Typography variant="subtitle2" fontWeight={600}>
-                                                    Actions
-                                                </Typography>
-                                            </TableCell>
-                                        </TableRow>
-                                    </TableHead>
-                                    <TableBody>
-                                        {(assemblee.rencontres && assemblee.rencontres.length !== 0) ? (assemblee.rencontres.map((rencontre) => (
-                                                <TableRow key={rencontre.id}>
-                                                    <TableCell>
-                                                        <Typography
-                                                            sx={{
-                                                                fontSize: "15px",
-                                                                fontWeight: "500",
-                                                            }}
-                                                        >
-                                                            {rencontre.id}
-                                                        </Typography>
-                                                    </TableCell>
-                                                    <TableCell>
-                                                        <Typography color="textSecondary" variant="subtitle2" fontWeight={400}>
-                                                            {rencontre.type}
-                                                        </Typography>
-                                                    </TableCell>
-                                                    <TableCell>
-                                                        <Typography color="textSecondary" variant="subtitle2" fontWeight={400}>
-                                                            <ul>
-                                                                {
-                                                                    Object.entries(rencontre.details).map(([key, value]) => (
-                                                                        <li> {key} : {value} </li>
+                            loading ? (
+                                <Grid item xs={12} lg={4} sm={6} display="flex" alignItems="stretch">
+                                    <ChildCard title="Error">
+                                        <Typography color="textSecondary" variant="subtitle2" fontWeight={400}>
+                                            { loading }
+                                        </Typography>
+                                    </ChildCard>
+                                </Grid>
+                            ): (
+                                <TableContainer>
+                                    <Table
+                                        aria-label="simple table"
+                                        sx={{
+                                            whiteSpace: "nowrap",
+                                            mt: 2
+                                        }}
+                                    >
+                                        <TableHead>
+                                            <TableRow>
+                                                <TableCell>
+                                                    <Typography variant="subtitle2" fontWeight={600}>
+                                                        Id
+                                                    </Typography>
+                                                </TableCell>
+                                                <TableCell>
+                                                    <Typography variant="subtitle2" fontWeight={600}>
+                                                        Libéllé
+                                                    </Typography>
+                                                </TableCell>
+                                                <TableCell>
+                                                    <Typography variant="subtitle2" fontWeight={600}>
+                                                        Details
+                                                    </Typography>
+                                                </TableCell>
+                                                <TableCell>
+                                                    <Typography variant="subtitle2" fontWeight={600}>
+                                                        Date de debut de la rencontre
+                                                    </Typography>
+                                                </TableCell>
+                                                <TableCell>
+                                                    <Typography variant="subtitle2" fontWeight={600}>
+                                                        Date de fin de la rencontre
+                                                    </Typography>
+                                                </TableCell>
+                                                <TableCell>
+                                                    <Typography variant="subtitle2" fontWeight={600}>
+                                                        Actions
+                                                    </Typography>
+                                                </TableCell>
+                                            </TableRow>
+                                        </TableHead>
+                                        <TableBody>
+                                            {(assemblees && assemblees.length !== 0) ? (assemblees.map((rencontre) => (
+                                                    <TableRow key={rencontre.id}>
+                                                        <TableCell>
+                                                            <Typography
+                                                                sx={{
+                                                                    fontSize: "15px",
+                                                                    fontWeight: "500",
+                                                                }}
+                                                            >
+                                                                {rencontre.id}
+                                                            </Typography>
+                                                        </TableCell>
+                                                        <TableCell>
+                                                            <Typography color="textSecondary" variant="subtitle2" fontWeight={400}>
+                                                                {rencontre.type}
+                                                            </Typography>
+                                                        </TableCell>
+                                                        <TableCell>
+                                                            <Typography color="textSecondary" variant="subtitle2" fontWeight={400}>
+                                                                <ul>
+                                                                    {
+                                                                        Object.entries(rencontre.details).map(([key, value]) => (
+                                                                            <li> {key} : {value} </li>
+                                                                            )
                                                                         )
-                                                                    )
-                                                                }    
-                                                            </ul>
-                                                        </Typography>
-                                                    </TableCell>
-                                                    <TableCell>
-                                                        <Typography color="textSecondary" variant="subtitle2" fontWeight={400}>
-                                                            {dateTime(rencontre.start)}
-                                                        </Typography>
-                                                    </TableCell>
-                                                    <TableCell>
-                                                        <Typography color="textSecondary" variant="subtitle2" fontWeight={400}>
-                                                            {dateTime(rencontre.end)}
-                                                        </Typography>
-                                                    </TableCell>
-                                                    <TableCell>
-                                                        <CustomDialog 
-                                                                label={`Modifier une rencontre d'une assemblée`} 
-                                                                title={`Formulaire de modification d'une rencontre d'une assemblée`}
-                                                                color={`warning`}
-                                                                style={{margin: 3}}
-                                                                form={<RencontreAssembleeForm rencontre={rencontre} />}
-                                                        ></CustomDialog>
-                                                        <Tooltip title="Liste des personnes présentes à la rencontre">
-                                                            <IconButton
-                                                                variant="contained" 
-                                                                color="primary" 
-                                                                onClick={(e) => navigate(`/rencontre/${rencontre.id}/personnes`)} 
-                                                                style={{margin: 5}}
-                                                            >
-                                                                <IconPlus width={30} height={30} />
-                                                            </IconButton>
-                                                        </Tooltip>
-                                                        <Tooltip title="Livre comptable de la rencontre">
-                                                            <IconButton
-                                                                variant="contained" 
-                                                                color="primary" 
-                                                                onClick={(e) => navigate(`/rencontre/${rencontre.id}/personnes`)} 
-                                                                style={{margin: 5}}
-                                                            >
-                                                                <IconPlus width={30} height={30} />
-                                                            </IconButton>
-                                                        </Tooltip>
-
-                                                        <Tooltip title="Supprimer une rencontre">
-                                                            <IconButton
-                                                                variant="contained" 
-                                                                color="error" 
-                                                                onClick={(e) => deleteRencontre(rencontre.id)} 
-                                                                style={{margin: 5}}
-                                                            >
-                                                                <IconTrash width={30} height={30} />
-                                                            </IconButton>
-                                                        </Tooltip>
-                                                    </TableCell>
-                                                </TableRow>
-                                            ))) :
-                                            (
-                                                <TableRow key={`Aucune`}>
-                                                    <TableCell rowSpan={4}>
-                                                        <Typography color="textSecondary" variant="subtitle2" fontWeight={400}>
-                                                            Aucune rencontres d'assemblée disponibles
-                                                        </Typography>
-                                                    </TableCell>
-                                                </TableRow>
-                                            )
-                                        }
-                                    </TableBody>
-                                </Table>
-                            </TableContainer>
+                                                                    }    
+                                                                </ul>
+                                                            </Typography>
+                                                        </TableCell>
+                                                        <TableCell>
+                                                            <Typography color="textSecondary" variant="subtitle2" fontWeight={400}>
+                                                                {dateTime(rencontre.start)}
+                                                            </Typography>
+                                                        </TableCell>
+                                                        <TableCell>
+                                                            <Typography color="textSecondary" variant="subtitle2" fontWeight={400}>
+                                                                {dateTime(rencontre.end)}
+                                                            </Typography>
+                                                        </TableCell>
+                                                        <TableCell>
+                                                            <CustomDialog 
+                                                                    label={`Modifier une rencontre d'une assemblée`} 
+                                                                    title={`Formulaire de modification d'une rencontre d'une assemblée`}
+                                                                    color={`warning`}
+                                                                    style={{margin: 3}}
+                                                                    form={<RencontreAssembleeForm rencontre={rencontre} />}
+                                                            ></CustomDialog>
+                                                            <Tooltip title="Liste des personnes présentes à la rencontre">
+                                                                <IconButton
+                                                                    variant="contained" 
+                                                                    color="primary" 
+                                                                    onClick={(e) => navigate(`/rencontre/${rencontre.id}/personnes`)} 
+                                                                    style={{margin: 5}}
+                                                                >
+                                                                    <IconPlus width={30} height={30} />
+                                                                </IconButton>
+                                                            </Tooltip>
+                                                            <Tooltip title="Livre comptable de la rencontre">
+                                                                <IconButton
+                                                                    variant="contained" 
+                                                                    color="primary" 
+                                                                    onClick={(e) => navigate(`/rencontre/${rencontre.id}/personnes`)} 
+                                                                    style={{margin: 5}}
+                                                                >
+                                                                    <IconPlus width={30} height={30} />
+                                                                </IconButton>
+                                                            </Tooltip>
+    
+                                                            <Tooltip title="Supprimer une rencontre">
+                                                                <IconButton
+                                                                    variant="contained" 
+                                                                    color="error" 
+                                                                    onClick={(e) => deleteRencontre(rencontre.id)} 
+                                                                    style={{margin: 5}}
+                                                                >
+                                                                    <IconTrash width={30} height={30} />
+                                                                </IconButton>
+                                                            </Tooltip>
+                                                        </TableCell>
+                                                    </TableRow>
+                                                ))) :
+                                                (
+                                                    <TableRow key={`Aucune`}>
+                                                        <TableCell rowSpan={4}>
+                                                            <Typography color="textSecondary" variant="subtitle2" fontWeight={400}>
+                                                                Aucune rencontres d'assemblée disponibles
+                                                            </Typography>
+                                                        </TableCell>
+                                                    </TableRow>
+                                                )
+                                            }
+                                        </TableBody>
+                                    </Table>
+                                </TableContainer>
+                            )
                         )
-                    }                 
+                    }                   
                 </Paper>
             </ParentCard>
         </PageContainer>

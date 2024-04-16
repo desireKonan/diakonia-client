@@ -73,6 +73,11 @@ export function mapParticipant(participant) {
 }
 
 
+export function getName(name) {
+
+}
+
+
 export const LocationType = Object.freeze({
     ZONE: "ZONE",
     SUB_ZONE: "SUB_ZONE",
