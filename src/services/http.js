@@ -1,6 +1,5 @@
 import axios from "axios";
 
-console.log(process.env.DIAKONIA_URL);
 const http = axios.create({
     baseURL: process.env.DIAKONIA_URL ?? 'http://localhost:9002/',
     headers: {

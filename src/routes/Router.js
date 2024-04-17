@@ -12,7 +12,9 @@ const ListeVille = Loadable(lazy(() => import('../views/parameter/ville/VilleLis
 
 const ListeAssemblee = Loadable(lazy(() => import('../views/parameter/assembly/AssemblyList')));
 const ListeMembre = Loadable(lazy(() => import('../views/effective/member/MembreList')));
-//const ListeRencontresAssemblee = Loadable(() => import('../views/parameter/assembly/rencontre/RencontreAssembleeTest'));
+const ListeRencontresAssemblee = Loadable(() => import('../views/parameter/assembly/meeting/RencontreAssembleeList'));
+const LivreComptableAssemblee = Loadable(() => import('../views/parameter/assembly/ligne-financiere/LigneFinanciereList'));
+
 
 const ListeTypeActivite = Loadable(lazy(() => import('../views/parameter/type-activite/TypeActiviteList')));
 
@@ -41,7 +43,8 @@ const Router = [
       { path: '/activite/:id/participants', exact: true, element: <ListeParticipants />},
       { path: '/assemblees', exact: true, element: <ListeAssemblee />},
       { path: '/assemblee/:id/membres', exact: true, element: <ListeMembre />},
-      // { path: '/assemblee/:id/evenements', exact: true, element: <ListeRencontresAssemblee />},
+      { path: '/assemblee/:id/ligne-financieres', exact: true, element: <LivreComptableAssemblee />},
+      //{ path: '/assemblee/:id/evenements', exact: true, element: <ListeRencontresAssemblee />},
       // { path: '/rencontre/:id/ligne-financiere', exact: true, element: <ListeLigneFinancieres />},
       // { path: '/recnontre/:id/personne-presente', exact: true, element: <ListeLigneFinancieres />},
       { path: '/rubriques', exact: true, element: <ListeRubriques />},

@@ -8,6 +8,7 @@ const useFetch = (url = "", initialData) => {
 
     useEffect(() => {
         const fetchData = async (_url) => {
+            console.log(_url);
             try {
                 const response = await http.get(_url);
                 if(response.status === 200) {

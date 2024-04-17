@@ -107,7 +107,7 @@ const RencontreAssembleeList = () => {
                                             </TableRow>
                                         </TableHead>
                                         <TableBody>
-                                            {(assemblees && assemblees.length !== 0) ? (assemblees.map((rencontre) => (
+                                            {(assemblees && assemblees.length !== 0) ? /*(assemblees.map((rencontre) => (
                                                     <TableRow key={rencontre.id}>
                                                         <TableCell>
                                                             <Typography
@@ -187,7 +187,10 @@ const RencontreAssembleeList = () => {
                                                             </Tooltip>
                                                         </TableCell>
                                                     </TableRow>
-                                                ))) :
+                                                )))*/
+                                                (assemblees.map(assemblee => {
+                                                    console.log(assemblee)
+                                                })) :
                                                 (
                                                     <TableRow key={`Aucune`}>
                                                         <TableCell rowSpan={4}>

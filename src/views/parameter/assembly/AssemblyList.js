@@ -113,7 +113,7 @@ const AssemblyList = () => {
                                                                     Liste de membres
                                                                 </Button>
                                                             </Tooltip>
-                                                            {/* <Tooltip title="Gérer la liste des rencontres d'une assemblée">
+                                                            <Tooltip title="Gérer la liste des rencontres d'une assemblée">
                                                                 <Button 
                                                                     variant="contained" 
                                                                     color="secondary" 
@@ -122,7 +122,17 @@ const AssemblyList = () => {
                                                                 > 
                                                                     Liste des rencontres
                                                                 </Button>
-                                                            </Tooltip> */}
+                                                            </Tooltip>
+                                                            <Tooltip title="Livre comptable d'une assemblée">
+                                                                <Button 
+                                                                    variant="contained" 
+                                                                    color="success" 
+                                                                    onClick={(e) => navigate(`/assemblee/${assembly.id}/ligne-financieres`)} 
+                                                                    style={{margin: 5}}
+                                                                > 
+                                                                    Livre comptable
+                                                                </Button>
+                                                            </Tooltip>
                                                             <CustomDialog
                                                                 isIconButton={true}
                                                                 color={true}
