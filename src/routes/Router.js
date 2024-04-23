@@ -8,27 +8,24 @@ const FullLayout = Loadable(lazy(() => import('../layouts/full/FullLayout')));
 
 /* ****Pages***** */
 const Modern = Loadable(lazy(() => import('../views/dashboard/Modern')));
-const ListeVille = Loadable(lazy(() => import('../views/parameter/ville/VilleList')));
+const ListeVille = Loadable(lazy(() => import('../views/main/ville/VilleList')));
 
-const ListeAssemblee = Loadable(lazy(() => import('../views/parameter/assembly/AssemblyList')));
-const ListeMembre = Loadable(lazy(() => import('../views/effective/member/MembreList')));
-const ListeRencontresAssemblee = Loadable(() => import('../views/parameter/assembly/meeting/RencontreAssembleeList'));
-const LivreComptableAssemblee = Loadable(() => import('../views/parameter/assembly/ligne-financiere/LigneFinanciereList'));
+const ListeAssemblee = Loadable(lazy(() => import('../views/main/assembly/AssemblyList')));
+const ListeMembre = Loadable(lazy(() => import('../views/main/member/MembreList')));
+const ListeRencontreAssemblees = Loadable(lazy(() => import('../views/main/assembly/rencontre/RencontreAssembleeList')));
 
+const ListeTypeActivite = Loadable(lazy(() => import('../views/main/type-activite/TypeActiviteList')));
 
-const ListeTypeActivite = Loadable(lazy(() => import('../views/parameter/type-activite/TypeActiviteList')));
+const ListeTypeRencontre = Loadable(lazy(() => import('../views/main/rencontre/TypeRencontreList')));
+const ListeRencontre = Loadable(lazy(() => import('../views/main/rencontre/RencontreList')));
 
-const ListeTypeRencontre = Loadable(lazy(() => import('../views/rencontre/TypeRencontreList')));
-const ListeRencontre = Loadable(lazy(() => import('../views/rencontre/RencontreList')));
+const ListePersonnePresente = Loadable(lazy(() => import('../views/main/rencontre/PersonnePresenteList')));
+const ListeAmes = Loadable(lazy(() => import('../views/main/rencontre/AmeList')));
 
-const ListePersonnePresente = Loadable(lazy(() => import('../views/rencontre/PersonnePresenteList')));
-const ListeAmes = Loadable(lazy(() => import('../views/rencontre/AmeList')));
+const ListeRubriques = Loadable(lazy(() => import('../views/main/finance/RubriqueList')));
 
-const ListeRubriques = Loadable(lazy(() => import('../views/finance/RubriqueList')));
-//const ListeLigneFinancieres = Loadable(lazy(() => import('../views/finance/LigneFinanciereListe'))); 
-
-const ListeActivites = Loadable(lazy(() => import('../views/parameter/activite/ActiviteList')));
-const ListeParticipants = Loadable(lazy(() => import('../views/parameter/activite/participants/ParticipantList')));
+const ListeActivites = Loadable(lazy(() => import('../views/main/activite/ActiviteList')));
+const ListeParticipants = Loadable(lazy(() => import('../views/main/activite/participants/ParticipantList')));
 
 const Router = [
   {
@@ -43,10 +40,7 @@ const Router = [
       { path: '/activite/:id/participants', exact: true, element: <ListeParticipants />},
       { path: '/assemblees', exact: true, element: <ListeAssemblee />},
       { path: '/assemblee/:id/membres', exact: true, element: <ListeMembre />},
-      { path: '/assemblee/:id/ligne-financieres', exact: true, element: <LivreComptableAssemblee />},
-      //{ path: '/assemblee/:id/evenements', exact: true, element: <ListeRencontresAssemblee />},
-      // { path: '/rencontre/:id/ligne-financiere', exact: true, element: <ListeLigneFinancieres />},
-      // { path: '/recnontre/:id/personne-presente', exact: true, element: <ListeLigneFinancieres />},
+      { path: '/assemblee/:id/rencontres', exact: true, element: <ListeRencontreAssemblees />},
       { path: '/rubriques', exact: true, element: <ListeRubriques />},
       { path: '/type-rencontres', exact: true, element: <ListeTypeRencontre />},
       { path: '/rencontres', exact: true, element: <ListeRencontre />},
