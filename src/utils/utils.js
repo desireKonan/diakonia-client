@@ -73,8 +73,28 @@ export function mapParticipant(participant) {
 }
 
 
-export function getName(name) {
-
+export function nameMeeting(type, assemblyName) {
+    let name = '';
+    switch (type) {
+        case MeetingType.CULT:
+            name = `Culte d'adoration et de louange de l'${assemblyName}`;
+            break;
+        case MeetingType.BREAKING_LINK:
+            name = `Brisement de liens de l'${assemblyName}`;
+            break;
+        case MeetingType.COMMON_CULT:
+            name = `Culte commun de l'${assemblyName}`;
+            break;
+        case MeetingType.SPECIAL_MEETING:
+            name = `Rencontre spéciale de l'${assemblyName}`;
+            break;
+        case MeetingType.PRAYER_MEETING:
+            name = `Rencontre de prières de l'${assemblyName}`;
+                break;
+        default:
+            break;
+    }
+    return name;
 }
 
 
