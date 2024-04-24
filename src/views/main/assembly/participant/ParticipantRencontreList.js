@@ -10,22 +10,22 @@ import Breadcrumb from "src/layouts/full/shared/breadcrumb/Breadcrumb";
 
 const ParticipantRencontreList = () => {
     const params = useParams();
-    const {data: assemblee, error, loading } = useFetch(`api/assemblee/${params.id}`, {});
+    const {data: meeting, error, loading } = useFetch(`api/meeting/rencontre/${params.id}`, {});
     const navigate = useNavigate();
     
     const deleteRencontre = async(data) => {
-        await httpAdapter.deleteDatas(`api/assemblee/rencontres/suppression`, data);
+        await httpAdapter.deleteDatas(`api/meeting/rencontre/participants/suppression`, data);
         window.location.reload(true);
     }
 
     return (
-        <PageContainer title={`Liste des rencontres d'assemblée ${assemblee.name}`} description={`Liste des rencontres d'assemblée ${assemblee.name}`}>
-            <Breadcrumb title={`Liste des rencontres d'assemblée ${assemblee.name}`} subtitle={`Liste des rencontres d'assemblée ${assemblee.name}`} />
-            <ParentCard title={`Liste des rencontres d'assemblée ${assemblee.name}`} action={
+        <PageContainer title={`Liste des participants d'une rencontre ${meeting.assemblyName}`} description={`Liste des participants d'une rencontre ${meeting.assemblyName}`}>
+            <Breadcrumb title={`Liste des participants d'une rencontre ${meeting.assemblyName}`} subtitle={`Liste des participants d'une rencontre ${meeting.assemblyName}`} />
+            <ParentCard title={`Liste des participants d'une rencontre ${meeting.assemblyName}`} action={
                 <CustomDialog
-                    label={`Ajouter une rencontre d'assemblée`} 
-                    title={`Formulaire d'ajout d'une rencontre d'assemblée`}
-                    form={<RencontreAssembleeForm assemblyId={assemblee.id} />}
+                    label={`Ajouter un participant à rencontre d'assemblée`} 
+                    title={`Formulaire d'ajout d'un participant à une rencontre d'assemblée`}
+                    form={null}
                 >
                 </CustomDialog>
             }>
@@ -50,22 +50,27 @@ const ParticipantRencontreList = () => {
                                                 </TableCell>
                                                 <TableCell>
                                                     <Typography variant="subtitle2" fontWeight={600}>
-                                                        Libéllé
+                                                        Nom complet
                                                     </Typography>
                                                 </TableCell>
                                                 <TableCell>
                                                     <Typography variant="subtitle2" fontWeight={600}>
-                                                        Type de rencontre   
+                                                        Contacts
                                                     </Typography>
                                                 </TableCell>
                                                 <TableCell>
                                                     <Typography variant="subtitle2" fontWeight={600}>
-                                                        Date de début
+                                                        Sexe
                                                     </Typography>
                                                 </TableCell>
                                                 <TableCell>
                                                     <Typography variant="subtitle2" fontWeight={600}>
-                                                        Date de fin
+                                                        Contacts
+                                                    </Typography>
+                                                </TableCell>
+                                                <TableCell>
+                                                    <Typography variant="subtitle2" fontWeight={600}>
+                                                        Date de naissance
                                                     </Typography>
                                                 </TableCell>
                                                 <TableCell>
@@ -77,8 +82,8 @@ const ParticipantRencontreList = () => {
                                         </TableHead>
                                         <TableBody>
                                             {
-                                                (assemblee && assemblee.meetings) ? (assemblee.meetings.map((meeting) => (
-                                                    <TableRow key={meeting.id}>
+                                                (meeting && meeting.participants) ? (meeting.participants.map((participant) => (
+                                                    <TableRow key={participant.id}>
                                                         <TableCell>
                                                             <Typography
                                                                 sx={{
@@ -86,17 +91,17 @@ const ParticipantRencontreList = () => {
                                                                     fontWeight: "500",
                                                                 }}
                                                             >
-                                                                {meeting.id}
+                                                                {participant.id}
                                                             </Typography>
                                                         </TableCell>
                                                         <TableCell>
                                                             <Typography color="textSecondary" variant="subtitle2" fontWeight={400}>
-                                                                { nameMeeting(meeting.type, assemblee.name) }
+                                                                { participant.fullname }
                                                             </Typography>
                                                         </TableCell>
                                                         <TableCell>
                                                             <Typography color="textSecondary" variant="subtitle2" fontWeight={400}>
-                                                                { meeting.type }
+                                                                { participant.type }
                                                             </Typography>
                                                         </TableCell>
                                                         <TableCell>
@@ -125,7 +130,7 @@ const ParticipantRencontreList = () => {
                                                                 color={true}
                                                                 label={`Ajouter une rencontre d'assemblée`} 
                                                                 title={`Formulaire d'ajout d'une rencontre d'assemblée`}
-                                                                form={<RencontreAssembleeForm assemblyId={assemblee.id} rencontre={meeting} />}
+                                                                form={<RencontreAssembleeForm assemblyId={meeting.id} rencontre={meeting} />}
                                                             >
                                                             </CustomDialog>
                                                             <Tooltip title="Supprimer une rencontre">
@@ -133,7 +138,7 @@ const ParticipantRencontreList = () => {
                                                                         variant="contained" 
                                                                         color="error" 
                                                                         onClick={(e) => deleteRencontre({
-                                                                            assemblyId: assemblee.id,
+                                                                            assemblyId: meeting.id,
                                                                             meetingIds: [meeting.id]
                                                                         })} 
                                                                         style={{margin: 5}}
