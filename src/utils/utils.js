@@ -22,7 +22,7 @@ export function dateTime(dateTime) {
         } else {
             newDate = dateTime;
         }
-        return moment(newDate).format('yyyy-MM-DDTHH:mm:ss');
+        return moment(newDate).format('yyyy-MM-DDThh:mm:ss');
     } 
     return 'Aucune Date';
 }

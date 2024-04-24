@@ -1,30 +1,14 @@
-import {  
-    Typography,
-    Table,
-    TableBody,
-    TableCell,
-    TableHead,  
-    TableRow,
-    Paper,
-    TableContainer,
-    Tooltip,
-    IconButton,
-    Button
-} from "@mui/material";
-import ParentCard from "src/components/shared/ParentCard";
-import PageContainer from "src/components/container/PageContainer";
-import Breadcrumb from "src/layouts/full/shared/breadcrumb/Breadcrumb";
-import useFetch from "src/app/services/useFetch";
-import { useNavigate, useParams } from "react-router";
-import CustomDialog from "src/components/custom/CustomDialog";
+import { Button, IconButton, Paper, Table, TableCell, TableContainer, TableHead, TableRow, Tooltip, Typography } from "@mui/material";
 import { IconTrash } from "@tabler/icons";
-import { uniqueId } from "lodash";
+import { useNavigate, useParams } from "react-router";
 import { httpAdapter } from "src/app/services/http-adapter.service";
-import { dateTime, nameMeeting } from "src/utils/utils";
-import RencontreAssembleeForm from "./RencontreAssembleeForm";
+import useFetch from "src/app/services/useFetch";
+import PageContainer from "src/components/container/PageContainer";
+import CustomDialog from "src/components/custom/CustomDialog";
+import ParentCard from "src/components/shared/ParentCard";
+import Breadcrumb from "src/layouts/full/shared/breadcrumb/Breadcrumb";
 
-
-const RencontreList = () => {
+const ParticipantRencontreList = () => {
     const params = useParams();
     const {data: assemblee, error, loading } = useFetch(`api/assemblee/${params.id}`, {});
     const navigate = useNavigate();
@@ -182,4 +166,4 @@ const RencontreList = () => {
 }
 
 
-export default RencontreList;
+export default ParticipantRencontreList;
