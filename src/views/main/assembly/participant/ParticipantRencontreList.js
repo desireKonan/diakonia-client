@@ -1,8 +1,7 @@
-import { Button, IconButton, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Tooltip, Typography } from "@mui/material";
+import { IconButton, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Tooltip, Typography } from "@mui/material";
 import { IconTrash } from "@tabler/icons";
 import { uniqueId } from "lodash";
-import { useNavigate, useParams } from "react-router";
-//import { httpAdapter } from "src/app/services/http-adapter.service";
+import { useParams } from "react-router";
 import useFetch from "src/app/services/useFetch";
 import PageContainer from "src/components/container/PageContainer";
 import CustomDialog from "src/components/custom/CustomDialog";
