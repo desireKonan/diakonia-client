@@ -77,19 +77,19 @@ export function nameMeeting(type, assemblyName) {
     let name = '';
     switch (type) {
         case MeetingType.CULT:
-            name = `Culte d'adoration et de louange de l'${assemblyName}`;
+            name = `Culte d'adoration et de louange de l'assemblée ${assemblyName}`;
             break;
         case MeetingType.BREAKING_LINK:
-            name = `Brisement de liens de l'${assemblyName}`;
+            name = `Brisement de liens de l'assemblée ${assemblyName}`;
             break;
         case MeetingType.COMMON_CULT:
-            name = `Culte commun de l'${assemblyName}`;
+            name = `Culte commun de l'assemblée ${assemblyName}`;
             break;
         case MeetingType.SPECIAL_MEETING:
-            name = `Rencontre spéciale de l'${assemblyName}`;
+            name = `Rencontre spéciale de l'assemblée ${assemblyName}`;
             break;
         case MeetingType.PRAYER_MEETING:
-            name = `Rencontre de prières de l'${assemblyName}`;
+            name = `Rencontre de prières de l'assemblée ${assemblyName}`;
                 break;
         default:
             break;

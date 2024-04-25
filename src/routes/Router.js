@@ -13,6 +13,7 @@ const ListeVille = Loadable(lazy(() => import('../views/main/ville/VilleList')))
 const ListeAssemblee = Loadable(lazy(() => import('../views/main/assembly/AssemblyList')));
 const ListeMembre = Loadable(lazy(() => import('../views/main/member/MembreList')));
 const ListeRencontreAssemblees = Loadable(lazy(() => import('../views/main/assembly/rencontre/RencontreAssembleeList')));
+const ListeParticipantRencontres = Loadable(lazy(() => import('../views/main/assembly/participant/ParticipantRencontreList')));
 
 const ListeTypeActivite = Loadable(lazy(() => import('../views/main/type-activite/TypeActiviteList')));
 
@@ -41,7 +42,7 @@ const Router = [
       { path: '/assemblees', exact: true, element: <ListeAssemblee />},
       { path: '/assemblee/:id/membres', exact: true, element: <ListeMembre />},
       { path: '/assemblee/:id/rencontres', exact: true, element: <ListeRencontreAssemblees />},
-      { path: '/rencontre/:id/participants', exact: true, element: <ListeRencontreAssemblees />},
+      { path: '/rencontre/:id/participants', exact: true, element: <ListeParticipantRencontres />},
       { path: '/rubriques', exact: true, element: <ListeRubriques />},
       { path: '/type-rencontres', exact: true, element: <ListeTypeRencontre />},
       { path: '/rencontres', exact: true, element: <ListeRencontre />},

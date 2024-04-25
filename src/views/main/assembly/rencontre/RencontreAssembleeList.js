@@ -93,7 +93,7 @@ const RencontreList = () => {
                                         </TableHead>
                                         <TableBody>
                                             {
-                                                (assemblee && assemblee.meetings) ? (assemblee.meetings.map((meeting) => (
+                                                (assemblee && (assemblee.meetings && assemblee.meetings.length !== 0)) ? (assemblee.meetings.map((meeting) => (
                                                     <TableRow key={meeting.id}>
                                                         <TableCell>
                                                             <Typography

@@ -1,31 +1,34 @@
-import { Button, IconButton, Paper, Table, TableCell, TableContainer, TableHead, TableRow, Tooltip, Typography } from "@mui/material";
+import { Button, IconButton, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Tooltip, Typography } from "@mui/material";
 import { IconTrash } from "@tabler/icons";
+import { uniqueId } from "lodash";
 import { useNavigate, useParams } from "react-router";
-import { httpAdapter } from "src/app/services/http-adapter.service";
+//import { httpAdapter } from "src/app/services/http-adapter.service";
 import useFetch from "src/app/services/useFetch";
 import PageContainer from "src/components/container/PageContainer";
 import CustomDialog from "src/components/custom/CustomDialog";
 import ParentCard from "src/components/shared/ParentCard";
 import Breadcrumb from "src/layouts/full/shared/breadcrumb/Breadcrumb";
+import { date, nameMeeting } from "src/utils/utils";
+import ParticipantRencontreForm from "./ParticipantRencontreForm";
+import { httpAdapter } from "src/app/services/http-adapter.service";
 
 const ParticipantRencontreList = () => {
     const params = useParams();
-    const {data: meeting, error, loading } = useFetch(`api/meeting/rencontre/${params.id}`, {});
-    const navigate = useNavigate();
+    const {data: meeting, error, loading } = useFetch(`api/assemblee/rencontre/${params.id}`, {});
     
-    const deleteRencontre = async(data) => {
-        await httpAdapter.deleteDatas(`api/meeting/rencontre/participants/suppression`, data);
+    const deleteParticipant = async(data) => {
+        await httpAdapter.deleteDatas(`api/assemblee/rencontre/participants/suppression`, data);
         window.location.reload(true);
     }
-
+    
     return (
-        <PageContainer title={`Liste des participants d'une rencontre ${meeting.assemblyName}`} description={`Liste des participants d'une rencontre ${meeting.assemblyName}`}>
-            <Breadcrumb title={`Liste des participants d'une rencontre ${meeting.assemblyName}`} subtitle={`Liste des participants d'une rencontre ${meeting.assemblyName}`} />
-            <ParentCard title={`Liste des participants d'une rencontre ${meeting.assemblyName}`} action={
+        <PageContainer title={`Liste des participants - ${nameMeeting(meeting.type, meeting.assemblyName)}`} description={`Liste des participants - ${nameMeeting(meeting.type, meeting.assemblyName)}`}>
+            <Breadcrumb title={`Liste des participants - ${nameMeeting(meeting.type, meeting.assemblyName)}`} subtitle={`Liste des participants - ${nameMeeting(meeting.type, meeting.assemblyName)}`} />
+            <ParentCard title={`Liste des participants - ${nameMeeting(meeting.type, meeting.assemblyName)}`} action={
                 <CustomDialog
                     label={`Ajouter un participant à rencontre d'assemblée`} 
                     title={`Formulaire d'ajout d'un participant à une rencontre d'assemblée`}
-                    form={null}
+                    form={<ParticipantRencontreForm meetingId={meeting.id} />}
                 >
                 </CustomDialog>
             }>
@@ -55,12 +58,12 @@ const ParticipantRencontreList = () => {
                                                 </TableCell>
                                                 <TableCell>
                                                     <Typography variant="subtitle2" fontWeight={600}>
-                                                        Contacts
+                                                        Sexe
                                                     </Typography>
                                                 </TableCell>
                                                 <TableCell>
                                                     <Typography variant="subtitle2" fontWeight={600}>
-                                                        Sexe
+                                                        Type de personne
                                                     </Typography>
                                                 </TableCell>
                                                 <TableCell>
@@ -82,7 +85,7 @@ const ParticipantRencontreList = () => {
                                         </TableHead>
                                         <TableBody>
                                             {
-                                                (meeting && meeting.participants) ? (meeting.participants.map((participant) => (
+                                                (meeting && (meeting.participants instanceof Array)) ? (meeting.participants.map((participant) => (
                                                     <TableRow key={participant.id}>
                                                         <TableCell>
                                                             <Typography
@@ -101,45 +104,46 @@ const ParticipantRencontreList = () => {
                                                         </TableCell>
                                                         <TableCell>
                                                             <Typography color="textSecondary" variant="subtitle2" fontWeight={400}>
+                                                                { participant.sex }
+                                                            </Typography>
+                                                        </TableCell>
+                                                        <TableCell>
+                                                            <Typography color="textSecondary" variant="subtitle2" fontWeight={400}>
                                                                 { participant.type }
                                                             </Typography>
                                                         </TableCell>
                                                         <TableCell>
                                                             <Typography color="textSecondary" variant="subtitle2" fontWeight={400}>
-                                                                { dateTime(meeting.start) }
+                                                                <ul>
+                                                                    {
+                                                                        participant.contacts.map(contact => (
+                                                                            <li key={contact}> {contact} </li>
+                                                                        ))
+                                                                    }
+                                                                </ul>
                                                             </Typography>
                                                         </TableCell>
                                                         <TableCell>
                                                             <Typography color="textSecondary" variant="subtitle2" fontWeight={400}>
-                                                                { dateTime(meeting.end) }
+                                                                { date(participant.birthdate) }
                                                             </Typography>
                                                         </TableCell>
                                                         <TableCell>
-                                                            <Tooltip title="Voir la liste des participants à la rencontre">
-                                                                <Button 
-                                                                    variant="contained" 
-                                                                    color="primary" 
-                                                                    onClick={(e) => navigate(`/rencontre/${meeting.id}/participants`)} 
-                                                                    style={{margin: 5}}
-                                                                > 
-                                                                    Liste de participants
-                                                                </Button>
-                                                            </Tooltip>
                                                             <CustomDialog
                                                                 isIconButton={true}
                                                                 color={true}
-                                                                label={`Ajouter une rencontre d'assemblée`} 
-                                                                title={`Formulaire d'ajout d'une rencontre d'assemblée`}
-                                                                form={<RencontreAssembleeForm assemblyId={meeting.id} rencontre={meeting} />}
+                                                                label={`Ajouter un participant à la rencontre d'assemblée`} 
+                                                                title={`Formulaire d'ajout d'un participant à la d'une rencontre d'assemblée`}
+                                                                form={<ParticipantRencontreForm meetingId={meeting.id} participant={participant} />}
                                                             >
                                                             </CustomDialog>
-                                                            <Tooltip title="Supprimer une rencontre">
+                                                            <Tooltip title="Supprimer un participant">
                                                                     <IconButton
                                                                         variant="contained" 
                                                                         color="error" 
-                                                                        onClick={(e) => deleteRencontre({
-                                                                            assemblyId: meeting.id,
-                                                                            meetingIds: [meeting.id]
+                                                                        onClick={(e) => deleteParticipant({
+                                                                            meetingId: meeting.id, 
+                                                                            participantIds: [participant.id]
                                                                         })} 
                                                                         style={{margin: 5}}
                                                                     >
@@ -150,9 +154,9 @@ const ParticipantRencontreList = () => {
                                                     </TableRow>
                                                 ))) : (
                                                     <TableRow key={`${uniqueId()}`}>
-                                                        <TableCell rowSpan={4}>
-                                                            <Typography color="textSecondary" variant="subtitle2" fontWeight={400}>
-                                                                Aucunes assemblées disponibles
+                                                        <TableCell rowSpan={7}>
+                                                            <Typography color="textSecondary" variant="subtitle2" fontWeight={400} justifyContent='center'>
+                                                                Aucuns participants disponibles
                                                             </Typography>
                                                         </TableCell>
                                                     </TableRow>
