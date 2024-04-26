@@ -70,6 +70,21 @@ const Menuitems = [
   },
   {
     id: uniqueId(),
+    title: 'Rubriques',
+    icon: IconHome,
+    href: '/#/',
+    children: [
+      {
+        id: uniqueId(),
+        title: 'Rubriques financières',
+        icon: IconPoint,
+        href: '/rubriques',
+        chipColor: 'secondary',
+      }
+    ],
+  },
+  {
+    id: uniqueId(),
     title: 'Rencontre',
     icon: IconMeteor,
     href: '/#/',

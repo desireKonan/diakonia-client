@@ -136,6 +136,16 @@ const RencontreList = () => {
                                                                     Liste de participants
                                                                 </Button>
                                                             </Tooltip>
+                                                            <Tooltip title="Livre comptable">
+                                                                <Button 
+                                                                    variant="contained" 
+                                                                    color="primary" 
+                                                                    onClick={(e) => navigate(`/rencontre/${meeting.id}/ligne-financieres`)} 
+                                                                    style={{margin: 5}}
+                                                                > 
+                                                                    Livre comptable
+                                                                </Button>
+                                                            </Tooltip>
                                                             <CustomDialog
                                                                 isIconButton={true}
                                                                 color={true}
