@@ -29,7 +29,6 @@ const saveLigneFinanciere = async(values, meetingId) => {
 
 
 const LigneFinanciereRencontreForm = ({ ligneFinanciere, meetingId }) => {
-    console.log(meetingId);
     const formik = useFormik({
         initialValues: {
             id: ligneFinanciere ? ligneFinanciere.id : '',

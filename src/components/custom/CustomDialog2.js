@@ -22,19 +22,19 @@ const useDialogEvent = () => {
 }
 
 
-const CustomDialog2 = ({ title, form }) => {
-    const { open, closeDialog } = useDialogEvent();
-
+const CustomDialog2 = ({ title, form, open = false, closeDialog = () => {}}) => {
     return (
-        <Dialog fullWidth={true} open={open} maxWidth={'lg'} onClose={closeDialog}>
-            <Breadcrumb title={ title }/>
-            <DialogContent>
-                { form }
-            </DialogContent>
-            <DialogActions>
-                <Button color="error" onClick={closeDialog}>Cancel</Button>
-            </DialogActions>
-        </Dialog>
+        <>
+            <Dialog fullWidth={true} open={open} maxWidth={'lg'} onClose={closeDialog}>
+                <Breadcrumb title={ title }/>
+                <DialogContent>
+                    { form }
+                </DialogContent>
+                <DialogActions>
+                    <Button color="error" onClick={closeDialog}>Cancel</Button>
+                </DialogActions>
+            </Dialog>
+        </>
     );
 }
 

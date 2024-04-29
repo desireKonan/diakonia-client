@@ -24,7 +24,7 @@ const LigneFinanciereRencontreList = () => {
     const { data: rencontre, loading, error } = useFetch(`/api/assemblee/rencontre/${params.id}`, {});
     const { data: financialLines } = useFetch(`/api/assemblee/rencontre/${params.id}/ligne-financieres`, {});
     const { data: rubriques } = useFetch(`/api/rubrique-financiere`, []);
-    const { openDialog } = useDialogEvent(); 
+    const { open, openDialog, closeDialog } = useDialogEvent(); 
 
     return (
         <>
@@ -86,10 +86,7 @@ const LigneFinanciereRencontreList = () => {
                                                             </TableCell>
                                                             {
                                                                 rubriques.map(rubrique => (
-                                                                    <TableCell onClick={(e) => {
-                                                                        openDialog();
-                                                                        console.log(e);
-                                                                    }}>
+                                                                    <TableCell onClick={openDialog}>
                                                                         <Typography variant="subtitle2" fontWeight={600}>
                                                                             { 
                                                                                 financialLine.amounts[rubrique.label] ?? 0
@@ -101,6 +98,8 @@ const LigneFinanciereRencontreList = () => {
                                                             <CustomDialog2  
                                                                 title={`Formulaire de sauvegarder d'une ligne financières`}
                                                                 form={<LigneFinanciereRencontreForm meetingId={rencontre.id} ligneFinanciere={financialLine} />}
+                                                                open={open}
+                                                                closeDialog={closeDialog}
                                                             />
                                                         </TableRow>
                                                     )) : (
