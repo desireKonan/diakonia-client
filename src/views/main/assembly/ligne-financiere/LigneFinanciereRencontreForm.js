@@ -8,9 +8,9 @@ import { useFormik } from "formik";
 import { httpAdapter } from "src/app/services/http-adapter.service";
 import useFetch from "src/app/services/useFetch";
 
-const saveLigneFinanciere = async(values, assemblyId) => {
+const saveLigneFinanciere = async(values, meetingId) => {
     var ligneFinanciere = await httpAdapter.saveData(`api/assemblee/ligne-financiere`, {
-        assemblyId: assemblyId,
+        meetingId: meetingId,
         financialLines: [
             {
                 id: values['id'],
@@ -28,7 +28,8 @@ const saveLigneFinanciere = async(values, assemblyId) => {
 }
 
 
-const LigneFinanciereForm = ({ ligneFinanciere, assemblyId }) => {
+const LigneFinanciereRencontreForm = ({ ligneFinanciere, meetingId }) => {
+    console.log(meetingId);
     const formik = useFormik({
         initialValues: {
             id: ligneFinanciere ? ligneFinanciere.id : '',
@@ -37,7 +38,7 @@ const LigneFinanciereForm = ({ ligneFinanciere, assemblyId }) => {
             amount: ligneFinanciere ? ligneFinanciere.amount : 0.0
         },
         onSubmit: (values) => {
-            saveLigneFinanciere(values, assemblyId);
+            saveLigneFinanciere(values, meetingId);
         },
     });
     const { data: rubriques } = useFetch('/api/rubrique-financiere', []);
@@ -106,4 +107,4 @@ const LigneFinanciereForm = ({ ligneFinanciere, assemblyId }) => {
     );
 }
 
-export default LigneFinanciereForm;
+export default LigneFinanciereRencontreForm;
