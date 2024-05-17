@@ -1,7 +1,7 @@
 import axios from "axios";
 
 const http = axios.create({
-    baseURL: process.env.DIAKONIA_URL ?? 'http://localhost:9002/',
+    baseURL: process.env.REACT_APP_DIAKONIA_URL,
     headers: {
         "X-DIAKONIA-API-Version": 1,
         "Accept": "application/json",

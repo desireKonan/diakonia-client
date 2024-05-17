@@ -24,7 +24,7 @@ import { httpAdapter } from "src/app/services/http-adapter.service";
 
 const RencontrePresenteList = () => {
     const params = useParams();
-    const {data: rencontre, error, loading } = useFetch(`/api/rencontre/${params.id}`, {});
+    const {data: rencontre } = useFetch(`/api/rencontre/${params.id}`, {});
 
     const deletePersonne = (data) => {
         httpAdapter.deleteDatas(`api/rencontre/personnes/supprimer`, data);

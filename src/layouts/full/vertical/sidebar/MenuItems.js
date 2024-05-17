@@ -2,7 +2,7 @@ import {
   IconPoint,
   IconMail,
   IconUserCircle,
-  IconList,
+  //IconList,
   IconHome,
   IconDashboard,
   IconMeteor
