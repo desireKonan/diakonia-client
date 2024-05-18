@@ -107,6 +107,28 @@ const Menuitems = [
   },
   {
     id: uniqueId(),
+    title: 'Statistiques',
+    icon: IconMeteor,
+    href: '/#/',
+    children: [
+      {
+        id: uniqueId(),
+        title: 'Meeting',
+        icon: IconPoint,
+        href: '/statistique/rencontre',
+        chipColor: 'secondary',
+      },
+      {
+        id: uniqueId(),
+        title: 'Type de rencontres',
+        icon: IconPoint,
+        href: '/type-rencontres',
+        chipColor: 'secondary',
+      }
+    ],
+  },
+  {
+    id: uniqueId(),
     title: 'Utilisateurs',
     icon: IconUserCircle,
     href: '/user-profile',
