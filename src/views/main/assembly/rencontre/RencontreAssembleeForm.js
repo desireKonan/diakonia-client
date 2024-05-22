@@ -20,6 +20,12 @@ const saveRencontre = async(values, assemblyId) => {
             {
                 id: values['id'],
                 type: values['type'],
+                details: {
+                    adultCount: values['adult_count'],
+                    childCount: values['child_count'],
+                    guestCount: values['guest_count'],
+                    visitorCount: values['visitor_count']
+                },
                 start: values['start'],
                 end: values['end']
             }
@@ -37,6 +43,10 @@ const RencontreAssembleeForm = ({ rencontre, assemblyId }) => {
         initialValues: {
             id: rencontre ? rencontre.id : '',
             type: rencontre ? rencontre.type : '',
+            adult_count: rencontre ? rencontre.details['adultCount'] : 0,
+            child_count: rencontre ? rencontre.details['childCount'] : 0,
+            guest_count: rencontre ? rencontre.details['guestCount'] : 0,
+            visitor_count: rencontre ? rencontre.details['visitorCount'] : 0,
             start: rencontre ? dateTime(rencontre.start) : null,
             end: rencontre ? dateTime(rencontre.end) : null,
         },
@@ -69,60 +79,117 @@ const RencontreAssembleeForm = ({ rencontre, assemblyId }) => {
                         }   
                     </CustomSelect>
                 </Box>
+
+                <Grid container spacing={2}>
+                    <Grid item xs={6} md={6}>
+                        <CustomFormLabel>Nombre d'adultes (frères)</CustomFormLabel>
+                        <CustomTextField
+                            fullWidth 
+                            id="adult_count"
+                            name="adult_count"
+                            type="number"
+                            value={formik.values.adult_count}
+                            onChange={formik.handleChange}
+                            error={formik.touched.adult_count && Boolean(formik.errors.adult_count)}
+                            helperText={formik.touched.adult_count && formik.errors.adult_count}
+                        />
+                    </Grid>
+                    <Grid item xs={6} md={6}>
+                        <CustomFormLabel>Nombre d'enfants (frères)</CustomFormLabel>
+                        <CustomTextField 
+                            fullWidth
+                            id="child_count"
+                            name="child_count"
+                            type="number"
+                            value={formik.values.child_count}
+                            onChange={formik.handleChange}
+                            error={formik.touched.child_count && Boolean(formik.errors.child_count)}
+                            helperText={formik.touched.child_count && formik.errors.child_count}
+                        />
+                    </Grid>
+                    <Grid item xs={6} md={6}>
+                        <CustomFormLabel>Nombre d'invités</CustomFormLabel>
+                        <CustomTextField 
+                            fullWidth
+                            id="guest_count"
+                            name="guest_count"
+                            type="number"
+                            value={formik.values.guest_count}
+                            onChange={formik.handleChange}
+                            error={formik.touched.guest_count && Boolean(formik.errors.guest_count)}
+                            helperText={formik.touched.guest_count && formik.errors.guest_count}
+                        />
+                    </Grid>
+                    <Grid item xs={6} md={6}>
+                        <CustomFormLabel>Nombre de visiteurs</CustomFormLabel>
+                        <CustomTextField 
+                            fullWidth
+                            type="number"
+                            id="visitor_count"
+                            name="visitor_count"
+                            value={formik.values.visitor_count}
+                            onChange={formik.handleChange}
+                            error={formik.touched.visitor_count && Boolean(formik.errors.visitor_count)}
+                            helperText={formik.touched.visitor_count && formik.errors.visitor_count}
+                        />
+                    </Grid>
+                </Grid>
+
+                <Grid container spacing={2}>
+                    <Grid item xs={6} md={6}>
+                        <CustomFormLabel htmlFor="start">Date de départ</CustomFormLabel>
+                        <LocalizationProvider dateAdapter={AdapterDateFns}>
+                            <DateTimePicker
+                                id="start" 
+                                name="start"
+                                renderInput={(props) => <CustomTextField id="start" name="start" {...props} fullWidth size="large" sx={{
+                                        '& .MuiSvgIcon-root': {
+                                            width: 18,
+                                            height: 18,
+                                        },
+                                        '& .MuiFormHelperText-root': {
+                                            display: 'none',
+                                        },
+                                    }}
+                                />}
+                                placeholder="Entrez la date de depart"
+                                value={formik.values.start}
+                                onChange={(newValue) => {
+                                    var start = dateTime(newValue);
+                                    console.log(start);
+                                    formik.setFieldValue('start', start);
+                                }}
+                            />
+                        </LocalizationProvider>
+                    </Grid>
+                    <Grid item xs={6} md={6}>
+                        <CustomFormLabel htmlFor="end">Date de fin</CustomFormLabel>
+                        <LocalizationProvider dateAdapter={AdapterDateFns}>
+                            <DateTimePicker
+                                id="end" 
+                                name="end"
+                                renderInput={(props) => <CustomTextField id="end" name="end" {...props} fullWidth size="large" sx={{
+                                        '& .MuiSvgIcon-root': {
+                                            width: 18,
+                                            height: 18,
+                                        },
+                                        '& .MuiFormHelperText-root': {
+                                            display: 'none',
+                                        },
+                                    }}
+                                />}
+                                placeholder="Entrez la date de fin"
+                                value={formik.values.end}
+                                onChange={(newValue) => {
+                                    var end = dateTime(newValue); 
+                                    console.log(end);
+                                    formik.setFieldValue('end', end);
+                                }}
+                            />
+                        </LocalizationProvider>
+                    </Grid>    
+                </Grid>    
                 
-                        
-                <Grid item xs={12} sm={12} lg={6}>
-                    <CustomFormLabel htmlFor="start">Date de départ</CustomFormLabel>
-                    <LocalizationProvider dateAdapter={AdapterDateFns}>
-                        <DateTimePicker
-                            id="start" 
-                            name="start"
-                            renderInput={(props) => <CustomTextField id="start" name="start" {...props} fullWidth size="large" sx={{
-                                    '& .MuiSvgIcon-root': {
-                                        width: 18,
-                                        height: 18,
-                                    },
-                                    '& .MuiFormHelperText-root': {
-                                        display: 'none',
-                                    },
-                                }}
-                            />}
-                            placeholder="Entrez la date de depart"
-                            value={formik.values.start}
-                            onChange={(newValue) => {
-                                var start = dateTime(newValue);
-                                console.log(start);
-                                formik.setFieldValue('start', start);
-                            }}
-                        />
-                    </LocalizationProvider>
-                </Grid>
-                <Grid item xs={12} sm={12} lg={6}>
-                    <CustomFormLabel htmlFor="end">Date de fin</CustomFormLabel>
-                    <LocalizationProvider dateAdapter={AdapterDateFns}>
-                        <DateTimePicker
-                            id="end" 
-                            name="end"
-                            renderInput={(props) => <CustomTextField id="end" name="end" {...props} fullWidth size="large" sx={{
-                                    '& .MuiSvgIcon-root': {
-                                        width: 18,
-                                        height: 18,
-                                    },
-                                    '& .MuiFormHelperText-root': {
-                                        display: 'none',
-                                    },
-                                }}
-                            />}
-                            placeholder="Entrez la date de fin"
-                            value={formik.values.end}
-                            onChange={(newValue) => {
-                                var end = dateTime(newValue); 
-                                console.log(end);
-                                formik.setFieldValue('end', end);
-                            }}
-                        />
-                    </LocalizationProvider>
-                </Grid>
                 
                 <Box mt={2}>
                     <Button color={ rencontre ? "warning" : "primary"} variant="contained" type="submit">

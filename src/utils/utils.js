@@ -14,6 +14,7 @@ export function instant(dateTime) {
 
 export function dateTime(dateTime) {
     var newDate = null;
+    console.log(dateTime);
     if(dateTime) {
         if((dateTime instanceof Number || dateTime instanceof String)) {
             return new Date(dateTime);
@@ -22,9 +23,15 @@ export function dateTime(dateTime) {
         } else {
             newDate = dateTime;
         }
+        console.log(dateTime);
         return moment(newDate).format('yyyy-MM-DDThh:mm:ss');
     } 
     return 'Aucune Date';
+}
+
+export function date(dateTime) {
+    return new moment(new Date(dateTime))
+        .format('DD-MM-yyyy');
 }
 
 export function instantTime(dateTime) {
