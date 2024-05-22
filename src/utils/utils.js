@@ -12,57 +12,21 @@ export function instant(dateTime) {
     return new Date(dateTime).toUTCString();
 }
 
-export function dateTime(dateTime) {
-    var newDate = null;
-    console.log(dateTime);
-    if(dateTime) {
-        if((dateTime instanceof Number || dateTime instanceof String)) {
-            return new Date(dateTime);
-        } else if(dateTime instanceof Array) {
-            newDate = new Date(...dateTime);
-        } else {
-            newDate = dateTime;
-        }
-        console.log(dateTime);
-        return moment(newDate).format('yyyy-MM-DDThh:mm:ss');
-    } 
-    return 'Aucune Date';
+export function dateTime(datetime) {
+    return moment(datetime, 'DD-MM-yyyy hh:mm:ss').format('yyyy-MM-DDThh:mm:ss');
 }
 
-export function date(dateTime) {
-    return new moment(new Date(dateTime))
-        .format('DD-MM-yyyy');
+export function dateTimeView(dateTime) {
+    return moment(dateTime, 'DD-MM-yyyy hh:mm:ss').format('DD-MM-yyyy hh:mm:ss');
 }
 
 export function instantTime(dateTime) {
-    var newDate = null;
-    if(dateTime) {
-        if((dateTime instanceof Number || dateTime instanceof String)) {
-            return new Date(dateTime);
-        } else if(dateTime instanceof Array) {
-            newDate = new Date(...dateTime);
-        } else {
-            newDate = dateTime;
-        }
-        return moment(newDate).format('yyyy-MM-DDTHH:mm:ss.sssZ');
-    } 
-    return 'Aucune Date';
+    return moment(dateTime, 'yyyy-MM-DDTHH:mm:ss.sssZ').format('yyyy-MM-DDTHH:mm:ss.sssZ');
 }
 
 
 export function date(dateValue) {
-    var newDate = null;
-    if(dateValue) {
-        if(dateValue instanceof Number || dateValue instanceof String) {
-            newDate = new Date(dateValue);
-        } else if(dateValue instanceof Array) {
-            newDate = new Date(...dateValue);
-        } else {
-            newDate = dateValue;
-        }
-        return moment(newDate).format('yyyy-MM-DD');
-    } 
-    return 'Aucune date';
+    return moment(dateValue, 'MM-DD-yyyy').format('yyyy-MM-DD');
 }
 
 

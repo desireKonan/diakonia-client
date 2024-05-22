@@ -20,7 +20,7 @@ import CustomDialog from "src/components/custom/CustomDialog";
 import { IconTrash } from "@tabler/icons";
 import { uniqueId } from "lodash";
 import { httpAdapter } from "src/app/services/http-adapter.service";
-import { dateTime, dateTimeDefault, nameMeeting } from "src/utils/utils";
+import { nameMeeting, dateTimeView } from "src/utils/utils";
 import RencontreAssembleeForm from "./RencontreAssembleeForm";
 
 
@@ -127,12 +127,12 @@ const RencontreList = () => {
                                                         </TableCell>
                                                         <TableCell>
                                                             <Typography color="textSecondary" variant="subtitle2" fontWeight={400}>
-                                                                { "" }
+                                                                { dateTimeView(meeting.start) }
                                                             </Typography>
                                                         </TableCell>
                                                         <TableCell>
                                                             <Typography color="textSecondary" variant="subtitle2" fontWeight={400}>
-                                                                { "" }
+                                                                { dateTimeView(meeting.end) }
                                                             </Typography>
                                                         </TableCell>
                                                         <TableCell>
