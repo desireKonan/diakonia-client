@@ -29,6 +29,10 @@ export function date(dateValue) {
     return moment(dateValue, 'MM-DD-yyyy').format('yyyy-MM-DD');
 }
 
+export function date2(dateVal) {
+    return moment(dateVal).format('yyyy-MM-DD');
+}
+
 
 export function mapParticipant(participant) {
     return ({
