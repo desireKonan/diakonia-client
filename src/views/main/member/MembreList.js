@@ -16,7 +16,7 @@ import ParentCard from "src/components/shared/ParentCard";
 import useFetch from "src/app/services/useFetch";
 import { uniqueId } from "lodash";
 import { httpAdapter } from "src/app/services/http-adapter.service";
-import { date, dateTime } from "src/utils/utils";
+import { date, date3, dateTime, dateTimeView } from "src/utils/utils";
 import CustomDialog from "src/components/custom/CustomDialog";
 import Tooltip from '@mui/material/Tooltip';
 import MembreForm from "./MembreForm";
@@ -137,7 +137,7 @@ const MemberList = () => {
                                                         </TableCell>
                                                         <TableCell>
                                                             <Typography color="textSecondary" variant="subtitle2" fontWeight={400}>
-                                                                { date(member.birthDate) }
+                                                                { date3(member.birthDate) }
                                                             </Typography>
                                                         </TableCell>
                                                         <TableCell>
@@ -171,17 +171,17 @@ const MemberList = () => {
                                                         </TableCell>
                                                         <TableCell>
                                                             <Typography color="textSecondary" variant="subtitle2" fontWeight={400}>
-                                                                {dateTime(member.establishedAt)}
+                                                                {dateTimeView(member.establishedAt)}
                                                             </Typography>
                                                         </TableCell>
                                                         <TableCell>
                                                             <Typography color="textSecondary" variant="subtitle2" fontWeight={400}>
-                                                                {dateTime(member.rejoinedAt)}
+                                                                {dateTimeView(member.rejoinedAt)}
                                                             </Typography>
                                                         </TableCell>
                                                         <TableCell>
                                                             <Typography color="textSecondary" variant="subtitle2" fontWeight={400}>
-                                                                {dateTime(member.leftAt)}
+                                                                {dateTimeView(member.leftAt)}
                                                             </Typography>
                                                         </TableCell>
                                                         <TableCell>

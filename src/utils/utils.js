@@ -13,7 +13,7 @@ export function instant(dateTime) {
 }
 
 export function dateTime(datetime) {
-    return moment(datetime, 'DD-MM-yyyy hh:mm:ss').format('yyyy-MM-DDThh:mm:ss');
+    return moment(datetime ?? new Date(), 'DD-MM-yyyy hh:mm:ss').format('yyyy-MM-DDThh:mm:ss');
 }
 
 export function dateTimeView(dateTime) {
@@ -31,6 +31,10 @@ export function date(dateValue) {
 
 export function date2(dateVal) {
     return moment(dateVal).format('yyyy-MM-DD');
+}
+
+export function date3(dateValue) {
+    return moment(dateValue, 'DD-MM-yyyy').format('yyyy-MM-DD');
 }
 
 
@@ -70,6 +74,28 @@ export function nameMeeting(type, assemblyName) {
             break;
     }
     return name;
+}
+
+
+export function titleDashboard(key) {
+    let title = '';
+    switch (key) {
+        case 'adult_count':
+            title = `Nombre d'adultes`;
+            break;
+        case 'child_count':
+            title = `Nombre d'enfants`;
+            break;
+        case 'guest_count':
+            title = `Nombre d'invités`;
+            break;
+        case 'visitor_count':
+            title = `Nombre de visiteurs`;
+            break;
+        default:
+            break;
+    }
+    return title;
 }
 
 
