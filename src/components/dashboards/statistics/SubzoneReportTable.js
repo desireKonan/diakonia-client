@@ -11,7 +11,6 @@ import {
     MenuItem,
     Stack,
     Button,
-    Card,
     Avatar,
     Box
 } from '@mui/material';
@@ -69,6 +68,7 @@ const SubzoneReportTable = ({ subzone }) => {
             toast(`${subzoneReport.error}`);
             return;
         }
+        console.log(subzoneReport);
         setSubzoneReport(subzoneReport);
     }
 
@@ -196,7 +196,12 @@ const SubzoneReportTable = ({ subzone }) => {
                                         </TableCell>
                                         <TableCell>
                                             <Typography variant="subtitle2" fontWeight={600}>
-                                                Horaires (Debut - fin)
+                                                Total Don et offrandes
+                                            </Typography>
+                                        </TableCell>
+                                        <TableCell>
+                                            <Typography variant="subtitle2" fontWeight={600}>
+                                                Total Dons pour attiékoi
                                             </Typography>
                                         </TableCell>
                                     </TableRow>
@@ -229,10 +234,15 @@ const SubzoneReportTable = ({ subzone }) => {
                                                     <Typography color="textSecondary" variant="subtitle2" fontWeight={400}>
                                                         { subzoneR.visitor_count }
                                                     </Typography>
-                                                </TableCell>  
+                                                </TableCell>
                                                 <TableCell>
                                                     <Typography color="textSecondary" variant="subtitle2" fontWeight={400}>
-                                                        { `${subzoneR.start}  -   ${subzoneR.end}`  }
+                                                        { subzoneR.tithe_gift }
+                                                    </Typography>
+                                                </TableCell>
+                                                <TableCell>
+                                                    <Typography color="textSecondary" variant="subtitle2" fontWeight={400}>
+                                                        { subzoneR.attiekoi_gift }
                                                     </Typography>
                                                 </TableCell>  
                                             </TableRow>

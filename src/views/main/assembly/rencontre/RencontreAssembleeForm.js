@@ -24,7 +24,9 @@ const saveRencontre = async(values, assemblyId) => {
                     adultCount: values['adult_count'],
                     childCount: values['child_count'],
                     guestCount: values['guest_count'],
-                    visitorCount: values['visitor_count']
+                    visitorCount: values['visitor_count'],
+                    titheAndGift: values['tithe_gift'],
+                    attiekoiGift: values['attiekoi_gift']
                 },
                 start: values['start'],
                 end: values['end']
@@ -47,6 +49,8 @@ const RencontreAssembleeForm = ({ rencontre, assemblyId }) => {
             child_count: rencontre ? rencontre.details['childCount'] : 0,
             guest_count: rencontre ? rencontre.details['guestCount'] : 0,
             visitor_count: rencontre ? rencontre.details['visitorCount'] : 0,
+            tithe_gift: rencontre ? rencontre.details['titheAndGift'] : 0,
+            attiekoi_gift: rencontre ? rencontre.details['attiekoiGift'] : 0,
             start: rencontre ? dateTime(rencontre.start) : null,
             end: rencontre ? dateTime(rencontre.end) : null,
         },
@@ -131,6 +135,32 @@ const RencontreAssembleeForm = ({ rencontre, assemblyId }) => {
                             onChange={formik.handleChange}
                             error={formik.touched.visitor_count && Boolean(formik.errors.visitor_count)}
                             helperText={formik.touched.visitor_count && formik.errors.visitor_count}
+                        />
+                    </Grid>
+                    <Grid item xs={6} md={6}>
+                        <CustomFormLabel>Total dîmes et offrandes</CustomFormLabel>
+                        <CustomTextField 
+                            fullWidth
+                            id="tithe_gift"
+                            name="tithe_gift"
+                            type="number"
+                            value={formik.values.tithe_gift}
+                            onChange={formik.handleChange}
+                            error={formik.touched.tithe_gift && Boolean(formik.errors.tithe_gift)}
+                            helperText={formik.touched.tithe_gift && formik.errors.tithe_gift}
+                        />
+                    </Grid>
+                    <Grid item xs={6} md={6}>
+                        <CustomFormLabel>Total Don pour Attiékoi</CustomFormLabel>
+                        <CustomTextField 
+                            fullWidth
+                            type="number"
+                            id="attiekoi_gift"
+                            name="attiekoi_gift"
+                            value={formik.values.attiekoi_gift}
+                            onChange={formik.handleChange}
+                            error={formik.touched.attiekoi_gift && Boolean(formik.errors.attiekoi_gift)}
+                            helperText={formik.touched.attiekoi_gift && formik.errors.attiekoi_gift}
                         />
                     </Grid>
                 </Grid>

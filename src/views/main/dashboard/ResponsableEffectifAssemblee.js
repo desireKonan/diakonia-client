@@ -7,7 +7,7 @@ import useFetch from "src/app/services/useFetch";
 import SubzoneReportTable from "src/components/dashboards/statistics/SubzoneReportTable";
 
 
-const MeetingAssemblyDashoard = () => {
+const EffectiveAssembleeRapport = () => {
     const { data: metric_subzone, loading, error } = useFetch(encodeURI(`/api/subzone/statistics/metric?subzone=Angré`), {});
 
     return (
@@ -65,4 +65,4 @@ const MeetingAssemblyDashoard = () => {
     );
 }
 
-export default MeetingAssemblyDashoard;
+export default EffectiveAssembleeRapport;

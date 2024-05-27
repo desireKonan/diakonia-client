@@ -20,7 +20,7 @@ import CustomDialog from "src/components/custom/CustomDialog";
 import { IconTrash } from "@tabler/icons";
 import { uniqueId } from "lodash";
 import { httpAdapter } from "src/app/services/http-adapter.service";
-import { nameMeeting, dateTimeView } from "src/utils/utils";
+import { nameMeeting, dateTimeView, meetingDetailsTitle } from "src/utils/utils";
 import RencontreAssembleeForm from "./RencontreAssembleeForm";
 
 
@@ -122,7 +122,18 @@ const RencontreList = () => {
                                                         </TableCell>
                                                         <TableCell>
                                                             <Typography color="textSecondary" variant="subtitle2" fontWeight={400}>
-                                                                { JSON.stringify(meeting.details) }
+                                                                <ul>
+                                                                    { 
+                                                                        JSON.stringify({
+                                                                            "Nombres d'adultes": meeting.details['adultCount'],
+                                                                            "Nombres d'enfants": meeting.details['childCount'],
+                                                                            "Nombres d'invités": meeting.details['guestCount'],
+                                                                            "Nombres de visteurs": meeting.details['visitorCount'],
+                                                                            "Total dons et offrandes": meeting.details['titheAndGift'],
+                                                                            "Total dons d'attiékoi": meeting.details['attiekoiGift']
+                                                                        })
+                                                                    }
+                                                                </ul>
                                                             </Typography>
                                                         </TableCell>
                                                         <TableCell>

@@ -99,6 +99,34 @@ export function titleDashboard(key) {
 }
 
 
+export function meetingDetailsTitle(key) {
+    let title = '';
+    switch (key) {
+        case 'adultCount':
+            title = `Nombre d'adultes`;
+            break;
+        case 'childCount':
+            title = `Nombre d'enfants`;
+            break;
+        case 'guestCount':
+            title = `Nombre d'invités`;
+            break;
+        case 'visitorCount':
+            title = `Nombre de visiteurs`;
+            break;
+        case 'titheAndGift':
+            title = `Total Don et offrandes`;
+            break;
+        case 'attiekoiGift':
+            title = `Total Don attiékoi`;
+            break;
+        default:
+            break;
+    }
+    return title;
+}
+
+
 export const LocationType = Object.freeze({
     ZONE: "ZONE",
     SUB_ZONE: "SUB_ZONE",
