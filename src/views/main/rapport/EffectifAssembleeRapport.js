@@ -162,15 +162,15 @@ const EffectiveAssembleeRapport = ({ subzone }) => {
                        
                     </CustomDialog2>
                     <ToastContainer />
-                    <Stack
-                        container 
-                        spacing={2}
-                        margin={2}
-                        direction="row"
-                        justifyContent="flex-start"
-                        alignItems="flex-end"
-                    >
-                        <form onSubmit={formik.handleSubmit}>
+                    <form onSubmit={formik.handleSubmit}>
+                        <Stack
+                            container 
+                            spacing={2}
+                            margin={2}
+                            direction="row"
+                            justifyContent="flex-start"
+                            alignItems="flex-end"
+                        >
                             <Grid item xs={5} lg={5}>
                                     <CustomFormLabel htmlFor="Sous zone">Sous zone</CustomFormLabel>
                                     <CustomSelect
@@ -237,14 +237,16 @@ const EffectiveAssembleeRapport = ({ subzone }) => {
                                         Rechercher
                                     </Button>
                             </Grid>
-                        </form>          
+                        </Stack>          
+                    </form>
 
+                    <Grid container margin={2}>
                         <Grid item xs={3} lg={3}>
                             <Button variant="contained" color='error' onClick={getTotalSubzoneReport}>
                                 Voir le point général des rencontres 
                             </Button>
                         </Grid>  
-                    </Stack>
+                    </Grid>
 
                     <Grid container spacing={3}>
                         <Grid item xs={12} sm={12}>
