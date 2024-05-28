@@ -22,10 +22,10 @@ const useDialogEvent = () => {
 }
 
 
-const CustomDialog2 = ({ title, form, open = false, closeDialog = () => {}}) => {
+const CustomDialog2 = ({ title, form, open = false, fullWidth = true, maxWidth = 'lg', closeDialog = () => {}}) => {
     return (
         <>
-            <Dialog fullWidth={true} open={open} maxWidth={'lg'} onClose={closeDialog}>
+            <Dialog fullWidth={fullWidth} open={open} maxWidth={maxWidth} onClose={closeDialog}>
                 <Breadcrumb title={ title }/>
                 <DialogContent>
                     { form }
