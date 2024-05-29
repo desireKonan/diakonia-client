@@ -63,7 +63,7 @@ const EffectiveZoneRapport = ({ zone }) => {
     });
 
     const getSubzoneReport = async(values) => {
-        var subzoneReport = await httpAdapter.saveData(`api/subzone/statistics`, {
+        var subzoneReport = await httpAdapter.saveData(`api/rapport/sous-zone`, {
             subzone: values['subzone'],
             type: values['type'],
             day: values['day']
