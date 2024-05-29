@@ -30,7 +30,7 @@ const ListeActivites = Loadable(lazy(() => import('../views/main/activite/Activi
 const ListeParticipants = Loadable(lazy(() => import('../views/main/activite/participants/ParticipantList')));
 
 /** ***** Statistiques ***** */
-const RapportEffectiveAssemblee = Loadable(lazy(() => import('../views/main/rapport/EffectifAssembleeRapport')));
+const RapportEffectifZone = Loadable(lazy(() => import('../views/main/rapport/RapportBase')));
 
 const Router = [
   {
@@ -39,7 +39,7 @@ const Router = [
     children: [
       { path: '/', element: <Navigate to="/dashboard" /> },
       { path: '/dashboard', exact: true, element: <Modern /> },
-      { path: '/rapport/rencontre/zone', exact: true, element: <RapportEffectiveAssemblee /> },
+      { path: '/rapport/rencontre', exact: true, element: <RapportEffectifZone /> },
       { path: '/regions', exact: true, element: <ListeVille /> },
       { path: '/type-activites', exact: true, element: <ListeTypeActivite />},
       { path: '/activites', exact: true, element: <ListeActivites />},

@@ -115,7 +115,7 @@ const Menuitems = [
         id: uniqueId(),
         title: 'Rapport de rencontres',
         icon: IconPoint,
-        href: '/rapport/rencontre/zone',
+        href: '/rapport/rencontre?type_zone=sous_zone',
         chipColor: 'secondary',
       }
     ],
