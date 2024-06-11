@@ -9,9 +9,10 @@ import {
     TableCell,
     TableBody,
     Stack,
-    Button} from '@mui/material';
+    Button
+} from '@mui/material';
 import CustomFormLabel from 'src/components/forms/theme-elements/CustomFormLabel';
-import { date, date2 } from 'src/utils/utils';
+import { date2, year } from 'src/utils/utils';
 import { useFormik } from 'formik';
 import { httpAdapter } from 'src/app/services/http-adapter.service';
 import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns';
@@ -24,7 +25,7 @@ import { useTheme } from '@emotion/react';
 import { CustomDialog2, useDialogEvent } from 'src/components/custom/CustomDialog2';
 import CustomDashboardCard from 'src/components/custom/CustomDashboardCard';
 
-const SousZoneRapportJour = ({ subzone }) => {
+const AssembleeRapportAnnee = ({ assemblee }) => {
     const theme = useTheme();
     const primary = theme.palette.primary.main;
     const primarylight = theme.palette.primary.light;
@@ -37,104 +38,105 @@ const SousZoneRapportJour = ({ subzone }) => {
 
     const { open, openDialog, closeDialog } = useDialogEvent();
 
-    const [subzoneReport, setSubzoneReport] = useState([]);
+    const [assemblyReport, setAssemblyReport] = useState([]);
 
     const formik = useFormik({
         initialValues: {
-            day: new Date(),
+            year: date2(new Date()),
         },
         onSubmit: (values) => {
-            getSubzoneReport(values);
+            getAssemblyReport(values);
         },
     });
 
-    const getSubzoneReport = async(values) => {
-        var subzoneReport = await httpAdapter.saveData(`api/rapport/sous-zone`, {
-            subzone: subzone,
-            day: values['day']
+    const getAssemblyReport = async (values) => {
+        var assemblyReport = await httpAdapter.saveData(`api/rapport/assemblee/annee`, {
+            label: assemblee,
+            year: year(values['year'])
         });
-        if(subzoneReport.error && subzoneReport.error != null) {
-            console.log(`Erreur: ${subzoneReport.error}`);
-            toast(`${subzoneReport.error}`);
+        if (assemblyReport.error && assemblyReport.error != null) {
+            console.log(`Erreur: ${assemblyReport.error}`);
+            toast(`${assemblyReport.error}`);
             return;
         }
-        setSubzoneReport(subzoneReport);
+        setAssemblyReport(assemblyReport);
     }
 
-    const getTotalSubzoneReport = () => {
+    const getTotalAssemblyReport = () => {
         let data = {
-            subzone: subzone,
-            day: formik.values.day
+            label: assemblee,
+            year: year(formik.values.year)
         }
-        getSubzoneReport(data);
+        getAssemblyReport(data);
 
         openDialog();
     }
 
-    const generateEffectiveSubzoneReport = async() => {
-        await httpAdapter.generateReport(`api/rapport/export/sous-zone/jour`, {
-            subzone: subzone,
-            day: date(formik.values.day) 
+    const generateEffectiveAssemblyReport = async() => {
+        await httpAdapter.generateReport(`api/rapport/export/assemblee/annee`, {
+            label: assemblee,
+            year: year(formik.values.year) 
         });
     }
+
 
     return (
         <>
             <CustomDialog2
-                label={`Ajouter une âme`}
-                title={`Formulaire d'ajout d'une âme`}
+                label={`Rapport général`}
+                title={`Rapport général`}
                 form={
-                    subzoneReport['total_report'] ? (
+                    assemblyReport['total_report'] ? (
                         <CustomDashboardCard
-                            subzone={subzoneReport['total_report']['subZone'] ?? 'Aucune sous-zone'}
-                            subzoneReports={[
+                            subzone={assemblyReport['total_report']['subZone'] ?? 'Aucune sous-zone'}
+                            assemblyReports={[
                                 {
                                     bgcolor: primarylight,
                                     color: primary,
                                     title: "L'ancien effectif",
-                                    element: subzoneReport['old_effective']
+                                    element: assemblyReport['old_effective']
                                 },
                                 {
                                     bgcolor: primarylight,
                                     color: primary,
                                     title: "Le nouvel effectif",
-                                    element: subzoneReport['new_effective']
+                                    element: assemblyReport['new_effective']
                                 },
                                 {
                                     bgcolor: primarylight,
                                     color: primary,
                                     title: "Nombre d'adultes",
-                                    element: subzoneReport['total_report']['adult_count']
+                                    element: assemblyReport['total_report']['adult_count']
                                 },
                                 {
                                     bgcolor: secondarylight,
                                     color: secondary,
                                     title: "Nombre d'enfants",
-                                    element: subzoneReport['total_report']['child_count']
+                                    element: assemblyReport['total_report']['child_count']
                                 },
                                 {
                                     bgcolor: warninglight,
                                     color: warning,
                                     title: "Nombre d'invités",
-                                    element: subzoneReport['total_report']['guest_count']
+                                    element: assemblyReport['total_report']['guest_count']
                                 },
                                 {
                                     bgcolor: primarylight,
                                     color: primary,
                                     title: "Nombre de visiteurs",
-                                    element: subzoneReport['total_report']['visitor_count']
+                                    element: assemblyReport['total_report']['visitor_count']
                                 },
                                 {
                                     bgcolor: warninglight,
                                     color: warning,
                                     title: "Le nombre total de présences",
-                                    element: subzoneReport['presence_total']
+                                    element: assemblyReport['presence_total']
                                 },
                                 {
                                     bgcolor: errorlight,
                                     color: error,
                                     title: "Le taux de présences",
-                                    element: `${subzoneReport['rate']}%`
+                                    element: `${assemblyReport['rate']}%`
                                 }
                             ]}
                         ></CustomDashboardCard>
@@ -159,11 +161,11 @@ const SousZoneRapportJour = ({ subzone }) => {
                     alignItems="flex-end"
                 >
                     <Grid item xs={3} lg={3}>
-                        <CustomFormLabel htmlFor="day">Date recherché</CustomFormLabel>
+                        <CustomFormLabel htmlFor="year">Date recherché</CustomFormLabel>
                         <LocalizationProvider dateAdapter={AdapterDateFns}>
                             <DatePicker
-                                id="day"
-                                name="day"
+                                id="year"
+                                name="year"
                                 renderInput={(props) => <CustomTextField {...props} fullWidth size="large" sx={{
                                     '& .MuiSvgIcon-root': {
                                         width: 18,
@@ -174,11 +176,11 @@ const SousZoneRapportJour = ({ subzone }) => {
                                     },
                                 }} />}
                                 placeholder="Entrez la date recherchée"
-                                value={formik.values.day}
+                                value={formik.values.year}
                                 onChange={(newValue) => {
-                                    var day = date2(newValue);
-                                    console.log(day, newValue);
-                                    formik.setFieldValue('day', day);
+                                    var year = date2(newValue);
+                                    console.log(year, newValue);
+                                    formik.setFieldValue('year', year);
                                 }}
                             />
                         </LocalizationProvider>
@@ -188,13 +190,14 @@ const SousZoneRapportJour = ({ subzone }) => {
                             Rechercher
                         </Button>
                     </Grid>
+                    
                     <Grid item xs={3} lg={3}>
-                        <Button variant="contained" color='error' onClick={getTotalSubzoneReport}>
+                        <Button variant="contained" color='error' onClick={getTotalAssemblyReport}>
                             Voir le point général des rencontres
                         </Button>
                     </Grid>
                     <Grid item xs={3} lg={3}>
-                        <Button variant="contained" color='success' onClick={generateEffectiveSubzoneReport}>
+                        <Button variant="contained" color='success' onClick={generateEffectiveAssemblyReport}>
                             Générer un rapport format excel
                         </Button>
                     </Grid>
@@ -213,11 +216,6 @@ const SousZoneRapportJour = ({ subzone }) => {
                         >
                             <TableHead>
                                 <TableRow>
-                                    <TableCell>
-                                        <Typography variant="subtitle2" fontWeight={600}>
-                                            Assemblée
-                                        </Typography>
-                                    </TableCell>
                                     <TableCell>
                                         <Typography variant="subtitle2" fontWeight={600}>
                                             Nombre d'adultes
@@ -252,41 +250,36 @@ const SousZoneRapportJour = ({ subzone }) => {
                             </TableHead>
                             <TableBody>
                                 {
-                                    (subzoneReport && subzoneReport.length !== 0) ? subzoneReport.map((subzoneR) => (
-                                        <TableRow key={subzoneR.id}>
+                                    (assemblyReport && assemblyReport.length !== 0) ? assemblyReport.map((assemblyR) => (
+                                        <TableRow key={assemblyR.id}>
                                             <TableCell>
                                                 <Typography color="textSecondary" variant="subtitle2" fontWeight={400}>
-                                                    {subzoneR.assembly}
+                                                    {assemblyR.adult_count}
                                                 </Typography>
                                             </TableCell>
                                             <TableCell>
                                                 <Typography color="textSecondary" variant="subtitle2" fontWeight={400}>
-                                                    {subzoneR.adult_count}
+                                                    {assemblyR.child_count}
                                                 </Typography>
                                             </TableCell>
                                             <TableCell>
                                                 <Typography color="textSecondary" variant="subtitle2" fontWeight={400}>
-                                                    {subzoneR.child_count}
+                                                    {assemblyR.guest_count}
                                                 </Typography>
                                             </TableCell>
                                             <TableCell>
                                                 <Typography color="textSecondary" variant="subtitle2" fontWeight={400}>
-                                                    {subzoneR.guest_count}
+                                                    {assemblyR.visitor_count}
                                                 </Typography>
                                             </TableCell>
                                             <TableCell>
                                                 <Typography color="textSecondary" variant="subtitle2" fontWeight={400}>
-                                                    {subzoneR.visitor_count}
+                                                    {assemblyR.tithe_gift}
                                                 </Typography>
                                             </TableCell>
                                             <TableCell>
                                                 <Typography color="textSecondary" variant="subtitle2" fontWeight={400}>
-                                                    {subzoneR.tithe_gift}
-                                                </Typography>
-                                            </TableCell>
-                                            <TableCell>
-                                                <Typography color="textSecondary" variant="subtitle2" fontWeight={400}>
-                                                    {subzoneR.attiekoi_gift}
+                                                    {assemblyR.attiekoi_gift}
                                                 </Typography>
                                             </TableCell>
                                         </TableRow>
@@ -306,8 +299,8 @@ const SousZoneRapportJour = ({ subzone }) => {
                 </Grid>
             </Grid>
         </>
-    )
+    );
 }
 
 
-export default SousZoneRapportJour;
+export default AssembleeRapportAnnee;

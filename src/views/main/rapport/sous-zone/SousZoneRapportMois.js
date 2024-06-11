@@ -189,21 +189,18 @@ const SousZoneRapportMois = ({ subzone }) => {
                             Rechercher
                         </Button>
                     </Grid>
+                    <Grid item xs={3} lg={3}>
+                        <Button variant="contained" color='error' onClick={getTotalSubzoneReport}>
+                            Voir le point général des rencontres
+                        </Button>
+                    </Grid>
+                    <Grid item xs={3} lg={3}>
+                        <Button variant="contained" color='success' onClick={generateEffectiveSubzoneReport}>
+                            Générer un rapport format excel
+                        </Button>
+                    </Grid>
                 </Stack>
             </form>
-
-            <Grid container margin={2}>
-                <Grid item xs={3} lg={3}>
-                    <Button variant="contained" color='error' onClick={getTotalSubzoneReport}>
-                        Voir le point général des rencontres
-                    </Button>
-                </Grid>
-                <Grid item xs={3} lg={3}>
-                    <Button variant="contained" color='success' onClick={generateEffectiveSubzoneReport}>
-                        Générer un rapport format excel
-                    </Button>
-                </Grid>
-            </Grid>
 
             <Grid container spacing={3}>
                 <Grid item xs={12} sm={12}>
