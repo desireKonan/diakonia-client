@@ -10,8 +10,9 @@ const http = axios.create({
 });
 
 
-http.interceptors.request.use((config) => {
-    return config;
-});
+http.interceptors.request.use(
+    (config) => {return config;},
+    (error) => Promise.reject(error)
+);
 
 export default http;

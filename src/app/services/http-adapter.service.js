@@ -37,13 +37,47 @@ export const httpAdapter = {
         return data;
     },
 
+    generateReport: async(url, _data) => {
+        let filename = '';
+
+        fetch(`${process.env.REACT_APP_DIAKONIA_URL}${url}`, {
+            method: "POST",
+            headers: {
+                "X-DIAKONIA-API-Version": 1,
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify(_data)
+        }).then(response => {
+            if(!response.ok === true) {
+                throw new Error(`HTTP Error status: ${response.status}`);
+            }
+            return response.blob();
+        }).then(file => {
+            var a = document.createElement('a');
+            a.href = window.URL.createObjectURL(file);
+            a.setAttribute("download", "");
+            a.click();
+            a.remove();
+            URL.revokeObjectURL(file);
+        })
+        .catch(error => {
+            console.log(error);
+        });
+    },
+
     updateData: async(url, _data) => {
         var data = {};
         try {
-            var response = await http.post(url, _data);
-            data = response.data;
+            var response = await fetch(url, {
+                method: "POST",
+                headers: {
+                    "X-DIAKONIA-API-Version": 1,
+                    "Content-Type": "application/json"
+                }
+            });
+            console.log(response);
         } catch(err) {
-            console.log(err);
+            console.error(err);
             return err;
         }
         return data;

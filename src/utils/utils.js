@@ -24,6 +24,14 @@ export function instantTime(dateTime) {
     return moment(dateTime, 'yyyy-MM-DDTHH:mm:ss.sssZ').format('yyyy-MM-DDTHH:mm:ss.sssZ');
 }
 
+export function month(monthYear) {
+    return moment(monthYear).format('MM/yyyy');
+}
+
+export function year(_year) {
+    return moment(_year).format('yyyy');
+}
+
 
 export function date(dateValue) {
     return moment(dateValue, 'MM-DD-yyyy').format('yyyy-MM-DD');

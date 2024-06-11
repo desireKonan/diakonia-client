@@ -1,8 +1,8 @@
 import EffectiveZoneRapport from "./EffectifZoneRapport";
-import EffectiveSousZoneRapport from "./EffectifSousZoneRapport";
+import EffectiveSousZoneRapport from "./sous-zone/EffectifSousZoneRapport";
 import { useSearchParams } from "react-router-dom";
 import AucunRapport from "./AucunRapport";
-import EffectifAssembleeRapport from "./EffectifAssembleeRapport";
+import EffectifAssembleeRapport from "./assemblee/EffectifAssembleeRapport";
 
 const RapportBase = () => {
     const [searchParams] = useSearchParams();
