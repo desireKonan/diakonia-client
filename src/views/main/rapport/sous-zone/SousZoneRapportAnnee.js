@@ -49,7 +49,6 @@ const SousZoneRapportAnnee = ({ subzone }) => {
     });
 
     const getSubzoneReport = async(values) => {
-        console.log(values);
         var subzoneReport = await httpAdapter.saveData(`api/rapport/sous-zone/annee`, {
             subzone: subzone,
             year: year(values['year'])

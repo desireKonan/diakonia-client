@@ -49,7 +49,6 @@ const SousZoneRapportMois = ({ subzone }) => {
     });
 
     const getSubzoneReport = async(values) => {
-        console.log(values);
         var subzoneReport = await httpAdapter.saveData(`api/rapport/sous-zone/mois`, {
             subzone: subzone,
             month: month(values['month'])
