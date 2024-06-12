@@ -128,6 +128,12 @@ const Menuitems = [
     children: [
       {
         id: uniqueId(),
+        title: 'Role',
+        icon: IconPoint,
+        href: '/roles',
+      },
+      {
+        id: uniqueId(),
         title: 'Profil',
         icon: IconPoint,
         href: '/user-profile',

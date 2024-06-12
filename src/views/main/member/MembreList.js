@@ -208,7 +208,7 @@ const MemberList = () => {
                                                     <TableRow key={`${uniqueId()}`}>
                                                         <TableCell rowSpan={4}>
                                                             <Typography color="textSecondary" variant="subtitle2" fontWeight={400}>
-                                                                Aucun membres disponibles
+                                                                Aucun membres disponibles !
                                                             </Typography>
                                                         </TableCell>
                                                     </TableRow>
