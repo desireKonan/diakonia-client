@@ -8,7 +8,7 @@ import * as yup from 'yup';
 
 
 const validationSchema = yup.object({
-    label: yup.string()
+    username: yup.string()
         .required("Le libéllé est requis !"),
     description: yup.string()
         .required("La description est requis !"),
@@ -16,26 +16,26 @@ const validationSchema = yup.object({
         .required("Le code est requis !")
 });
 
-const saveRole = async(values) => {
-    var role = await httpAdapter.saveData(`/api/role`, values);
-    if(role.error && role.error != null) {
-        toast(`Erreur: ${role.error}`);
+const saveUtilisateur = async(values) => {
+    var utilisateur = await httpAdapter.saveData(`/api/user`, values);
+    if(utilisateur.error && utilisateur.error != null) {
+        toast(`Erreur: ${utilisateur.error}`);
         return;
     }
     window.location.reload(true);
 }
 
-const RoleForm = ({ role }) => {
+const UtilisateurForm = ({ utilisateur }) => {
     const formik = useFormik({
         initialValues: {
-            id: role ? role.id : '',
-            label: role ? role.label : '',
-            code: role ? role.code : '',
-            description: role ? role.description : ''
+            id: utilisateur ? utilisateur.id : '',
+            label: utilisateur ? utilisateur.label : '',
+            code: utilisateur ? utilisateur.code : '',
+            description: utilisateur ? utilisateur.description : ''
         },
         validationSchema: validationSchema,
         onSubmit: (values) => {
-            saveRole(values);
+            saveUtilisateur(values);
         },
     });
 
@@ -83,8 +83,8 @@ const RoleForm = ({ role }) => {
                     />
                 </Box>
                 <Box mt={2}>
-                    <Button color={ role ? "warning" : "primary"} variant="contained" type="submit">
-                        { role ? 'Modifier': 'Ajouter' }
+                    <Button color={ utilisateur ? "warning" : "primary"} variant="contained" type="submit">
+                        { utilisateur ? 'Modifier': 'Ajouter' }
                     </Button>
                 </Box>
             </Stack>
@@ -93,4 +93,4 @@ const RoleForm = ({ role }) => {
 };
 
 
-export default RoleForm;
+export default UtilisateurForm;

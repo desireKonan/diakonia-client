@@ -14,27 +14,27 @@ import PageContainer from "src/components/container/PageContainer";
 import Breadcrumb from "src/layouts/full/shared/breadcrumb/Breadcrumb";
 import useFetch from "src/app/services/useFetch";
 import CustomDialog from "src/components/custom/CustomDialog";
-import RoleForm from "./UtilisateurForm";
+import UtilisateurForm from "./UtilisateurForm";
 import { httpAdapter } from "src/app/services/http-adapter.service";
 import { uniqueId } from "lodash";
 
 
-const RoleList = () => {
-    const { data: roles, loading, error } = useFetch('/api/role');
+const UtilisateurList = () => {
+    const { data: utilisateurs, loading, error } = useFetch('/api/utilisateur');
 
-    const deleteRoleById = async(id) => {
-        await httpAdapter.deleteData(`/api/role/${id}`);
+    const deleteUtilisateurById = async(id) => {
+        await httpAdapter.deleteData(`/api/utilisateur/${id}`);
         window.location.reload(true);
     }
 
     return (
-        <PageContainer title="Liste des roles" description="Liste des roles">
-            <Breadcrumb title="Liste des roles" subtitle="Liste des roles" />
-            <ParentCard title="Liste des roles" action={
+        <PageContainer title="Liste des utilisateurs" description="Liste des utilisateurs">
+            <Breadcrumb title="Liste des utilisateurs" subtitle="Liste des utilisateurs" />
+            <ParentCard title="Liste des utilisateurs" action={
                 <CustomDialog
-                    label={`Ajouter un role`} 
-                    title={`Formulaire d'ajout d'un role`}
-                    form={<RoleForm />}
+                    label={`Ajouter un utilisateur`} 
+                    title={`Formulaire d'ajout d'un utilisateur`}
+                    form={<UtilisateurForm />}
                 >
                 </CustomDialog>
             }>
@@ -67,7 +67,7 @@ const RoleList = () => {
                                                 </TableCell>
                                                 <TableCell>
                                                     <Typography variant="subtitle2" fontWeight={600}>
-                                                        Libéllé
+                                                        Nom et prenoms
                                                     </Typography>
                                                 </TableCell>
                                                 <TableCell>
@@ -88,8 +88,8 @@ const RoleList = () => {
                                             </TableRow>
                                         </TableHead>
                                         <TableBody>
-                                            {(roles && roles.length) ? (roles.map((role) => (
-                                                    <TableRow key={role.id}>
+                                            {(utilisateurs && utilisateurs.length) ? (utilisateurs.map((utilisateur) => (
+                                                    <TableRow key={utilisateur.id}>
                                                         <TableCell>
                                                             <Typography
                                                                 sx={{
@@ -97,30 +97,30 @@ const RoleList = () => {
                                                                     fontWeight: "500",
                                                                 }}
                                                             >
-                                                                {role.id}
+                                                                {utilisateur.id}
                                                             </Typography>
                                                         </TableCell>
                                                         <TableCell>
                                                             <Typography color="textSecondary" variant="subtitle2" fontWeight={400}>
-                                                                {role.label}
+                                                                {utilisateur.label}
                                                             </Typography>
                                                         </TableCell>
                                                         <TableCell>
                                                             <Typography color="textSecondary" variant="subtitle2" fontWeight={400}>
-                                                                {role.code}
+                                                                {utilisateur.code}
                                                             </Typography>
                                                         </TableCell>
                                                         <TableCell>
                                                             <Typography color="textSecondary" variant="subtitle2" fontWeight={400}>
-                                                                {role.description}
+                                                                {utilisateur.description}
                                                             </Typography>
                                                         </TableCell>
                                                         <TableCell>
                                                             <CustomDialog
-                                                                label={`Ajouter un role`} 
-                                                                title={`Formulaire d'ajout un role`}
+                                                                label={`Ajouter un utilisateur`} 
+                                                                title={`Formulaire d'ajout un utilisateur`}
                                                                 form={
-                                                                    <RoleForm role={role} />
+                                                                    <UtilisateurForm utilisateur={utilisateur} />
                                                                 }
                                                                 isIconButton={true}
                                                                 color={true}
@@ -129,7 +129,7 @@ const RoleList = () => {
                                                             <Button 
                                                                 variant="contained" 
                                                                 color="error" 
-                                                                onClick={(e) => deleteRoleById(role.id)} 
+                                                                onClick={(e) => deleteUtilisateurById(utilisateur.id)} 
                                                                 style={{margin: 5}}
                                                             >
                                                                 Supprimer 
@@ -141,7 +141,7 @@ const RoleList = () => {
                                                     <TableRow key={`${uniqueId()}`}>
                                                         <TableCell rowSpan={4}>
                                                             <Typography color="textSecondary" variant="subtitle2" fontWeight={400}>
-                                                                Aucun roles !
+                                                                Aucun utilisateurs !
                                                             </Typography>
                                                         </TableCell>
                                                     </TableRow>
@@ -160,4 +160,4 @@ const RoleList = () => {
     );
 }
 
-export default RoleList;
+export default UtilisateurList;
