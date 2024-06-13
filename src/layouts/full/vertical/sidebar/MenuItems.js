@@ -134,6 +134,12 @@ const Menuitems = [
       },
       {
         id: uniqueId(),
+        title: 'Utilisateurs',
+        icon: IconPoint,
+        href: '/utilisateurs',
+      },
+      {
+        id: uniqueId(),
         title: 'Profil',
         icon: IconPoint,
         href: '/user-profile',

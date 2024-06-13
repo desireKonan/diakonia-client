@@ -47,7 +47,6 @@ const RencontreForm = ({ rencontre }) => {
         },
         validationSchema: validationSchema,
         onSubmit: (values) => {
-            console.log(values);
             saveRencontre(values);
         },
     });

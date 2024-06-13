@@ -20,10 +20,10 @@ import { uniqueId } from "lodash";
 
 
 const UtilisateurList = () => {
-    const { data: utilisateurs, loading, error } = useFetch('/api/utilisateur');
+    const { data: utilisateurs, loading, error } = useFetch('/api/user');
 
     const deleteUtilisateurById = async(id) => {
-        await httpAdapter.deleteData(`/api/utilisateur/${id}`);
+        await httpAdapter.deleteData(`/api/user/${id}`);
         window.location.reload(true);
     }
 
@@ -72,12 +72,17 @@ const UtilisateurList = () => {
                                                 </TableCell>
                                                 <TableCell>
                                                     <Typography variant="subtitle2" fontWeight={600}>
-                                                        Code
+                                                        Username
                                                     </Typography>
                                                 </TableCell>
                                                 <TableCell>
                                                     <Typography variant="subtitle2" fontWeight={600}>
-                                                        Description
+                                                        Id de disciple
+                                                    </Typography>
+                                                </TableCell>
+                                                <TableCell>
+                                                    <Typography variant="subtitle2" fontWeight={600}>
+                                                        Roles
                                                     </Typography>
                                                 </TableCell>
                                                 <TableCell>
@@ -102,17 +107,22 @@ const UtilisateurList = () => {
                                                         </TableCell>
                                                         <TableCell>
                                                             <Typography color="textSecondary" variant="subtitle2" fontWeight={400}>
-                                                                {utilisateur.label}
+                                                                { `${utilisateur.firstname} ${utilisateur.lastname}` }
                                                             </Typography>
                                                         </TableCell>
                                                         <TableCell>
                                                             <Typography color="textSecondary" variant="subtitle2" fontWeight={400}>
-                                                                {utilisateur.code}
+                                                                {utilisateur.username}
                                                             </Typography>
                                                         </TableCell>
                                                         <TableCell>
                                                             <Typography color="textSecondary" variant="subtitle2" fontWeight={400}>
-                                                                {utilisateur.description}
+                                                                {utilisateur.discipleId}
+                                                            </Typography>
+                                                        </TableCell>
+                                                        <TableCell>
+                                                            <Typography color="textSecondary" variant="subtitle2" fontWeight={400}>
+                                                                {JSON.stringify(utilisateur.roles)}
                                                             </Typography>
                                                         </TableCell>
                                                         <TableCell>

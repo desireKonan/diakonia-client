@@ -1,24 +1,24 @@
-import { Button, Stack, Box } from "@mui/material";
+import { Button, Stack, Box, MenuItem, Autocomplete } from "@mui/material";
 import CustomFormLabel from "src/components/forms/theme-elements/CustomFormLabel";
 import CustomTextField from "src/components/forms/theme-elements/CustomTextField";
 import { useFormik } from "formik";
 import { httpAdapter } from "src/app/services/http-adapter.service";
 import { ToastContainer, toast } from 'react-toastify';
 import * as yup from 'yup';
+import CustomSelect from "src/components/forms/theme-elements/CustomSelect";
+import useFetch from "src/app/services/useFetch";
 
 
 const validationSchema = yup.object({
     username: yup.string()
-        .required("Le libéllé est requis !"),
-    description: yup.string()
-        .required("La description est requis !"),
-    code: yup.string()
-        .required("Le code est requis !")
+        .required("Le nom d'utilisateur est requis !"),
+    password: yup.string()
+        .required("La mot de passe est requis !")
 });
 
-const saveUtilisateur = async(values) => {
+const saveUtilisateur = async (values) => {
     var utilisateur = await httpAdapter.saveData(`/api/user`, values);
-    if(utilisateur.error && utilisateur.error != null) {
+    if (utilisateur.error && utilisateur.error != null) {
         toast(`Erreur: ${utilisateur.error}`);
         return;
     }
@@ -29,15 +29,20 @@ const UtilisateurForm = ({ utilisateur }) => {
     const formik = useFormik({
         initialValues: {
             id: utilisateur ? utilisateur.id : '',
-            label: utilisateur ? utilisateur.label : '',
-            code: utilisateur ? utilisateur.code : '',
-            description: utilisateur ? utilisateur.description : ''
+            username: utilisateur ? utilisateur.username : '',
+            password: utilisateur ? utilisateur.password : '',
+            discipleId: utilisateur ? utilisateur.discipleId : '',
+            roles: utilisateur ? utilisateur.roles : []
         },
         validationSchema: validationSchema,
         onSubmit: (values) => {
             saveUtilisateur(values);
         },
     });
+
+    const { data: disciples } = useFetch("/api/disciple", []);
+
+    const { data: roles } = useFetch("/api/role", []);
 
     return (
         <form onSubmit={formik.handleSubmit}>
@@ -47,44 +52,68 @@ const UtilisateurForm = ({ utilisateur }) => {
                     formik.values.id ? (<input type="hidden" name="id" value={formik.values.id} />) : ""
                 }
                 <Box>
-                    <CustomFormLabel>Libéllé</CustomFormLabel>
+                    <CustomFormLabel>Nom d'utilisateur</CustomFormLabel>
                     <CustomTextField
                         fullWidth
-                        id="label"
-                        name="label"
-                        value={formik.values.label}
+                        id="username"
+                        name="username"
+                        value={formik.values.username}
                         onChange={formik.handleChange}
-                        error={formik.touched.label && Boolean(formik.errors.label)}
-                        helperText={formik.touched.label && formik.errors.label}
+                        error={formik.touched.username && Boolean(formik.errors.username)}
+                        helperText={formik.touched.username && formik.errors.username}
                     />
                 </Box>
                 <Box>
-                    <CustomFormLabel>Code</CustomFormLabel>
+                    <CustomFormLabel>Mot de passe</CustomFormLabel>
                     <CustomTextField
                         fullWidth
-                        id="code"
-                        name="code"
-                        value={formik.values.code}
+                        id="password"
+                        name="password"
+                        value={formik.values.password}
                         onChange={formik.handleChange}
-                        error={formik.touched.code && Boolean(formik.errors.code)}
-                        helperText={formik.touched.code && formik.errors.code}
+                        error={formik.touched.password && Boolean(formik.errors.password)}
+                        helperText={formik.touched.password && formik.errors.password}
                     />
                 </Box>
                 <Box>
-                    <CustomFormLabel>Description</CustomFormLabel>
-                    <CustomTextField
+                    <CustomFormLabel>Disciple</CustomFormLabel>
+                    <CustomSelect
+                        labelId="discipleId"
+                        id="discipleId"
                         fullWidth
-                        id="description"
-                        name="description"
-                        value={formik.values.description}
+                        name="discipleId"
+                        value={formik.values.discipleId}
                         onChange={formik.handleChange}
-                        error={formik.touched.description && Boolean(formik.errors.description)}
-                        helperText={formik.touched.description && formik.errors.description}
+                    >
+                        {
+                            disciples.map(disciple => (
+                                <MenuItem key={disciple.id} value={disciple.id}> { `${disciple.firstName} ${disciple.lastName}` } </MenuItem>
+                            ))
+                        }
+                    </CustomSelect>
+                </Box>
+                <Box>
+                    <CustomFormLabel>Roles</CustomFormLabel>
+                    <Autocomplete
+                        multiple
+                        fullWidth
+                        id="tags-outlined"
+                        options={roles}
+                        getOptionLabel={(option) => option.label}
+                        defaultValue={formik.values.roles}
+                        onChange={(e) => {
+                            let value = e.target.innerHTML;
+                            formik.setFieldValue('roles', [value, ...formik.values.roles]);
+                        }}
+                        filterSelectedOptions
+                        renderInput={(params) => (
+                            <CustomTextField {...params} placeholder="Roles" aria-label="Roles" />
+                        )}
                     />
                 </Box>
                 <Box mt={2}>
-                    <Button color={ utilisateur ? "warning" : "primary"} variant="contained" type="submit">
-                        { utilisateur ? 'Modifier': 'Ajouter' }
+                    <Button color={utilisateur ? "warning" : "primary"} variant="contained" type="submit">
+                        {utilisateur ? 'Modifier' : 'Ajouter'}
                     </Button>
                 </Box>
             </Stack>
