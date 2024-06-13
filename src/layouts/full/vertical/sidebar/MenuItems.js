@@ -122,7 +122,7 @@ const Menuitems = [
   },
   {
     id: uniqueId(),
-    title: 'Utilisateurs',
+    title: 'Gestion des utilisateurs',
     icon: IconUserCircle,
     href: '/user-profile',
     children: [
@@ -137,6 +137,12 @@ const Menuitems = [
         title: 'Utilisateurs',
         icon: IconPoint,
         href: '/utilisateurs',
+      },
+      {
+        id: uniqueId(),
+        title: 'Actions',
+        icon: IconPoint,
+        href: '/actions',
       },
       {
         id: uniqueId(),

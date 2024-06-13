@@ -32,6 +32,8 @@ const ListeParticipants = Loadable(lazy(() => import('../views/main/activite/par
 
 const ListeUtilisateurs = Loadable(lazy(() => import('../views/main/utilisateur/UtilisateurList')));
 
+const ListeActions = Loadable(lazy(() => import('../views/main/action/ActionList')));
+
 
 /** ***** Statistiques ***** */
 const RapportEffectifZone = Loadable(lazy(() => import('../views/main/rapport/RapportBase')));
@@ -57,6 +59,7 @@ const Router = [
       { path: '/type-rencontres', exact: true, element: <ListeTypeRencontre />},
       { path: '/roles', exact: true, element: <ListeRoles />},
       { path: '/utilisateurs', exact: true, element: <ListeUtilisateurs />},
+      { path: '/actions', exact: true, element: <ListeActions />},
       { path: '/rencontres', exact: true, element: <ListeRencontre />},
       { path: '/rencontre/:id/personnes', exact: true, element: <ListePersonnePresente />},
       { path: '/rencontre/:id/ames', exact: true, element: <ListeAmes />},

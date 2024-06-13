@@ -161,3 +161,11 @@ export const MeetingType = Object.freeze({
     BREAKING_LINK: "BREAKING_LINK",
     SPECIAL_MEETING: "SPECIAL_MEETING"
 });
+
+
+export const MethodRoles = Object.freeze({
+    GET: "GET",
+    POST: "POST",
+    PUT: "PUT",
+    DELETE: "DELETE"
+});
