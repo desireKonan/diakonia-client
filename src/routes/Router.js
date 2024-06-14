@@ -2,9 +2,14 @@ import React, { lazy } from 'react';
 import { Navigate } from 'react-router-dom';
 
 import Loadable from '../layouts/full/shared/loadable/Loadable';
+import ProtectedRoute from './ProtectedRoute';
 
 /* ***Layouts**** */
 const FullLayout = Loadable(lazy(() => import('../layouts/full/FullLayout')));
+const BlankLayout = Loadable(lazy(() => import('../layouts/blank/BlankLayout')));
+
+/* ****Login***** */
+const Login = Loadable(lazy(() => import('../views/main/auth/Login')));
 
 /* ****Pages***** */
 const Modern = Loadable(lazy(() => import('../views/dashboard/Modern')));
@@ -34,6 +39,8 @@ const ListeUtilisateurs = Loadable(lazy(() => import('../views/main/utilisateur/
 
 const ListeActions = Loadable(lazy(() => import('../views/main/action/ActionList')));
 
+const Error = Loadable(lazy(() => import('../views/main/auth/Error')));
+
 
 /** ***** Statistiques ***** */
 const RapportEffectifZone = Loadable(lazy(() => import('../views/main/rapport/RapportBase')));
@@ -44,28 +51,131 @@ const Router = [
     element: <FullLayout />,
     children: [
       { path: '/', element: <Navigate to="/dashboard" /> },
-      { path: '/dashboard', exact: true, element: <Modern /> },
-      { path: '/rapport/rencontre', exact: true, element: <RapportEffectifZone /> },
-      { path: '/regions', exact: true, element: <ListeVille /> },
-      { path: '/type-activites', exact: true, element: <ListeTypeActivite />},
-      { path: '/activites', exact: true, element: <ListeActivites />},
-      { path: '/activite/:id/participants', exact: true, element: <ListeParticipants />},
-      { path: '/assemblees', exact: true, element: <ListeAssemblee />},
-      { path: '/assemblee/:id/membres', exact: true, element: <ListeMembre />},
-      { path: '/assemblee/:id/rencontres', exact: true, element: <ListeRencontreAssemblees />},
-      { path: '/rencontre/:id/participants', exact: true, element: <ListeParticipantRencontres />},
-      { path: '/rencontre/:id/ligne-financieres', exact: true, element: <LivreComptableRencontres />},
-      { path: '/rubriques', exact: true, element: <ListeRubriques />},
-      { path: '/type-rencontres', exact: true, element: <ListeTypeRencontre />},
-      { path: '/roles', exact: true, element: <ListeRoles />},
-      { path: '/utilisateurs', exact: true, element: <ListeUtilisateurs />},
-      { path: '/actions', exact: true, element: <ListeActions />},
-      { path: '/rencontres', exact: true, element: <ListeRencontre />},
-      { path: '/rencontre/:id/personnes', exact: true, element: <ListePersonnePresente />},
-      { path: '/rencontre/:id/ames', exact: true, element: <ListeAmes />},
+      { path: '/dashboard', exact: true, element: (
+          <ProtectedRoute>
+            <Modern /> 
+          </ProtectedRoute>
+        )
+      },
+      { path: '/rapport/rencontre', exact: true, element: (
+          <ProtectedRoute>
+            <RapportEffectifZone />
+          </ProtectedRoute>
+        ) 
+      },
+      { path: '/regions', exact: true, element: (
+          <ProtectedRoute>
+            <ListeVille />
+          </ProtectedRoute>
+        ) 
+      },
+      { path: '/type-activites', exact: true, element: (
+          <ProtectedRoute>
+            <ListeTypeActivite />
+          </ProtectedRoute>
+        )
+      },
+      { path: '/activites', exact: true, element: (
+          <ProtectedRoute>
+            <ListeActivites />
+          </ProtectedRoute>
+        )
+      },
+      { path: '/activite/:id/participants', exact: true, element: (
+          <ProtectedRoute>
+            <ListeParticipants />
+          </ProtectedRoute>
+        )
+      },
+      { path: '/assemblees', exact: true, element: (
+          <ProtectedRoute>
+            <ListeAssemblee />
+          </ProtectedRoute>
+        )
+      },
+      { path: '/assemblee/:id/membres', exact: true, element: (
+          <ProtectedRoute>
+            <ListeMembre />
+          </ProtectedRoute>
+        )
+      },
+      { path: '/assemblee/:id/rencontres', exact: true, element: (
+          <ProtectedRoute>
+            <ListeRencontreAssemblees />
+          </ProtectedRoute>
+        )
+      },
+      { path: '/rencontre/:id/participants', exact: true, element: (
+        <ProtectedRoute>
+          <ListeParticipantRencontres />
+        </ProtectedRoute>
+        )
+      },
+      { path: '/rencontre/:id/ligne-financieres', exact: true, element: (
+          <ProtectedRoute>
+            <LivreComptableRencontres />
+          </ProtectedRoute>
+        )
+      },
+      { path: '/rubriques', exact: true, element: (
+          <ProtectedRoute>
+            <ListeRubriques />
+          </ProtectedRoute>
+        )
+      },
+      { path: '/type-rencontres', exact: true, element: (
+          <ProtectedRoute>
+            <ListeTypeRencontre />
+          </ProtectedRoute>
+        )
+      },
+      { path: '/roles', exact: true, element: (
+          <ProtectedRoute>
+            <ListeRoles />
+          </ProtectedRoute>
+        )
+      },
+      { path: '/utilisateurs', exact: true, element: (
+          <ProtectedRoute>
+            <ListeUtilisateurs />
+          </ProtectedRoute>
+        )
+      },
+      { path: '/actions', exact: true, element: (
+          <ProtectedRoute>
+            <ListeActions />
+          </ProtectedRoute>
+        )
+      },
+      { path: '/rencontres', exact: true, element: (
+        <ProtectedRoute>
+          <ListeRencontre />
+        </ProtectedRoute>
+        )
+      },
+      { path: '/rencontre/:id/personnes', exact: true, element: (
+        <ProtectedRoute>
+          <ListePersonnePresente />
+        </ProtectedRoute>
+        )
+      },
+      { path: '/rencontre/:id/ames', exact: true, element: (
+          <ProtectedRoute>
+            <ListeAmes />
+          </ProtectedRoute>
+        )
+      },
       { path: '*', element: <Navigate to="/auth/404" /> },
     ],
   },
+  {
+    path: '/',
+    element: <BlankLayout />,
+    children: [
+      { path: '/auth/404', element: <Error /> },
+      { path: '/auth/login', element: <Login /> },
+    ]
+  }
 ];
 
 export default Router;

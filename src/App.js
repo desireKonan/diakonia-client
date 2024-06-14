@@ -5,6 +5,7 @@ import { ThemeSettings } from './theme/Theme';
 import RTL from './layouts/full/shared/customizer/RTL';
 import ScrollToTop from './components/shared/ScrollToTop';
 import Router from './routes/Router';
+import { AuthProvider } from './app/services/useAuth';
 
 function App() {
   const routing = useRoutes(Router);
@@ -12,12 +13,15 @@ function App() {
   const customizer = useSelector((state) => state.customizer);
 
   return (
-    <ThemeProvider theme={theme}>
-      <RTL direction={customizer.activeDir}>
-        <CssBaseline />
-        <ScrollToTop>{routing}</ScrollToTop>
-      </RTL>
-    </ThemeProvider>
+    <AuthProvider>
+      <ThemeProvider theme={theme}>
+        <RTL direction={customizer.activeDir}>
+          <CssBaseline />
+          <ScrollToTop>{routing}</ScrollToTop>
+        </RTL>
+      </ThemeProvider>
+    </AuthProvider>
+
   );
 }
 

@@ -8,7 +8,6 @@ export function instant(dateTime) {
     if(!dateTime) {
         return 'Aucune date';
     }
-    console.log(dateTime);
     return new Date(dateTime).toUTCString();
 }
 

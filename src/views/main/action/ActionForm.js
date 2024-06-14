@@ -71,7 +71,7 @@ const ActionForm = ({ action }) => {
                     />
                 </Box>
                 <Box>
-                    <CustomFormLabel> Methodes </CustomFormLabel>
+                    <CustomFormLabel>Méthode</CustomFormLabel>
                     <CustomSelect
                         labelId="method"
                         id="method"

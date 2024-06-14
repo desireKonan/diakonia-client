@@ -11,7 +11,13 @@ const http = axios.create({
 
 
 http.interceptors.request.use(
-    (config) => {return config;},
+    (response) => {
+        const token = localStorage.getItem('token');
+        if(token) {
+            response.headers["Authorization"] = `Bearer ${token}`;
+        }
+        return response;
+    },
     (error) => Promise.reject(error)
 );
 
