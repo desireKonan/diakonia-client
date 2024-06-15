@@ -10,7 +10,7 @@ import Profile from './Profile';
 
 const Header = () => {
   const lgUp = useMediaQuery((theme) => theme.breakpoints.up('lg'));
-  const lgDown = useMediaQuery((theme) => theme.breakpoints.down('lg'));
+  // const lgDown = useMediaQuery((theme) => theme.breakpoints.down('lg'));
 
   // drawer
   const customizer = useSelector((state) => state.customizer);

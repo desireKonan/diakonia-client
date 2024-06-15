@@ -39,12 +39,13 @@ export const httpAdapter = {
 
     generateReport: async(url, _data) => {
         let filename = '';
-
+        const token = localStorage.getItem('token');
         fetch(`${process.env.REACT_APP_DIAKONIA_URL}${url}`, {
             method: "POST",
             headers: {
                 "X-DIAKONIA-API-Version": 1,
-                "Content-Type": "application/json"
+                "Content-Type": "application/json",
+                "Authorization": `Bearer ${token}`
             },
             body: JSON.stringify(_data)
         }).then(response => {

@@ -27,10 +27,8 @@ export const AuthProvider = ({ children }) => {
 
   const loginUser = async (data) => {
     try {
-      console.log(data);
       setLogged(false);
       const response = await httpAdapter.saveData("api/auth/sign-in", data);
-      console.log(response);
       if (response) {
         localStorage.setItem("token", response.token);
         localStorage.setItem("user", JSON.stringify(response['userModel']))
