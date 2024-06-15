@@ -6,12 +6,7 @@ import { toggleSidebar, toggleMobileSidebar } from 'src/store/customizer/Customi
 import { IconMenu2 } from '@tabler/icons';
 
 // components
-import Notifications from './Notifications';
 import Profile from './Profile';
-import Search from './Search';
-import Language from './Language';
-import Navigation from './Navigation';
-import MobileRightSidebar from './MobileRightSidebar';
 
 const Header = () => {
   const lgUp = useMediaQuery((theme) => theme.breakpoints.up('lg'));
@@ -48,25 +43,9 @@ const Header = () => {
         >
           <IconMenu2 size="20" />
         </IconButton>
-        {/* ------------------------------------------- */}
-        {/* Search Dropdown */}
-        {/* ------------------------------------------- */}
-        <Search />
-        {lgUp ? (
-          <>
-            <Navigation />
-          </>
-        ) : null}
 
         <Box flexGrow={1} />
         <Stack spacing={1} direction="row" alignItems="center">
-          <Language />
-          
-          <Notifications />
-           {/* ------------------------------------------- */}
-          {/* Toggle Right Sidebar for mobile */}
-          {/* ------------------------------------------- */}
-          {lgDown ? <MobileRightSidebar /> : null}
           <Profile />
         </Stack>
       </ToolbarStyled>

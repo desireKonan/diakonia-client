@@ -6,7 +6,7 @@ import http from "./http";
 const AuthContext = createContext();
 
 export const AuthProvider = ({ children }) => {
-  const [user, setUser] = useState(localStorage.getItem("user") || null);
+  const [user, setUser] = useState(JSON.parse(localStorage.getItem("user")) || null);
   const [token, setToken] = useState(localStorage.getItem("token") || "");
   const [isReady, setIsReady] = useState(false);
   const [isLogged, setLogged] = useState(null);
@@ -47,7 +47,7 @@ export const AuthProvider = ({ children }) => {
 
 
   const isLoggedIn = () => {
-    return (user !== null && localStorage.getItem("user") !== null) && (token !== "" && localStorage.getItem("token") !== null);
+    return (user !== null && token !== null);
   };
   
   const logoutUser = async() => {

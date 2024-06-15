@@ -7,7 +7,6 @@ import { IconMail } from '@tabler/icons';
 import { Stack } from '@mui/system';
 
 import ProfileImg from 'src/assets/images/profile/user-1.jpg';
-import unlimitedImg from 'src/assets/images/backgrounds/unlimited-bg.png';
 import Scrollbar from 'src/components/custom-scroll/Scrollbar';
 import { useAuth } from 'src/app/services/useAuth';
 
@@ -20,7 +19,7 @@ const Profile = () => {
     setAnchorEl2(null);
   };
 
-  const { logoutUser } = useAuth();
+  const { logoutUser, user } = useAuth();
 
   return (
     <Box>
@@ -65,15 +64,21 @@ const Profile = () => {
       >
         <Scrollbar sx={{ height: '100%', maxHeight: '85vh' }}>
           <Box p={3}>
-            <Typography variant="h5">User Profile</Typography>
+            <Typography variant="h5">Profile utilisateur</Typography>
             <Stack direction="row" py={3} spacing={2} alignItems="center">
               <Avatar src={ProfileImg} alt={ProfileImg} sx={{ width: 95, height: 95 }} />
               <Box>
                 <Typography variant="subtitle2" color="textPrimary" fontWeight={600}>
-                  Mathew Anderson
+                  { `${user?.firstname} ${user?.lastname}` }
                 </Typography>
                 <Typography variant="subtitle2" color="textSecondary">
-                  Designer
+                  <ul>
+                    { 
+                      user?.roles.map(role => (
+                        <li> { role } </li>
+                      )) 
+                    }
+                  </ul>
                 </Typography>
                 <Typography
                   variant="subtitle2"
@@ -83,7 +88,7 @@ const Profile = () => {
                   gap={1}
                 >
                   <IconMail width={15} height={15} />
-                  info@modernize.com
+                  { user?.username }
                 </Typography>
               </Box>
             </Stack>
