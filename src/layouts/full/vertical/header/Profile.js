@@ -18,7 +18,6 @@ const Profile = () => {
   const handleClose2 = () => {
     setAnchorEl2(null);
   };
-
   const { logoutUser, user } = useAuth();
 
   return (
@@ -72,13 +71,9 @@ const Profile = () => {
                   { `${user?.firstname} ${user?.lastname}` }
                 </Typography>
                 <Typography variant="subtitle2" color="textSecondary">
-                  <ul>
-                    { 
-                      user?.roles.map(role => (
-                        <li> { role } </li>
-                      )) 
-                    }
-                  </ul>
+                  { 
+                    user?.profession
+                  }
                 </Typography>
                 <Typography
                   variant="subtitle2"

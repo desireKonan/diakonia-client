@@ -3,14 +3,12 @@ import { Box, Avatar, Typography, IconButton, Tooltip, useMediaQuery } from '@mu
 import { useSelector } from 'react-redux';
 import img1 from 'src/assets/images/profile/user-1.jpg';
 import { IconPower } from '@tabler/icons';
-import {Link} from "react-router-dom";
 import { useAuth } from 'src/app/services/useAuth';
 
 export const Profile = () => {
   const customizer = useSelector((state) => state.customizer);
   const lgUp = useMediaQuery((theme) => theme.breakpoints.up('lg'));
   const hideMenu = lgUp ? customizer.isCollapse && !customizer.isSidebarHover : '';
-
   const { logoutUser, user } = useAuth();
 
   return (
@@ -26,7 +24,7 @@ export const Profile = () => {
 
           <Box>
             <Typography variant="h6"  color="textPrimary"> { `${user?.firstname} ${user?.lastname}` } </Typography>
-            <Typography variant="caption" color="textSecondary"> { user?.roles[0] } </Typography>
+            <Typography variant="caption" color="textSecondary"> { user?.profession } </Typography>
           </Box>
           <Box sx={{ ml: 'auto' }}>
             <Tooltip title="Logout" placement="top">
