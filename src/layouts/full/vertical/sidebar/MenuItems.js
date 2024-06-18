@@ -1,11 +1,7 @@
 import {
   IconPoint,
   IconMail,
-  IconUserCircle,
-  //IconList,
-  IconHome,
-  IconDashboard,
-  IconMeteor
+  IconDashboard
 } from '@tabler/icons';
 
 import { uniqueId } from 'lodash';
@@ -40,20 +36,6 @@ const Menuitems = [
       },
       {
         id: uniqueId(),
-        title: 'Assemblées',
-        icon: IconPoint,
-        href: '/assemblees',
-      },
-    ],
-  },
-  {
-    id: uniqueId(),
-    title: 'Activité',
-    icon: IconHome,
-    href: '/#/',
-    children: [
-      {
-        id: uniqueId(),
         title: 'Type d\'activité',
         icon: IconPoint,
         href: '/type-activites',
@@ -66,29 +48,6 @@ const Menuitems = [
         href: '/activites',
         chipColor: 'secondary',
       },
-    ],
-  },
-  {
-    id: uniqueId(),
-    title: 'Rubriques',
-    icon: IconHome,
-    href: '/#/',
-    children: [
-      {
-        id: uniqueId(),
-        title: 'Rubriques financières',
-        icon: IconPoint,
-        href: '/rubriques',
-        chipColor: 'secondary',
-      }
-    ],
-  },
-  {
-    id: uniqueId(),
-    title: 'Rencontre',
-    icon: IconMeteor,
-    href: '/#/',
-    children: [
       {
         id: uniqueId(),
         title: 'Rencontres',
@@ -107,8 +66,29 @@ const Menuitems = [
   },
   {
     id: uniqueId(),
+    title: 'Assemblées',
+    icon: IconPoint,
+    href: '/#/',
+    children: [
+      {
+        id: uniqueId(),
+        title: 'Assemblées',
+        icon: IconPoint,
+        href: '/assemblees',
+      },
+      {
+        id: uniqueId(),
+        title: 'Rubriques financières',
+        icon: IconPoint,
+        href: '/rubriques',
+        chipColor: 'secondary',
+      }
+    ],
+  },
+  {
+    id: uniqueId(),
     title: 'Rapport',
-    icon: IconMeteor,
+    icon: IconPoint,
     href: '/#/',
     children: [
       {
@@ -122,8 +102,8 @@ const Menuitems = [
   },
   {
     id: uniqueId(),
-    title: 'Gestion des utilisateurs',
-    icon: IconUserCircle,
+    title: 'Administration',
+    icon: IconPoint,
     href: '/user-profile',
     children: [
       {
@@ -156,13 +136,13 @@ const Menuitems = [
         icon: IconPoint,
         href: '/apps/gallery',
       },
+      {
+        id: uniqueId(),
+        title: 'Email',
+        icon: IconMail,
+        href: '/apps/email',
+      }
     ],
-  },
-  {
-    id: uniqueId(),
-    title: 'Email',
-    icon: IconMail,
-    href: '/apps/email',
   },
 ];
 
