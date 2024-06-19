@@ -72,11 +72,6 @@ const RoleList = () => {
                                                 </TableCell>
                                                 <TableCell>
                                                     <Typography variant="subtitle2" fontWeight={600}>
-                                                        Code
-                                                    </Typography>
-                                                </TableCell>
-                                                <TableCell>
-                                                    <Typography variant="subtitle2" fontWeight={600}>
                                                         Description
                                                     </Typography>
                                                 </TableCell>
@@ -103,11 +98,6 @@ const RoleList = () => {
                                                         <TableCell>
                                                             <Typography color="textSecondary" variant="subtitle2" fontWeight={400}>
                                                                 {role.label}
-                                                            </Typography>
-                                                        </TableCell>
-                                                        <TableCell>
-                                                            <Typography color="textSecondary" variant="subtitle2" fontWeight={400}>
-                                                                {role.code}
                                                             </Typography>
                                                         </TableCell>
                                                         <TableCell>

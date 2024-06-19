@@ -1,24 +1,24 @@
-import { Button, Stack, Box } from "@mui/material";
+import { Button, Stack, Box, MenuItem } from "@mui/material";
 import CustomFormLabel from "src/components/forms/theme-elements/CustomFormLabel";
 import CustomTextField from "src/components/forms/theme-elements/CustomTextField";
 import { useFormik } from "formik";
 import { httpAdapter } from "src/app/services/http-adapter.service";
 import { ToastContainer, toast } from 'react-toastify';
 import * as yup from 'yup';
+import CustomSelect from "src/components/forms/theme-elements/CustomSelect";
+import { ROLES } from "src/utils/utils";
 
 
 const validationSchema = yup.object({
     label: yup.string()
         .required("Le libéllé est requis !"),
     description: yup.string()
-        .required("La description est requis !"),
-    code: yup.string()
-        .required("Le code est requis !")
+        .required("La description est requis !")
 });
 
-const saveRole = async(values) => {
+const saveRole = async (values) => {
     var role = await httpAdapter.saveData(`/api/role`, values);
-    if(role.error && role.error != null) {
+    if (role.error && role.error != null) {
         toast(`Erreur: ${role.error}`);
         return;
     }
@@ -30,7 +30,6 @@ const RoleForm = ({ role }) => {
         initialValues: {
             id: role ? role.id : '',
             label: role ? role.label : '',
-            code: role ? role.code : '',
             description: role ? role.description : ''
         },
         validationSchema: validationSchema,
@@ -48,7 +47,7 @@ const RoleForm = ({ role }) => {
                 }
                 <Box>
                     <CustomFormLabel>Libéllé</CustomFormLabel>
-                    <CustomTextField
+                    <CustomSelect
                         fullWidth
                         id="label"
                         name="label"
@@ -56,19 +55,13 @@ const RoleForm = ({ role }) => {
                         onChange={formik.handleChange}
                         error={formik.touched.label && Boolean(formik.errors.label)}
                         helperText={formik.touched.label && formik.errors.label}
-                    />
-                </Box>
-                <Box>
-                    <CustomFormLabel>Code</CustomFormLabel>
-                    <CustomTextField
-                        fullWidth
-                        id="code"
-                        name="code"
-                        value={formik.values.code}
-                        onChange={formik.handleChange}
-                        error={formik.touched.code && Boolean(formik.errors.code)}
-                        helperText={formik.touched.code && formik.errors.code}
-                    />
+                    >
+                        {
+                            Object.keys(ROLES).map(role => (
+                                <MenuItem key={role} value={ROLES[role]}> {ROLES[role]} </MenuItem>
+                            ))
+                        }
+                    </CustomSelect>
                 </Box>
                 <Box>
                     <CustomFormLabel>Description</CustomFormLabel>
@@ -83,8 +76,8 @@ const RoleForm = ({ role }) => {
                     />
                 </Box>
                 <Box mt={2}>
-                    <Button color={ role ? "warning" : "primary"} variant="contained" type="submit">
-                        { role ? 'Modifier': 'Ajouter' }
+                    <Button color={role ? "warning" : "primary"} variant="contained" type="submit">
+                        {role ? 'Modifier' : 'Ajouter'}
                     </Button>
                 </Box>
             </Stack>

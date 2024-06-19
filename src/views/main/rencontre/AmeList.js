@@ -54,11 +54,7 @@ const AmeList = () => {
                                     </Typography>
                                 </ChildCard>
                             </Grid>
-                        ) : null
-                    }
-
-                    {
-                        loading ? (
+                        ) : (loading ? (
                             <Grid item xs={12} lg={4} sm={6} display="flex" alignItems="stretch">
                                 <ChildCard key={uniqueId()} title="Error">
                                     <Typography key={uniqueId()} color="textSecondary" variant="subtitle2" fontWeight={400}>
@@ -240,7 +236,7 @@ const AmeList = () => {
                                     </TableBody>
                                 </Table>
                             </TableContainer>
-                        ) 
+                        ))
                     }
                 </Paper>
             </ParentCard>

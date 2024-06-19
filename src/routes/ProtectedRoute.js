@@ -1,13 +1,22 @@
 import React from "react";
 import { Navigate, useLocation } from "react-router-dom";
 import { useAuth } from "src/app/services/useAuth";
+import { isIncludeIn } from "src/utils/utils";
 
-const ProtectedRoute = ({ children }) => {
+const ProtectedRoute = ({ children, routesAllowed }) => {
   const location = useLocation();
-  const { isLoggedIn } = useAuth();
-  
+  const { isLoggedIn, user } = useAuth();
+
+  const checkAuthorizations = () => {
+    return (routesAllowed && routesAllowed.length !== 0) && isIncludeIn(user.roles, routesAllowed);
+  }
+
   return isLoggedIn() ? (
-    <>{children}</>
+    checkAuthorizations() ? (
+      <>{children}</>
+    ) : (
+      <Navigate to="/auth/non-authorise" state={{ from: location }} replace />
+    )
   ) : (
     <Navigate to="/auth/login" state={{ from: location }} replace />
   );

@@ -5,6 +5,7 @@ import {
 } from '@tabler/icons';
 
 import { uniqueId } from 'lodash';
+import { ROLES } from 'src/utils/utils';
 
 const Menuitems = [
   {
@@ -63,6 +64,7 @@ const Menuitems = [
         chipColor: 'secondary',
       }
     ],
+    rolesAllowed: [ROLES.ADMIN, ROLES.RESPONSABLE_EFFECTIF_SOUS_ZONE]
   },
   {
     id: uniqueId(),
@@ -84,6 +86,7 @@ const Menuitems = [
         chipColor: 'secondary',
       }
     ],
+    rolesAllowed: [ROLES.RESPONSABLE_EFFECTIF_ASSEMBLEE]
   },
   {
     id: uniqueId(),
@@ -99,6 +102,7 @@ const Menuitems = [
         chipColor: 'secondary',
       }
     ],
+    rolesAllowed: [Object.values(ROLES)]
   },
   {
     id: uniqueId(),
@@ -120,29 +124,12 @@ const Menuitems = [
       },
       {
         id: uniqueId(),
-        title: 'Actions',
-        icon: IconPoint,
-        href: '/actions',
-      },
-      {
-        id: uniqueId(),
         title: 'Profil',
         icon: IconPoint,
         href: '/user-profile',
-      },
-      {
-        id: uniqueId(),
-        title: 'Gallerie',
-        icon: IconPoint,
-        href: '/apps/gallery',
-      },
-      {
-        id: uniqueId(),
-        title: 'Email',
-        icon: IconMail,
-        href: '/apps/email',
       }
     ],
+    rolesAllowed: [ROLES.ADMIN]
   },
 ];
 

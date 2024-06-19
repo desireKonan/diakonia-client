@@ -7,6 +7,7 @@ import { toggleMobileSidebar } from 'src/store/customizer/CustomizerSlice';
 import NavItem from './NavItem';
 import NavCollapse from './NavCollapse';
 import NavGroup from './NavGroup/NavGroup';
+import { useAuth } from 'src/app/services/useAuth';
 
 const SidebarItems = () => {
   const { pathname } = useLocation();
@@ -16,6 +17,7 @@ const SidebarItems = () => {
   const lgUp = useMediaQuery((theme) => theme.breakpoints.up('lg'));
   const hideMenu = lgUp ? customizer.isCollapse && !customizer.isSidebarHover : '';
   const dispatch = useDispatch();
+  const { user } = useAuth();
 
   return (
     <Box sx={{ px: 3 }}>
@@ -27,7 +29,7 @@ const SidebarItems = () => {
 
             // {/********If Sub Menu**********/}
             /* eslint no-else-return: "off" */
-          } else if (item.children) {
+          } else if (item.children && user?.roles?.find(role => item.rolesAllowed?.includes(role))) {
             return (
               <NavCollapse
                 menu={item}
@@ -41,7 +43,7 @@ const SidebarItems = () => {
             );
 
             // {/********If Sub No Menu**********/}
-          } else {
+          } else if(user?.roles?.find(role => item.rolesAllowed?.includes(role))) {
             return (
               <NavItem
                 item={item}

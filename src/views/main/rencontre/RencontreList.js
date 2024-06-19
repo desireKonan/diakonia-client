@@ -58,7 +58,12 @@ const RencontreList = () => {
                     }   
 
                     {
-                        loading ? (
+                        error ? (
+                            <Typography variant="subtitle2" fontWeight={600}>
+                                { error }
+                            </Typography>
+                        ) :
+                        (loading ? (
                             <Grid item xs={12} lg={4} sm={6} display="flex" alignItems="stretch">
                                 <ChildCard title="Error">
                                     <Typography color="textSecondary" variant="subtitle2" fontWeight={400}>
@@ -217,7 +222,7 @@ const RencontreList = () => {
                                     </TableBody>
                                 </Table>
                             </TableContainer>
-                        )
+                        ))
                     }                 
                 </Paper>
             </ParentCard>

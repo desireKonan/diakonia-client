@@ -33,7 +33,11 @@ const ParticipantRencontreList = () => {
             }>
                 <Paper variant="outlined">
                     {
-                        error ? error : (
+                        error ? (
+                            <Typography variant="subtitle2" fontWeight={600}>
+                                { error }
+                            </Typography>
+                        ) : (
                             loading ? loading : (
                                 <TableContainer>
                                     <Table

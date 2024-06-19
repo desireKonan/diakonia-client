@@ -20,7 +20,7 @@ import CustomDialog from "src/components/custom/CustomDialog";
 import { IconTrash } from "@tabler/icons";
 import { uniqueId } from "lodash";
 import { httpAdapter } from "src/app/services/http-adapter.service";
-import { nameMeeting, dateTimeView, meetingDetailsTitle } from "src/utils/utils";
+import { nameMeeting, dateTimeView } from "src/utils/utils";
 import RencontreAssembleeForm from "./RencontreAssembleeForm";
 
 
@@ -47,7 +47,11 @@ const RencontreList = () => {
             }>
                 <Paper variant="outlined">
                     {
-                        error ? error : (
+                        error ? (
+                            <Typography variant="subtitle2" fontWeight={600}>
+                                { error }
+                            </Typography>
+                        ) : (
                             loading ? loading : (
                                 <TableContainer>
                                     <Table

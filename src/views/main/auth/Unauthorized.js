@@ -2,7 +2,7 @@ import { Box, Container, Typography, Button } from '@mui/material';
 import { Link } from 'react-router-dom';
 import ErrorImg from 'src/assets/images/backgrounds/errorimg.svg';
 
-const Error = () => (
+const Unauthorized = () => (
   <Box
     display="flex"
     flexDirection="column"
@@ -11,12 +11,12 @@ const Error = () => (
     justifyContent="center"
   >
     <Container maxWidth="md">
-      <img src={ErrorImg} alt="404" />
+      <img src={ErrorImg} alt="403" />
       <Typography align="center" variant="h1" mb={4}>
         Ouupppsss!!!
       </Typography>
       <Typography align="center" variant="h4" mb={4}>
-        La page est introuvable !
+        La page n'est pas accessible !
       </Typography>
       <Button
         color="primary"
@@ -25,10 +25,10 @@ const Error = () => (
         to="/"
         disableElevation
       >
-        Go Back to Home
+        Retour au menu
       </Button>
     </Container>
   </Box>
 );
 
-export default Error;
+export default Unauthorized;

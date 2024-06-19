@@ -106,6 +106,16 @@ export function titleDashboard(key) {
 }
 
 
+export function isIncludeIn(arrayToSearch, subArray) {
+    arrayToSearch.forEach((elementToSearch) => {
+        if(!subArray.includes(elementToSearch)) {
+            return false;
+        }
+    });
+    return true;
+}
+
+
 export function meetingDetailsTitle(key) {
     let title = '';
     switch (key) {
@@ -162,9 +172,10 @@ export const MeetingType = Object.freeze({
 });
 
 
-export const MethodRoles = Object.freeze({
-    GET: "GET",
-    POST: "POST",
-    PUT: "PUT",
-    DELETE: "DELETE"
+export const ROLES = Object.freeze({
+    ADMIN: "ADMIN",
+    RESPONSABLE_EFFECTIF_ASSEMBLEE : "RESPONSABLE_EFFECTIF_ASSEMBLEE",
+    RESPONSABLE_EFFECTIF_SOUS_ZONE : "RESPONSABLE_EFFECTIF_SOUS_ZONE",
+    RESPONSABLE_EFFECTIF_ZONE : "RESPONSABLE_EFFECTIF_ZONE"
 });
+
