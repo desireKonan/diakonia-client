@@ -2,6 +2,7 @@ import { useContext, createContext, useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { httpAdapter } from "./http-adapter.service";
 import http from "./http";
+import { toast } from "react-toastify";
 
 const AuthContext = createContext();
 
@@ -10,10 +11,9 @@ export const AuthProvider = ({ children }) => {
   const [token, setToken] = useState(localStorage.getItem("token") || "");
   const [isReady, setIsReady] = useState(false);
   const [isLogged, setLogged] = useState(null);
-  const [error, setError] = useState(null);
   const navigate = useNavigate();
 
-  
+
   useEffect(() => {
     const user = localStorage.getItem("user");
     const token = localStorage.getItem("token");
@@ -27,25 +27,22 @@ export const AuthProvider = ({ children }) => {
   }, []);
 
   const loginUser = async (data) => {
-    try {
+    setLogged(false);
+    const response = await httpAdapter.saveData("api/auth/sign-in", data);
+    if (response && (response.token && response.userModel)) {
+      localStorage.setItem("token", response.token);
+      localStorage.setItem("user", JSON.stringify(response['userModel']))
+      setUser(response['userModel']);
+      setToken(response['token']);
+      setLogged(true);
+      navigate("/");
+      return;
+    } else {
+      setLogged(true);
+      var error = response.response.data;
+      console.error(error);
+      toast.error(error['errorMessage']);
       setLogged(false);
-      const response = await httpAdapter.saveData("api/auth/sign-in", data);
-      if (response && (response.token && response.userModel)) {
-        localStorage.setItem("token", response.token);
-        localStorage.setItem("user", JSON.stringify(response['userModel']))
-        setUser(response['userModel']);
-        setToken(response['token']);
-        setLogged(true);
-        navigate("/");
-        return;
-      } else {
-        var error = response.response.data;
-        console.log(error);
-        setError(error);
-      }
-    } catch (err) {
-      console.log(err);
-      setError(error);
     }
   };
 
@@ -53,8 +50,8 @@ export const AuthProvider = ({ children }) => {
   const isLoggedIn = () => {
     return (user !== null && token !== null);
   };
-  
-  const logoutUser = async() => {
+
+  const logoutUser = async () => {
     localStorage.removeItem("token");
     localStorage.removeItem("user");
     setUser(null);
@@ -64,16 +61,15 @@ export const AuthProvider = ({ children }) => {
   };
 
   return (
-    <AuthContext.Provider value={{ 
-      token, 
-      user, 
-      isLogged, 
-      error,
+    <AuthContext.Provider value={{
+      token,
+      user,
+      isLogged,
       isLoggedIn,
-      loginUser, 
+      loginUser,
       logoutUser
     }}>
-      { isReady ? children : null }
+      {isReady ? children : null}
     </AuthContext.Provider>
   );
 

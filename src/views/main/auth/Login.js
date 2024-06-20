@@ -21,7 +21,7 @@ import CustomTextField from 'src/components/forms/theme-elements/CustomTextField
 import { useFormik } from 'formik';
 import * as yup from 'yup';
 import { useAuth } from 'src/app/services/useAuth';
-import { ToastContainer, toast } from 'react-toastify';
+import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
 
@@ -33,7 +33,7 @@ const validationSchema = yup.object({
 });
 
 const Login = () => {
-  const { loginUser, isLogged, error } = useAuth();
+  const { loginUser, isLogged } = useAuth();
 
   const formik = useFormik({
     initialValues: {
@@ -46,10 +46,8 @@ const Login = () => {
     },
   });
 
-
   return (
     <PageContainer title="Connexion" description="page de connexion">
-      <ToastContainer />
       <form onSubmit={formik.handleSubmit}>
         <Box
           sx={{
@@ -94,6 +92,10 @@ const Login = () => {
                       Se connecter avec
                     </Typography>
                   </Divider>
+                </Box>
+
+                <Box>
+                  <ToastContainer position="top-center"/>
                 </Box>
 
                 <Stack my={2} mt={2}>
@@ -152,7 +154,7 @@ const Login = () => {
                     fullWidth
                     type="submit"
                   >
-                    { ((isLogged || isLogged === null) && (!error || error != null)) ? "Connexion" : "Chargement..." }
+                    { isLogged ? "Chargement..." : "Connexion" }
                   </Button>
                 </Box>
               </Card>
