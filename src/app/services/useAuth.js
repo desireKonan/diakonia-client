@@ -1,7 +1,6 @@
 import { useContext, createContext, useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { httpAdapter } from "./http-adapter.service";
-import http from "./http";
 import { toast } from "react-toastify";
 
 const AuthContext = createContext();
@@ -20,7 +19,7 @@ export const AuthProvider = ({ children }) => {
     if (user && token) {
       setUser(JSON.parse(user));
       setToken(token);
-      http.defaults.headers.common["Authorization"] = `Bearer ${token}`;
+      //http.defaults.headers.common["Authorization"] = `Bearer ${token}`;
     }
     setIsReady(true);
     setLogged(null);
