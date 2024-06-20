@@ -52,7 +52,7 @@ const Router = [
     children: [
       { path: '/', element: <Navigate to="/dashboard" /> },
       { path: '/dashboard', exact: true, element: (
-          <ProtectedRoute routesAllowed={[Object.values(ROLES)]}>
+          <ProtectedRoute routesAllowed={[...Object.values(ROLES)]}>
             <Modern /> 
           </ProtectedRoute>
         )

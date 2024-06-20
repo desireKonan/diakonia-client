@@ -107,12 +107,16 @@ export function titleDashboard(key) {
 
 
 export function isIncludeIn(arrayToSearch, subArray) {
-    arrayToSearch.forEach((elementToSearch) => {
-        if(!subArray.includes(elementToSearch)) {
-            return false;
+    let isAuthorize;
+    for (let index = 0; index < arrayToSearch.length; index++) {
+        // En fonction du nombre de roles et de l'autorization du lien, on calcule la somme des autorizations et des liens, si oui l'écran est autorisé, si non c'est non-autorisé.
+        if(subArray.includes(arrayToSearch[index])) {
+            isAuthorize = true;
+        } else {
+            isAuthorize |= false;
         }
-    });
-    return true;
+    }
+    return isAuthorize;
 }
 
 

@@ -3,7 +3,7 @@ import { Navigate, useLocation } from "react-router-dom";
 import { useAuth } from "src/app/services/useAuth";
 import { isIncludeIn } from "src/utils/utils";
 
-const ProtectedRoute = ({ children, routesAllowed }) => {
+const ProtectedRoute = ({ children, routesAllowed = [] }) => {
   const location = useLocation();
   const { isLoggedIn, user } = useAuth();
 
