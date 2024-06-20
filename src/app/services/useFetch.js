@@ -15,8 +15,21 @@ const useFetch = (url = "", initialData) => {
                 }
             } catch(err) {
                 var errorData = err.response.data['errorMessage'];
-                console.log(err);
-                setError(errorData);
+                var errorCode = err.response.data['statusCode'];
+                let messageError = '';
+                switch(errorCode) {
+                    case 404:
+                        messageError = `Element non trouvé : ${errorData}`;
+                        break;
+                    case 401:
+                        messageError = `Resource non authorisé : ${errorData}`;
+                        break;
+                    case 500:
+                        messageError = `Erreur côté serveur : ${errorData}`;
+                        break;
+                }
+                console.log(messageError);
+                setError(messageError);
             }
             setLoading(false);
         }

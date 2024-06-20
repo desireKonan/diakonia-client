@@ -10,6 +10,7 @@ export const AuthProvider = ({ children }) => {
   const [token, setToken] = useState(localStorage.getItem("token") || "");
   const [isReady, setIsReady] = useState(false);
   const [isLogged, setLogged] = useState(null);
+  const [error, setError] = useState(null);
   const navigate = useNavigate();
 
   
@@ -29,7 +30,7 @@ export const AuthProvider = ({ children }) => {
     try {
       setLogged(false);
       const response = await httpAdapter.saveData("api/auth/sign-in", data);
-      if (response) {
+      if (response && (response.token && response.userModel)) {
         localStorage.setItem("token", response.token);
         localStorage.setItem("user", JSON.stringify(response['userModel']))
         setUser(response['userModel']);
@@ -37,9 +38,14 @@ export const AuthProvider = ({ children }) => {
         setLogged(true);
         navigate("/");
         return;
-      } 
+      } else {
+        var error = response.response.data;
+        console.log(error);
+        setError(error);
+      }
     } catch (err) {
-      console.error(err);
+      console.log(err);
+      setError(error);
     }
   };
 
@@ -61,10 +67,11 @@ export const AuthProvider = ({ children }) => {
     <AuthContext.Provider value={{ 
       token, 
       user, 
-      isLoggedIn,
       isLogged, 
+      error,
+      isLoggedIn,
       loginUser, 
-      logoutUser 
+      logoutUser
     }}>
       { isReady ? children : null }
     </AuthContext.Provider>
