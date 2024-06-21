@@ -16,14 +16,16 @@ import ParentCard from "src/components/shared/ParentCard";
 import useFetch from "src/app/services/useFetch";
 import { uniqueId } from "lodash";
 import { httpAdapter } from "src/app/services/http-adapter.service";
-import { date3, dateTimeView } from "src/utils/utils";
+import { date3, dateTimeView, ROLES } from "src/utils/utils";
 import CustomDialog from "src/components/custom/CustomDialog";
 import Tooltip from '@mui/material/Tooltip';
 import MembreForm from "./MembreForm";
+import { useAuth } from "src/app/services/useAuth";
 
 const MemberList = () => {
     const params = useParams();
     const { data: assemblee, loading, error } = useFetch(`/api/assemblee/${params.id}`, {});
+    const { user } = useAuth();
 
     const deleteMemberById = async(id) => {
         await httpAdapter.deleteData(`/api/assemblee/membre/${id}`);
@@ -34,12 +36,14 @@ const MemberList = () => {
         <PageContainer title={`Liste des membres de assemblée ${assemblee.name}`} description={`Liste des membres de assemblée ${assemblee.name}`}>
             <Breadcrumb title={`Liste des membres de assemblée ${assemblee.name}`} subtitle={`Liste des membres de assemblée ${assemblee.name}`} />
             <ParentCard title="Liste des membres d'une assemblée" action={
-                <CustomDialog
-                    label={`Ajouter un membre`} 
-                    title={`Formulaire d'ajout d'un membre`}
-                    form={<MembreForm assemblyId={params.id} />}
-                >
-                </CustomDialog>
+                user.roles.includes(ROLES.RESPONSABLE_EFFECTIF_ASSEMBLEE) && (
+                    <CustomDialog
+                        label={`Ajouter un membre`} 
+                        title={`Formulaire d'ajout d'un membre`}
+                        form={<MembreForm assemblyId={params.id} />}
+                    >
+                    </CustomDialog>
+                )
             }>
                 <Paper variant="outlined">
                     {
@@ -189,23 +193,32 @@ const MemberList = () => {
                                                             </Typography>
                                                         </TableCell>
                                                         <TableCell>
-                                                            <CustomDialog
-                                                                label={`Modifier un membre`} 
-                                                                title={`Formulaire d'ajout d'un membre`}
-                                                                color={true}
-                                                                form={<MembreForm assemblyId={params.id} membre={member} />}
-                                                            >
-                                                            </CustomDialog>
-                                                            <Tooltip title="Supprimer un membre">
-                                                                <Button 
-                                                                    variant="contained" 
-                                                                    color="error" 
-                                                                    onClick={(e) => deleteMemberById(member.id)} 
-                                                                    style={{margin: 5}}
-                                                                >
-                                                                    Supprimer 
-                                                                </Button>
-                                                            </Tooltip>
+                                                            {
+                                                                user.roles.includes(ROLES.RESPONSABLE_EFFECTIF_ASSEMBLEE) ? (
+                                                                    <CustomDialog
+                                                                        label={`Modifier un membre`} 
+                                                                        title={`Formulaire d'ajout d'un membre`}
+                                                                        color={true}
+                                                                        form={<MembreForm assemblyId={params.id} membre={member} />}
+                                                                    >
+                                                                    </CustomDialog>
+                                                                ) : null
+                                                            } 
+
+                                                            {
+                                                                user.roles.includes(ROLES.RESPONSABLE_EFFECTIF_ASSEMBLEE) ? (
+                                                                    <Tooltip title="Supprimer un membre">
+                                                                        <Button 
+                                                                            variant="contained" 
+                                                                            color="error" 
+                                                                            onClick={(e) => deleteMemberById(member.id)} 
+                                                                            style={{margin: 5}}
+                                                                        >
+                                                                            Supprimer 
+                                                                        </Button>
+                                                                    </Tooltip>
+                                                                ) : null
+                                                            }
                                                         </TableCell>
                                                     </TableRow>
                                                 )) : (

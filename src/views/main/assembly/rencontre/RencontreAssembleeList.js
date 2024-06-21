@@ -20,32 +20,34 @@ import CustomDialog from "src/components/custom/CustomDialog";
 import { IconTrash } from "@tabler/icons";
 import { uniqueId } from "lodash";
 import { httpAdapter } from "src/app/services/http-adapter.service";
-import { nameMeeting, dateTimeView } from "src/utils/utils";
+import { nameMeeting, dateTimeView, ROLES } from "src/utils/utils";
 import RencontreAssembleeForm from "./RencontreAssembleeForm";
+import { useAuth } from "src/app/services/useAuth";
 
 
 const RencontreList = () => {
     const params = useParams();
     const {data: assemblee, error, loading } = useFetch(`/api/assemblee/${params.id}`, {});
     const navigate = useNavigate();
-    
+    const { user } = useAuth();
+
     const deleteRencontre = async(data) => {
         await httpAdapter.deleteDatas(`/api/assemblee/rencontres/suppression`, data);
         window.location.reload(true);
     }
 
-    console.log(assemblee);
-
     return (
         <PageContainer title={`Liste des rencontres d'assemblée ${assemblee.name}`} description={`Liste des rencontres d'assemblée ${assemblee.name}`}>
             <Breadcrumb title={`Liste des rencontres d'assemblée ${assemblee.name}`} subtitle={`Liste des rencontres d'assemblée ${assemblee.name}`} />
             <ParentCard title={`Liste des rencontres d'assemblée ${assemblee.name}`} action={
-                <CustomDialog
-                    label={`Ajouter une rencontre d'assemblée`} 
-                    title={`Formulaire d'ajout d'une rencontre d'assemblée`}
-                    form={<RencontreAssembleeForm assemblyId={assemblee.id} />}
-                >
-                </CustomDialog>
+                user.roles.includes(ROLES.RESPONSABLE_EFFECTIF_ASSEMBLEE) && (
+                    <CustomDialog
+                        label={`Ajouter une rencontre d'assemblée`} 
+                        title={`Formulaire d'ajout d'une rencontre d'assemblée`}
+                        form={<RencontreAssembleeForm assemblyId={assemblee.id} />}
+                    >
+                    </CustomDialog>
+                )
             }>
                 <Paper variant="outlined">
                     {
@@ -153,47 +155,65 @@ const RencontreList = () => {
                                                             </Typography>
                                                         </TableCell>
                                                         <TableCell>
-                                                            <Tooltip title="Voir la liste des participants à la rencontre">
-                                                                <Button 
-                                                                    variant="contained" 
-                                                                    color="primary" 
-                                                                    onClick={(e) => navigate(`/rencontre/${meeting.id}/participants`)} 
-                                                                    style={{margin: 5}}
-                                                                > 
-                                                                    Liste de participants
-                                                                </Button>
-                                                            </Tooltip>
-                                                            <Tooltip title="Livre comptable">
-                                                                <Button 
-                                                                    variant="contained" 
-                                                                    color="success" 
-                                                                    onClick={(e) => navigate(`/rencontre/${meeting.id}/ligne-financieres`)} 
-                                                                    style={{margin: 5}}
-                                                                > 
-                                                                    Livre comptable
-                                                                </Button>
-                                                            </Tooltip>
-                                                            <CustomDialog
-                                                                isIconButton={true}
-                                                                color={true}
-                                                                label={`Ajouter une rencontre d'assemblée`} 
-                                                                title={`Formulaire d'ajout d'une rencontre d'assemblée`}
-                                                                form={<RencontreAssembleeForm assemblyId={assemblee.id} rencontre={meeting} />}
-                                                            >
-                                                            </CustomDialog>
-                                                            <Tooltip title="Supprimer une rencontre">
-                                                                    <IconButton
-                                                                        variant="contained" 
-                                                                        color="error" 
-                                                                        onClick={(e) => deleteRencontre({
-                                                                            assemblyId: assemblee.id,
-                                                                            meetingIds: [meeting.id]
-                                                                        })} 
-                                                                        style={{margin: 5}}
+                                                            {
+                                                                user.roles.includes(ROLES.RESPONSABLE_EFFECTIF_ASSEMBLEE) && (
+                                                                    <Tooltip title="Voir la liste des participants à la rencontre">
+                                                                        <Button 
+                                                                            variant="contained" 
+                                                                            color="primary" 
+                                                                            onClick={(e) => navigate(`/rencontre/${meeting.id}/participants`)} 
+                                                                            style={{margin: 5}}
+                                                                        > 
+                                                                            Liste de participants
+                                                                        </Button>
+                                                                    </Tooltip>
+                                                                )
+                                                            }
+                                                            
+                                                            {
+                                                                user.roles.includes(ROLES.RESPONSABLE_EFFECTIF_ASSEMBLEE) && (
+                                                                    <Tooltip title="Livre comptable">
+                                                                        <Button 
+                                                                            variant="contained" 
+                                                                            color="success" 
+                                                                            onClick={(e) => navigate(`/rencontre/${meeting.id}/ligne-financieres`)} 
+                                                                            style={{margin: 5}}
+                                                                        > 
+                                                                            Livre comptable
+                                                                        </Button>
+                                                                    </Tooltip>
+                                                                )
+                                                            }
+                                                            {
+                                                                user.roles.includes(ROLES.RESPONSABLE_EFFECTIF_ASSEMBLEE) && (
+                                                                    <CustomDialog
+                                                                        isIconButton={true}
+                                                                        color={true}
+                                                                        label={`Ajouter une rencontre d'assemblée`} 
+                                                                        title={`Formulaire d'ajout d'une rencontre d'assemblée`}
+                                                                        form={<RencontreAssembleeForm assemblyId={assemblee.id} rencontre={meeting} />}
                                                                     >
-                                                                        <IconTrash width={30} height={30} />
-                                                                    </IconButton>
-                                                            </Tooltip>
+                                                                    </CustomDialog>        
+                                                                )
+                                                            }
+
+                                                            {
+                                                                user.roles.includes(ROLES.RESPONSABLE_EFFECTIF_ASSEMBLEE) && (
+                                                                    <Tooltip title="Supprimer une rencontre">
+                                                                            <IconButton
+                                                                                variant="contained" 
+                                                                                color="error" 
+                                                                                onClick={(e) => deleteRencontre({
+                                                                                    assemblyId: assemblee.id,
+                                                                                    meetingIds: [meeting.id]
+                                                                                })} 
+                                                                                style={{margin: 5}}
+                                                                            >
+                                                                                <IconTrash width={30} height={30} />
+                                                                            </IconButton>
+                                                                    </Tooltip>
+                                                                )
+                                                            }
                                                         </TableCell>
                                                     </TableRow>
                                                 ))) : (

@@ -14,7 +14,7 @@ import AssembleeRapportAnnee from './AssembleeRapportAnnee';
 
 
 const EffectifAssembleeRapport = ({ assemblee }) => {
-    const [period, setPeriod] = useState("");
+    const [period, setPeriod] = useState("Jour");
 
     const switchReportPeriod = (reportPeriod) => {
         switch (reportPeriod) {

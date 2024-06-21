@@ -11,7 +11,7 @@ import SousZoneRapportAnnee from './SousZoneRapportAnnee';
 
 
 const EffectiveSousZoneRapport = ({ subzone }) => {
-    const [period, setPeriod] = useState("");
+    const [period, setPeriod] = useState("Jour");
 
     const switchReportPeriod = (reportPeriod) => {
         switch (reportPeriod) {

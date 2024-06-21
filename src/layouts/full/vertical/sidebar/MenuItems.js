@@ -83,7 +83,7 @@ const Menuitems = [
   },
   {
     id: uniqueId(),
-    title: 'Sous Zone',
+    title: 'Sous zone',
     icon: IconPoint,
     href: '/#/',
     children: [

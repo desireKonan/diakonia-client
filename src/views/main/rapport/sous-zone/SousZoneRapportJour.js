@@ -20,23 +20,8 @@ import CustomTextField from 'src/components/forms/theme-elements/CustomTextField
 import { uniqueId } from 'lodash';
 import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import { useTheme } from '@emotion/react';
-import { CustomDialog2, useDialogEvent } from 'src/components/custom/CustomDialog2';
-import CustomDashboardCard from 'src/components/custom/CustomDashboardCard';
 
 const SousZoneRapportJour = ({ subzone }) => {
-    const theme = useTheme();
-    const primary = theme.palette.primary.main;
-    const primarylight = theme.palette.primary.light;
-    const error = theme.palette.error.main;
-    const errorlight = theme.palette.error.light;
-    const warning = theme.palette.warning.main;
-    const warninglight = theme.palette.warning.light;
-    const secondary = theme.palette.success.main;
-    const secondarylight = theme.palette.success.light;
-
-    const { open, openDialog, closeDialog } = useDialogEvent();
-
     const [subzoneReport, setSubzoneReport] = useState([]);
 
     const formik = useFormik({
@@ -61,16 +46,6 @@ const SousZoneRapportJour = ({ subzone }) => {
         setSubzoneReport(subzoneReport);
     }
 
-    const getTotalSubzoneReport = () => {
-        let data = {
-            subzone: subzone,
-            day: formik.values.day
-        }
-        getSubzoneReport(data);
-
-        openDialog();
-    }
-
     const generateEffectiveSubzoneReport = async() => {
         await httpAdapter.generateReport(`api/rapport/export/sous-zone/jour`, {
             subzone: subzone,
@@ -80,74 +55,6 @@ const SousZoneRapportJour = ({ subzone }) => {
 
     return (
         <>
-            <CustomDialog2
-                label={`Ajouter une âme`}
-                title={`Formulaire d'ajout d'une âme`}
-                form={
-                    subzoneReport['total_report'] ? (
-                        <CustomDashboardCard
-                            subzone={subzoneReport['total_report']['subZone'] ?? 'Aucune sous-zone'}
-                            subzoneReports={[
-                                {
-                                    bgcolor: primarylight,
-                                    color: primary,
-                                    title: "L'ancien effectif",
-                                    element: subzoneReport['old_effective']
-                                },
-                                {
-                                    bgcolor: primarylight,
-                                    color: primary,
-                                    title: "Le nouvel effectif",
-                                    element: subzoneReport['new_effective']
-                                },
-                                {
-                                    bgcolor: primarylight,
-                                    color: primary,
-                                    title: "Nombre d'adultes",
-                                    element: subzoneReport['total_report']['adult_count']
-                                },
-                                {
-                                    bgcolor: secondarylight,
-                                    color: secondary,
-                                    title: "Nombre d'enfants",
-                                    element: subzoneReport['total_report']['child_count']
-                                },
-                                {
-                                    bgcolor: warninglight,
-                                    color: warning,
-                                    title: "Nombre d'invités",
-                                    element: subzoneReport['total_report']['guest_count']
-                                },
-                                {
-                                    bgcolor: primarylight,
-                                    color: primary,
-                                    title: "Nombre de visiteurs",
-                                    element: subzoneReport['total_report']['visitor_count']
-                                },
-                                {
-                                    bgcolor: warninglight,
-                                    color: warning,
-                                    title: "Le nombre total de présences",
-                                    element: subzoneReport['presence_total']
-                                },
-                                {
-                                    bgcolor: errorlight,
-                                    color: error,
-                                    title: "Le taux de présences",
-                                    element: `${subzoneReport['rate']}%`
-                                }
-                            ]}
-                        ></CustomDashboardCard>
-
-                    ) : null
-                }
-                open={open}
-                closeDialog={closeDialog}
-                fullWidth={false}
-                maxWidth={`md`}
-            >
-
-            </CustomDialog2>
             <ToastContainer />
             <form onSubmit={formik.handleSubmit}>
                 <Stack
@@ -186,11 +93,6 @@ const SousZoneRapportJour = ({ subzone }) => {
                     <Grid item xs={3} lg={3}>
                         <Button variant="contained" color='primary' type="submit">
                             Rechercher
-                        </Button>
-                    </Grid>
-                    <Grid item xs={3} lg={3}>
-                        <Button variant="contained" color='error' onClick={getTotalSubzoneReport}>
-                            Voir le point général des rencontres
                         </Button>
                     </Grid>
                     <Grid item xs={3} lg={3}>

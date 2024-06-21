@@ -20,23 +20,8 @@ import CustomTextField from 'src/components/forms/theme-elements/CustomTextField
 import { uniqueId } from 'lodash';
 import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import { useTheme } from '@emotion/react';
-import { CustomDialog2, useDialogEvent } from 'src/components/custom/CustomDialog2';
-import CustomDashboardCard from 'src/components/custom/CustomDashboardCard';
 
 const AssembleeRapportMois = ({ assemblee }) => {
-    const theme = useTheme();
-    const primary = theme.palette.primary.main;
-    const primarylight = theme.palette.primary.light;
-    const error = theme.palette.error.main;
-    const errorlight = theme.palette.error.light;
-    const warning = theme.palette.warning.main;
-    const warninglight = theme.palette.warning.light;
-    const secondary = theme.palette.success.main;
-    const secondarylight = theme.palette.success.light;
-
-    const { open, openDialog, closeDialog } = useDialogEvent();
-
     const [assemblyReport, setAssemblyReport] = useState([]);
 
     const formik = useFormik({
@@ -61,16 +46,6 @@ const AssembleeRapportMois = ({ assemblee }) => {
         setAssemblyReport(assemblyReport);
     }
 
-    const getTotalAssemblyReport = () => {
-        let data = {
-            label: assemblee,
-            month: month(formik.values.month)
-        }
-        getAssemblyReport(data);
-
-        openDialog();
-    }
-
     const generateEffectiveAssemblyReport = async() => {
         await httpAdapter.generateReport(`api/rapport/export/assemblee/mois`, {
             label: assemblee,
@@ -81,74 +56,6 @@ const AssembleeRapportMois = ({ assemblee }) => {
 
     return (
         <>
-            <CustomDialog2
-                label={`Rapport général`}
-                title={`Rapport général`}
-                form={
-                    assemblyReport['total_report'] ? (
-                        <CustomDashboardCard
-                            subzone={assemblyReport['total_report']['subZone'] ?? 'Aucune sous-zone'}
-                            assemblyReports={[
-                                {
-                                    bgcolor: primarylight,
-                                    color: primary,
-                                    title: "L'ancien effectif",
-                                    element: assemblyReport['old_effective']
-                                },
-                                {
-                                    bgcolor: primarylight,
-                                    color: primary,
-                                    title: "Le nouvel effectif",
-                                    element: assemblyReport['new_effective']
-                                },
-                                {
-                                    bgcolor: primarylight,
-                                    color: primary,
-                                    title: "Nombre d'adultes",
-                                    element: assemblyReport['total_report']['adult_count']
-                                },
-                                {
-                                    bgcolor: secondarylight,
-                                    color: secondary,
-                                    title: "Nombre d'enfants",
-                                    element: assemblyReport['total_report']['child_count']
-                                },
-                                {
-                                    bgcolor: warninglight,
-                                    color: warning,
-                                    title: "Nombre d'invités",
-                                    element: assemblyReport['total_report']['guest_count']
-                                },
-                                {
-                                    bgcolor: primarylight,
-                                    color: primary,
-                                    title: "Nombre de visiteurs",
-                                    element: assemblyReport['total_report']['visitor_count']
-                                },
-                                {
-                                    bgcolor: warninglight,
-                                    color: warning,
-                                    title: "Le nombre total de présences",
-                                    element: assemblyReport['presence_total']
-                                },
-                                {
-                                    bgcolor: errorlight,
-                                    color: error,
-                                    title: "Le taux de présences",
-                                    element: `${assemblyReport['rate']}%`
-                                }
-                            ]}
-                        ></CustomDashboardCard>
-
-                    ) : null
-                }
-                open={open}
-                closeDialog={closeDialog}
-                fullWidth={false}
-                maxWidth={`md`}
-            >
-
-            </CustomDialog2>
             <ToastContainer />
             <form onSubmit={formik.handleSubmit}>
                 <Stack
@@ -188,11 +95,6 @@ const AssembleeRapportMois = ({ assemblee }) => {
                     <Grid item xs={3} lg={3}>
                         <Button variant="contained" color='primary' type="submit">
                             Rechercher
-                        </Button>
-                    </Grid>
-                    <Grid item xs={3} lg={3}>
-                        <Button variant="contained" color='error' onClick={getTotalAssemblyReport}>
-                            Voir le point général des rencontres
                         </Button>
                     </Grid>
                     <Grid item xs={3} lg={3}>
