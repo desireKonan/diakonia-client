@@ -99,7 +99,7 @@ const UtilisateurForm = ({ utilisateur }) => {
                         fullWidth
                         id="tags-outlined"
                         options={roles}
-                        getOptionLabel={(option) => option.label}
+                        getOptionLabel={(option) => (option instanceof Object) ? option.label : option}
                         defaultValue={formik.values.roles}
                         onChange={(e) => {
                             let value = e.target.innerHTML;

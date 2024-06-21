@@ -26,13 +26,15 @@ import RencontreAssembleeForm from "./RencontreAssembleeForm";
 
 const RencontreList = () => {
     const params = useParams();
-    const {data: assemblee, error, loading } = useFetch(`api/assemblee/${params.id}`, {});
+    const {data: assemblee, error, loading } = useFetch(`/api/assemblee/${params.id}`, {});
     const navigate = useNavigate();
     
     const deleteRencontre = async(data) => {
-        await httpAdapter.deleteDatas(`api/assemblee/rencontres/suppression`, data);
+        await httpAdapter.deleteDatas(`/api/assemblee/rencontres/suppression`, data);
         window.location.reload(true);
     }
+
+    console.log(assemblee);
 
     return (
         <PageContainer title={`Liste des rencontres d'assemblée ${assemblee.name}`} description={`Liste des rencontres d'assemblée ${assemblee.name}`}>
@@ -128,14 +130,14 @@ const RencontreList = () => {
                                                             <Typography color="textSecondary" variant="subtitle2" fontWeight={400}>
                                                                 <ul>
                                                                     { 
-                                                                        JSON.stringify({
+                                                                        meeting.details ? JSON.stringify({
                                                                             "Nombres d'adultes": meeting.details['adultCount'],
                                                                             "Nombres d'enfants": meeting.details['childCount'],
                                                                             "Nombres d'invités": meeting.details['guestCount'],
                                                                             "Nombres de visteurs": meeting.details['visitorCount'],
                                                                             "Total dons et offrandes": meeting.details['titheAndGift'],
                                                                             "Total dons d'attiékoi": meeting.details['attiekoiGift']
-                                                                        })
+                                                                        }) : null
                                                                     }
                                                                 </ul>
                                                             </Typography>
@@ -164,7 +166,7 @@ const RencontreList = () => {
                                                             <Tooltip title="Livre comptable">
                                                                 <Button 
                                                                     variant="contained" 
-                                                                    color="primary" 
+                                                                    color="success" 
                                                                     onClick={(e) => navigate(`/rencontre/${meeting.id}/ligne-financieres`)} 
                                                                     style={{margin: 5}}
                                                                 > 

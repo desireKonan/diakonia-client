@@ -17,6 +17,7 @@ const Modern = Loadable(lazy(() => import('../views/dashboard/Modern')));
 const ListeVille = Loadable(lazy(() => import('../views/main/ville/VilleList')));
 
 const ListeAssemblee = Loadable(lazy(() => import('../views/main/assembly/AssemblyList')));
+const Assemblee = Loadable(lazy(() => import('../views/main/assembly/Assembly')));
 const ListeMembre = Loadable(lazy(() => import('../views/main/member/MembreList')));
 const ListeRencontreAssemblees = Loadable(lazy(() => import('../views/main/assembly/rencontre/RencontreAssembleeList')));
 const ListeParticipantRencontres = Loadable(lazy(() => import('../views/main/assembly/participant/ParticipantRencontreList')));
@@ -88,19 +89,25 @@ const Router = [
         )
       },
       { path: '/assemblees', exact: true, element: (
-          <ProtectedRoute routesAllowed={[ROLES.RESPONSABLE_EFFECTIF_ASSEMBLEE]}>
+          <ProtectedRoute routesAllowed={[ROLES.RESPONSABLE_EFFECTIF_SOUS_ZONE]}>
             <ListeAssemblee />
           </ProtectedRoute>
         )
       },
+      { path: '/assemblee', exact: true, element: (
+        <ProtectedRoute routesAllowed={[ROLES.RESPONSABLE_EFFECTIF_ASSEMBLEE]}>
+          <Assemblee />
+        </ProtectedRoute>
+      )
+      },
       { path: '/assemblee/:id/membres', exact: true, element: (
-          <ProtectedRoute routesAllowed={[ROLES.RESPONSABLE_EFFECTIF_ASSEMBLEE]}>
+          <ProtectedRoute routesAllowed={[ROLES.RESPONSABLE_EFFECTIF_ASSEMBLEE, ROLES.RESPONSABLE_EFFECTIF_SOUS_ZONE]}>
             <ListeMembre />
           </ProtectedRoute>
         )
       },
       { path: '/assemblee/:id/rencontres', exact: true, element: (
-          <ProtectedRoute routesAllowed={[ROLES.RESPONSABLE_EFFECTIF_ASSEMBLEE]}>
+          <ProtectedRoute routesAllowed={[ROLES.RESPONSABLE_EFFECTIF_ASSEMBLEE, ROLES.RESPONSABLE_EFFECTIF_SOUS_ZONE]}>
             <ListeRencontreAssemblees />
           </ProtectedRoute>
         )

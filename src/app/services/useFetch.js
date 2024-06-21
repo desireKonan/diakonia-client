@@ -28,7 +28,7 @@ const useFetch = (url = "", initialData) => {
                         messageError = `Erreur côté serveur : ${errorData}`;
                         break;
                 }
-                console.log(messageError);
+                console.error(messageError);
                 setError(messageError);
             }
             setLoading(false);

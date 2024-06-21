@@ -1,18 +1,19 @@
 import EffectiveZoneRapport from "./EffectifZoneRapport";
 import EffectiveSousZoneRapport from "./sous-zone/EffectifSousZoneRapport";
-import { useSearchParams } from "react-router-dom";
 import AucunRapport from "./AucunRapport";
 import EffectifAssembleeRapport from "./assemblee/EffectifAssembleeRapport";
+import { useAuth } from "src/app/services/useAuth";
+import { ROLES } from "src/utils/utils";
 
 const RapportBase = () => {
-    const [searchParams] = useSearchParams();
+    const { user } = useAuth();
 
-    if(searchParams.get('type_zone') === 'zone') {
-        return <EffectiveZoneRapport zone={'Cocody'}/>;
-    } else if(searchParams.get('type_zone') === 'sous_zone') {
-        return <EffectiveSousZoneRapport subzone={'Angré'}/>;
-    } else if(searchParams.get('type_zone') === 'assemblee') {
-        return <EffectifAssembleeRapport assemblee={'BCEAO'}/>;
+    if(user.roles.includes(ROLES.RESPONSABLE_EFFECTIF_ZONE)) {
+        return <EffectiveZoneRapport zone={user.place.assembly}/>;
+    } else if(user.roles.includes(ROLES.RESPONSABLE_EFFECTIF_SOUS_ZONE)) {
+        return <EffectiveSousZoneRapport subzone={user.place.sub_zone}/>;
+    } else if(user.roles.includes(ROLES.RESPONSABLE_EFFECTIF_ASSEMBLEE)) {
+        return <EffectifAssembleeRapport assemblee={user.place.assembly}/>;
     } else {
         return <AucunRapport />;
     }

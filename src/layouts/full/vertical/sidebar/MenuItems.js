@@ -68,7 +68,22 @@ const Menuitems = [
   },
   {
     id: uniqueId(),
-    title: 'Assemblées',
+    title: 'Assemblée',
+    icon: IconPoint,
+    href: '/#/',
+    children: [
+      {
+        id: uniqueId(),
+        title: 'Assemblée',
+        icon: IconPoint,
+        href: '/assemblee',
+      }
+    ],
+    rolesAllowed: [ROLES.RESPONSABLE_EFFECTIF_ASSEMBLEE]
+  },
+  {
+    id: uniqueId(),
+    title: 'Sous Zone',
     icon: IconPoint,
     href: '/#/',
     children: [
@@ -86,7 +101,7 @@ const Menuitems = [
         chipColor: 'secondary',
       }
     ],
-    rolesAllowed: [ROLES.RESPONSABLE_EFFECTIF_ASSEMBLEE]
+    rolesAllowed: [ROLES.RESPONSABLE_EFFECTIF_SOUS_ZONE]
   },
   {
     id: uniqueId(),
@@ -98,11 +113,11 @@ const Menuitems = [
         id: uniqueId(),
         title: 'Rapport de rencontres',
         icon: IconPoint,
-        href: '/rapport/rencontre?type_zone=sous_zone',
+        href: '/rapport/rencontre',
         chipColor: 'secondary',
       }
     ],
-    rolesAllowed: [Object.values(ROLES)]
+    rolesAllowed: [...Object.values(ROLES)]
   },
   {
     id: uniqueId(),

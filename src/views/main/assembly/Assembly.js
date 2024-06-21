@@ -1,4 +1,4 @@
-import { 
+import {
     Typography,
     Table,
     TableBody,
@@ -9,7 +9,6 @@ import {
     Paper,
     TableContainer
 } from "@mui/material";
-import { useParams } from "react-router-dom";
 import PageContainer from "src/components/container/PageContainer";
 import Breadcrumb from "src/layouts/full/shared/breadcrumb/Breadcrumb";
 import ParentCard from "src/components/shared/ParentCard";
@@ -19,13 +18,18 @@ import { httpAdapter } from "src/app/services/http-adapter.service";
 import { date3, dateTimeView } from "src/utils/utils";
 import CustomDialog from "src/components/custom/CustomDialog";
 import Tooltip from '@mui/material/Tooltip';
-import MembreForm from "./MembreForm";
+import MembreForm from "../member/MembreForm";
+import { useAuth } from "src/app/services/useAuth";
+import { useNavigate } from "react-router";
 
-const MemberList = () => {
-    const params = useParams();
-    const { data: assemblee, loading, error } = useFetch(`/api/assemblee/${params.id}`, {});
+const Assembly = () => {
+    const navigate = useNavigate();
+    const { user } = useAuth();
+    const { data: assemblee, loading, error } = useFetch(`/api/assemblee/${user.place.assembly_id}`, {});
 
-    const deleteMemberById = async(id) => {
+    console.log(user.place);
+
+    const deleteMemberById = async (id) => {
         await httpAdapter.deleteData(`/api/assemblee/membre/${id}`);
         window.location.reload(true);
     }
@@ -33,24 +37,37 @@ const MemberList = () => {
     return (
         <PageContainer title={`Liste des membres de assemblée ${assemblee.name}`} description={`Liste des membres de assemblée ${assemblee.name}`}>
             <Breadcrumb title={`Liste des membres de assemblée ${assemblee.name}`} subtitle={`Liste des membres de assemblée ${assemblee.name}`} />
-            <ParentCard title="Liste des membres d'une assemblée" action={
-                <CustomDialog
-                    label={`Ajouter un membre`} 
-                    title={`Formulaire d'ajout d'un membre`}
-                    form={<MembreForm assemblyId={params.id} />}
-                >
-                </CustomDialog>
+            <ParentCard title={`Liste des membres de l'assemblée: ${assemblee.name}`} action={
+                <>
+                    <CustomDialog
+                        label={`Ajouter un membre`}
+                        title={`Formulaire d'ajout d'un membre`}
+                        form={<MembreForm assemblyId={user.place.assembly_id} />}
+                    >
+                    </CustomDialog>
+                    <Tooltip title="Gérer la liste des rencontres d'une assemblée">
+                        <Button
+                            variant="contained"
+                            color="success"
+                            onClick={(e) => navigate(`/assemblee/${user.place.assembly_id}/rencontres`)}
+                            style={{ margin: 5 }}
+                        >
+                            Liste des rencontres
+                        </Button>
+                    </Tooltip>
+                </>
+
             }>
                 <Paper variant="outlined">
                     {
                         error ? (
                             <Typography variant="subtitle2" fontWeight={600}>
-                                { error }
+                                {error}
                             </Typography>
                         ) : (
                             loading ? (
                                 <Typography variant="subtitle2" fontWeight={600}>
-                                    { loading }
+                                    {loading}
                                 </Typography>
                             ) : (
                                 <TableContainer>
@@ -141,7 +158,7 @@ const MemberList = () => {
                                                         </TableCell>
                                                         <TableCell>
                                                             <Typography color="textSecondary" variant="subtitle2" fontWeight={400}>
-                                                                { date3(member.birthDate) }
+                                                                {date3(member.birthDate)}
                                                             </Typography>
                                                         </TableCell>
                                                         <TableCell>
@@ -158,7 +175,7 @@ const MemberList = () => {
                                                             <Typography color="textSecondary" variant="subtitle2" fontWeight={400}>
                                                                 <ul>
                                                                     {member.contacts.map(contact => (
-                                                                        <li> { contact } </li>
+                                                                        <li> {contact} </li>
                                                                     ))}
                                                                 </ul>
                                                             </Typography>
@@ -190,20 +207,20 @@ const MemberList = () => {
                                                         </TableCell>
                                                         <TableCell>
                                                             <CustomDialog
-                                                                label={`Modifier un membre`} 
+                                                                label={`Modifier un membre`}
                                                                 title={`Formulaire d'ajout d'un membre`}
                                                                 color={true}
-                                                                form={<MembreForm assemblyId={params.id} membre={member} />}
+                                                                form={<MembreForm assemblyId={user.place.assembly_id} membre={member} />}
                                                             >
                                                             </CustomDialog>
                                                             <Tooltip title="Supprimer un membre">
-                                                                <Button 
-                                                                    variant="contained" 
-                                                                    color="error" 
-                                                                    onClick={(e) => deleteMemberById(member.id)} 
-                                                                    style={{margin: 5}}
+                                                                <Button
+                                                                    variant="contained"
+                                                                    color="error"
+                                                                    onClick={(e) => deleteMemberById(member.id)}
+                                                                    style={{ margin: 5 }}
                                                                 >
-                                                                    Supprimer 
+                                                                    Supprimer
                                                                 </Button>
                                                             </Tooltip>
                                                         </TableCell>
@@ -224,7 +241,7 @@ const MemberList = () => {
                             )
                         )
                     }
-                    
+
                 </Paper>
             </ParentCard>
         </PageContainer>
@@ -232,4 +249,4 @@ const MemberList = () => {
 }
 
 
-export default MemberList;
+export default Assembly;

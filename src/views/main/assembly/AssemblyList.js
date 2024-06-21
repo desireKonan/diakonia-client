@@ -127,28 +127,6 @@ const AssemblyList = () => {
                                                                     Liste des rencontres
                                                                 </Button>
                                                             </Tooltip>
-                                                            {
-                                                            /*
-                                                            <Tooltip title="Livre comptable d'une assemblée">
-                                                                <Button 
-                                                                    variant="contained" 
-                                                                    color="success" 
-                                                                    onClick={(e) => navigate(`/assemblee/${assembly.id}/ligne-financieres`)} 
-                                                                    style={{margin: 5}}
-                                                                > 
-                                                                    Livre comptable
-                                                                </Button>
-                                                            </Tooltip>
-                                                            <CustomDialog
-                                                                isIconButton={true}
-                                                                color={true}
-                                                                label={`Ajouter une assemblée`} 
-                                                                title={`Formulaire d'ajout d'une assemblée`}
-                                                                form={<AssemblyForm assembly={assembly} />}
-                                                            >
-                                                            </CustomDialog>
-                                                            */
-                                                            }
                                                             <Tooltip title="Supprimer une assemblée">
                                                                     <IconButton
                                                                         variant="contained" 

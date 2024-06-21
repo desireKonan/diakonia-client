@@ -19,7 +19,6 @@ export const AuthProvider = ({ children }) => {
     if (user && token) {
       setUser(JSON.parse(user));
       setToken(token);
-      //http.defaults.headers.common["Authorization"] = `Bearer ${token}`;
     }
     setIsReady(true);
     setLogged(null);
