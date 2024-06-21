@@ -155,10 +155,10 @@ const SousZoneRapportMois = ({ subzone }) => {
                             </TableHead>
                             <TableBody>
                                 {
-                                    (subzoneReport && subzoneReport.length !== 0) ? subzoneReport.map((subzoneR) => (
+                                    (subzoneReport && subzoneReport.length !== 0) ? subzoneReport.map((subzoneR, index) => (
                                         <TableRow key={subzoneR.id}>
-                                            <TableCell>
-                                                <Typography color="textSecondary" variant="subtitle2" fontWeight={400}>
+                                            <TableCell style={(index === subzoneReport.length - 1) ? {backgroundColor: "#2ecc71"} : {backgroundColor: "#f39c12"}}>
+                                                <Typography color="#f5f6fa" variant="subtitle2" fontWeight={ (index === (subzoneReport.length - 1)) ? 700 : 500}>
                                                     {subzoneR.label}
                                                 </Typography>
                                             </TableCell>

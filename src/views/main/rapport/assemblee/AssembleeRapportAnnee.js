@@ -73,6 +73,7 @@ const AssembleeRapportAnnee = ({ assemblee }) => {
                             <DatePicker
                                 id="year"
                                 name="year"
+                                views={["year"]}
                                 renderInput={(props) => <CustomTextField {...props} fullWidth size="large" sx={{
                                     '& .MuiSvgIcon-root': {
                                         width: 18,
@@ -151,40 +152,87 @@ const AssembleeRapportAnnee = ({ assemblee }) => {
                             </TableHead>
                             <TableBody>
                                 {
-                                    (assemblyReport && assemblyReport.length !== 0) ? assemblyReport.map((assemblyR) => (
-                                        <TableRow key={assemblyR.id}>
-                                            <TableCell>
-                                                <Typography color="textSecondary" variant="subtitle2" fontWeight={400}>
-                                                    {assemblyR.adult_count}
-                                                </Typography>
-                                            </TableCell>
-                                            <TableCell>
-                                                <Typography color="textSecondary" variant="subtitle2" fontWeight={400}>
-                                                    {assemblyR.child_count}
-                                                </Typography>
-                                            </TableCell>
-                                            <TableCell>
-                                                <Typography color="textSecondary" variant="subtitle2" fontWeight={400}>
-                                                    {assemblyR.guest_count}
-                                                </Typography>
-                                            </TableCell>
-                                            <TableCell>
-                                                <Typography color="textSecondary" variant="subtitle2" fontWeight={400}>
-                                                    {assemblyR.visitor_count}
-                                                </Typography>
-                                            </TableCell>
-                                            <TableCell>
-                                                <Typography color="textSecondary" variant="subtitle2" fontWeight={400}>
-                                                    {assemblyR.tithe_gift}
-                                                </Typography>
-                                            </TableCell>
-                                            <TableCell>
-                                                <Typography color="textSecondary" variant="subtitle2" fontWeight={400}>
-                                                    {assemblyR.attiekoi_gift}
-                                                </Typography>
-                                            </TableCell>
-                                        </TableRow>
-                                    )) : (
+                                    (assemblyReport && assemblyReport.length !== 0) ? assemblyReport.map((assemblyR, index) => {
+                                        if (index === assemblyReport.length - 1) {
+                                            return (
+                                                <>
+                                                    <TableRow key={uniqueId()} style={{backgroundColor: "#1abc9c"}}>
+                                                        <TableCell colSpan={6}>
+                                                            <Typography color="#ecf0f1" variant="subtitle2" fontWeight={500}>
+                                                                Totaux
+                                                            </Typography>
+                                                        </TableCell>
+                                                    </TableRow>
+                                                    <TableRow key={assemblyR.id} style={{backgroundColor: "#3498db"}}>
+                                                        <TableCell>
+                                                            <Typography color="#ecf0f1" variant="subtitle2" fontWeight={500}>
+                                                                {assemblyR.adult_count}
+                                                            </Typography>
+                                                        </TableCell>
+                                                        <TableCell>
+                                                            <Typography color="#ecf0f1" variant="subtitle2" fontWeight={500}>
+                                                                {assemblyR.child_count}
+                                                            </Typography>
+                                                        </TableCell>
+                                                        <TableCell>
+                                                            <Typography color="#ecf0f1" variant="subtitle2" fontWeight={500}>
+                                                                {assemblyR.guest_count}
+                                                            </Typography>
+                                                        </TableCell>
+                                                        <TableCell>
+                                                            <Typography color="#ecf0f1" variant="subtitle2" fontWeight={500}>
+                                                                {assemblyR.visitor_count}
+                                                            </Typography>
+                                                        </TableCell>
+                                                        <TableCell>
+                                                            <Typography color="#ecf0f1" variant="subtitle2" fontWeight={500}>
+                                                                {assemblyR.tithe_gift}
+                                                            </Typography>
+                                                        </TableCell>
+                                                        <TableCell>
+                                                            <Typography color="#ecf0f1" variant="subtitle2" fontWeight={500}>
+                                                                {assemblyR.attiekoi_gift}
+                                                            </Typography>
+                                                        </TableCell>
+                                                    </TableRow>
+                                                </>
+                                            );
+                                        }
+                                        return (
+                                            <TableRow key={assemblyR.id}>
+                                                <TableCell>
+                                                    <Typography color="textSecondary" variant="subtitle2" fontWeight={400}>
+                                                        {assemblyR.adult_count}
+                                                    </Typography>
+                                                </TableCell>
+                                                <TableCell>
+                                                    <Typography color="textSecondary" variant="subtitle2" fontWeight={400}>
+                                                        {assemblyR.child_count}
+                                                    </Typography>
+                                                </TableCell>
+                                                <TableCell>
+                                                    <Typography color="textSecondary" variant="subtitle2" fontWeight={400}>
+                                                        {assemblyR.guest_count}
+                                                    </Typography>
+                                                </TableCell>
+                                                <TableCell>
+                                                    <Typography color="textSecondary" variant="subtitle2" fontWeight={400}>
+                                                        {assemblyR.visitor_count}
+                                                    </Typography>
+                                                </TableCell>
+                                                <TableCell>
+                                                    <Typography color="textSecondary" variant="subtitle2" fontWeight={400}>
+                                                        {assemblyR.tithe_gift}
+                                                    </Typography>
+                                                </TableCell>
+                                                <TableCell>
+                                                    <Typography color="textSecondary" variant="subtitle2" fontWeight={400}>
+                                                        {assemblyR.attiekoi_gift}
+                                                    </Typography>
+                                                </TableCell>
+                                            </TableRow>
+                                        );
+                                    }) : (
                                         <TableRow key={`${uniqueId()}`}>
                                             <TableCell rowSpan={6}>
                                                 <Typography color="textSecondary" variant="subtitle2" fontWeight={400}>

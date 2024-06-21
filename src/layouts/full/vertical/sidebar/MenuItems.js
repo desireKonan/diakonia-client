@@ -1,6 +1,5 @@
 import {
   IconPoint,
-  IconMail,
   IconDashboard
 } from '@tabler/icons';
 
