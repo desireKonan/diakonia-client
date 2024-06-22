@@ -27,15 +27,23 @@ export const AuthProvider = ({ children }) => {
   const loginUser = async (data) => {
     setLogged(false);
     const response = await httpAdapter.saveData("api/auth/sign-in", data);
-    if (response && (response.token && response.userModel)) {
-      localStorage.setItem("token", response.token);
-      localStorage.setItem("user", JSON.stringify(response['userModel']))
-      setUser(response['userModel']);
-      setToken(response['token']);
-      setLogged(true);
-      navigate("/");
-      return;
-    } else {
+    try {
+      if (response && (response.token && response.userModel)) {
+        localStorage.setItem("token", response.token);
+        localStorage.setItem("user", JSON.stringify(response['userModel']))
+        setUser(response['userModel']);
+        setToken(response['token']);
+        setLogged(true);
+        navigate("/");
+        return;
+      } else {
+        setLogged(true);
+        var error = response.response.data;
+        console.error(error);
+        toast.error(error['errorMessage']);
+        setLogged(false);
+      }
+    } catch(err) {
       setLogged(true);
       var error = response.response.data;
       console.error(error);
