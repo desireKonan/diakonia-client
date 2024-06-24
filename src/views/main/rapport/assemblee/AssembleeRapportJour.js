@@ -12,7 +12,7 @@ import {
     Button
 } from '@mui/material';
 import CustomFormLabel from 'src/components/forms/theme-elements/CustomFormLabel';
-import { date2 } from 'src/utils/utils';
+import { date, date2 } from 'src/utils/utils';
 import { useFormik } from 'formik';
 import { httpAdapter } from 'src/app/services/http-adapter.service';
 import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns';
@@ -49,7 +49,7 @@ const AssembleeRapportJour = ({ assemblee }) => {
 
     
     const generateEffectiveSubzoneReport = async() => {
-        console.log(formik.values.day);
+        console.log(date(formik.values.day));
         await httpAdapter.generateReport(`api/rapport/export/assemblee/jour`, {
             label: assemblee,
             day: formik.values.day

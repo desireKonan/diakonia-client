@@ -49,7 +49,7 @@ const SousZoneRapportJour = ({ subzone }) => {
     const generateEffectiveSubzoneReport = async() => {
         await httpAdapter.generateReport(`api/rapport/export/sous-zone/jour`, {
             subzone: subzone,
-            day: date(formik.values.day) 
+            day: (formik.values.day) 
         });
     }
 
