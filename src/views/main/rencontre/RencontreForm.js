@@ -130,18 +130,21 @@ const RencontreForm = ({ rencontre }) => {
                             <CustomFormLabel htmlFor="start">Date de départ</CustomFormLabel>
                             <LocalizationProvider dateAdapter={AdapterDateFns}>
                                 <DateTimePicker
-                                    id="start" 
-                                    name="start"
-                                    renderInput={(props) => <CustomTextField id="start" name="start" {...props} fullWidth size="large" sx={{
-                                            '& .MuiSvgIcon-root': {
-                                                width: 18,
-                                                height: 18,
-                                            },
-                                            '& .MuiFormHelperText-root': {
-                                                display: 'none',
-                                            },
-                                        }}
-                                    />}
+                                    renderInput={(props) => 
+                                        <CustomTextField {...props}
+                                            fullWidth 
+                                            size="small" 
+                                            sx={{
+                                                '& .MuiSvgIcon-root': {
+                                                    width: 18,
+                                                    height: 18,
+                                                },
+                                                '& .MuiFormHelperText-root': {
+                                                    display: 'none',
+                                                },
+                                            }}
+                                        />
+                                    }
                                     placeholder="Entrez la date de depart"
                                     value={formik.values.start}
                                     onChange={(newValue) => {
@@ -156,9 +159,7 @@ const RencontreForm = ({ rencontre }) => {
                             <CustomFormLabel htmlFor="end">Date de fin</CustomFormLabel>
                             <LocalizationProvider dateAdapter={AdapterDateFns}>
                                 <DateTimePicker
-                                    id="end" 
-                                    name="end"
-                                    renderInput={(props) => <CustomTextField id="end" name="end" {...props} fullWidth size="large" sx={{
+                                    renderInput={(props) => <CustomTextField {...props} fullWidth size="small" sx={{
                                             '& .MuiSvgIcon-root': {
                                                 width: 18,
                                                 height: 18,

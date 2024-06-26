@@ -16,7 +16,7 @@ import ParentCard from "src/components/shared/ParentCard";
 import useFetch from "src/app/services/useFetch";
 import { uniqueId } from "lodash";
 import { httpAdapter } from "src/app/services/http-adapter.service";
-import { date3, dateTimeView, ROLES } from "src/utils/utils";
+import { date3, dateTime, dateTimeView, ROLES } from "src/utils/utils";
 import CustomDialog from "src/components/custom/CustomDialog";
 import Tooltip from '@mui/material/Tooltip';
 import MembreForm from "./MembreForm";
@@ -31,6 +31,8 @@ const MemberList = () => {
         await httpAdapter.deleteData(`/api/assemblee/membre/${id}`);
         window.location.reload(true);
     }
+
+    console.info(assemblee.members);
 
     return (
         <PageContainer title={`Liste des membres de assemblée ${assemblee.name}`} description={`Liste des membres de assemblée ${assemblee.name}`}>
@@ -179,17 +181,17 @@ const MemberList = () => {
                                                         </TableCell>
                                                         <TableCell>
                                                             <Typography color="textSecondary" variant="subtitle2" fontWeight={400}>
-                                                                {dateTimeView(member.establishedAt)}
+                                                                {dateTime(member.establishedAt)}
                                                             </Typography>
                                                         </TableCell>
                                                         <TableCell>
                                                             <Typography color="textSecondary" variant="subtitle2" fontWeight={400}>
-                                                                {dateTimeView(member.rejoinedAt)}
+                                                                {dateTime(member.rejoinedAt)}
                                                             </Typography>
                                                         </TableCell>
                                                         <TableCell>
                                                             <Typography color="textSecondary" variant="subtitle2" fontWeight={400}>
-                                                                {dateTimeView(member.leftAt)}
+                                                                {dateTime(member.leftAt)}
                                                             </Typography>
                                                         </TableCell>
                                                         <TableCell>

@@ -12,36 +12,37 @@ export function instant(dateTime) {
 }
 
 export function dateTime(datetime) {
-    return moment(datetime ?? new Date(), 'DD-MM-yyyy hh:mm:ss').format('yyyy-MM-DDThh:mm:ss');
+    return datetime ? 
+        moment(datetime, 'DD-MM-yyyy hh:mm:ss').format('yyyy-MM-DDThh:mm:ss') : 'Aucune date';
 }
 
 export function dateTimeView(dateTime) {
-    return moment(dateTime, 'DD-MM-yyyy hh:mm:ss').format('DD-MM-yyyy hh:mm:ss');
+    return dateTime ?? moment(dateTime, 'DD-MM-yyyy hh:mm:ss').format('DD-MM-yyyy hh:mm:ss');
 }
 
 export function instantTime(dateTime) {
-    return moment(dateTime, 'yyyy-MM-DDTHH:mm:ss.sssZ').format('yyyy-MM-DDTHH:mm:ss.sssZ');
+    return dateTime ?? moment(dateTime, 'yyyy-MM-DDTHH:mm:ss.sssZ').format('yyyy-MM-DDTHH:mm:ss.sssZ');
 }
 
 export function month(monthYear) {
-    return moment(monthYear).format('MM/yyyy');
+    return monthYear ?? moment(monthYear).format('MM/yyyy');
 }
 
 export function year(_year) {
-    return moment(_year).format('yyyy');
+    return _year ?? moment(_year).format('yyyy');
 }
 
 
 export function date(dateValue) {
-    return moment(dateValue, 'MM-DD-yyyy').format('yyyy-MM-DD');
+    return dateValue ?? moment(dateValue, 'MM-DD-yyyy').format('yyyy-MM-DD');
 }
 
 export function date2(dateVal) {
-    return moment(dateVal).format('yyyy-MM-DD');
+    return dateVal ?? moment(dateVal).format('yyyy-MM-DD');
 }
 
 export function date3(dateValue) {
-    return moment(dateValue, 'DD-MM-yyyy').format('yyyy-MM-DD');
+    return dateValue ?? moment(dateValue, 'DD-MM-yyyy').format('yyyy-MM-DD');
 }
 
 
