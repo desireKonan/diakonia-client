@@ -60,23 +60,23 @@ export function mapParticipant(participant) {
 }
 
 
-export function nameMeeting(type, assemblyName) {
+export function nameMeeting(type, assemblyName, date) {
     let name = '';
     switch (type) {
         case MeetingType.CULT:
-            name = `Culte d'adoration et de louange de l'assemblée ${assemblyName}`;
+            name = `Culte d'adoration et de louange de l'assemblée ${assemblyName} du ${date}`;
             break;
         case MeetingType.BREAKING_LINK:
-            name = `Brisement de liens de l'assemblée ${assemblyName}`;
+            name = `Brisement de liens de l'assemblée ${assemblyName} du ${date}`;
             break;
         case MeetingType.COMMON_CULT:
-            name = `Culte commun de l'assemblée ${assemblyName}`;
+            name = `Culte commun de l'assemblée ${assemblyName} du ${date}`;
             break;
         case MeetingType.SPECIAL_MEETING:
-            name = `Rencontre spéciale de l'assemblée ${assemblyName}`;
+            name = `Rencontre spéciale de l'assemblée ${assemblyName} du ${date}`;
             break;
         case MeetingType.PRAYER_MEETING:
-            name = `Rencontre de prières de l'assemblée ${assemblyName}`;
+            name = `Rencontre de prières de l'assemblée ${assemblyName} du ${date}`;
                 break;
         default:
             break;
