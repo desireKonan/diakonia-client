@@ -34,15 +34,15 @@ export function year(_year) {
 
 
 export function date(dateValue) {
-    return dateValue ?? moment(dateValue, 'MM-DD-yyyy').format('yyyy-MM-DD');
+    return dateValue ? moment(dateValue, 'MM-DD-yyyy').format('yyyy-MM-DD') : 'Aucune date !';
 }
 
 export function date2(dateVal) {
-    return dateVal ?? moment(dateVal).format('yyyy-MM-DD');
+    return dateVal ? moment(dateVal).format('yyyy-MM-DD') : 'Aucune date !';
 }
 
 export function date3(dateValue) {
-    return dateValue ?? moment(dateValue, 'DD-MM-yyyy').format('yyyy-MM-DD');
+    return dateValue ? moment(dateValue, 'DD-MM-yyyy').format('DD-MM-yyyy') : 'Aucune date !';
 }
 
 
