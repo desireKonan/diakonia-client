@@ -18,8 +18,8 @@ const validationSchema = yup.object({
 
 const saveRole = async (values) => {
     var role = await httpAdapter.saveData(`/api/role`, values);
-    if (role.error && role.error != null) {
-        toast(`Erreur: ${role.error}`);
+    if (role.errorMessage) {
+        toast.error(`Erreur: ${role.errorMessage}`);
         return;
     }
     window.location.reload(true);

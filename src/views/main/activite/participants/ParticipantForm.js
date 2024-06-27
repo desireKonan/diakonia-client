@@ -30,8 +30,8 @@ const submitParticipant = async(values, activityId) => {
             }
         ]
     });
-    if(participant.error && participant.error != null) {
-        toast(`Erreur: ${participant.error}`);
+    if(participant.errorMessage) {
+        toast.error(`Erreur: ${participant.errorMessage}`);
         return;
     }
     window.location.reload(true);

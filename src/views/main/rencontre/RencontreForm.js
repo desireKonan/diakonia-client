@@ -26,8 +26,8 @@ const validationSchema = yup.object({
 
 const saveRencontre = async(values) => {
     var rencontre = await httpAdapter.saveData(`/api/rencontre`, values);
-    if(rencontre.error && rencontre.error != null) {
-        toast(`Erreur: ${rencontre.error}`);
+    if(rencontre.errorMessage) {
+        toast.error(`Erreur: ${rencontre.errorMessage}`);
         return;
     }
     window.location.reload(true);

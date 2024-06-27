@@ -16,8 +16,8 @@ const validationSchema = yup.object({
 
 const saveRubrique = async(values) => {
     var rubrique = await httpAdapter.saveData(`api/rubrique-financiere`, values);
-    if(rubrique.error && rubrique.error != null) {
-        toast(`Erreur: ${rubrique.error}`);
+    if(rubrique.errorMessage) {
+        toast.error(`Erreur: ${rubrique.errorMessage}`);
         return;
     }
     window.location.reload(true);

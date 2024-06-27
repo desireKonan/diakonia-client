@@ -20,8 +20,8 @@ const saveLigneFinanciere = async(values, meetingId) => {
             }
         ]
     });
-    if(ligneFinanciere.error && ligneFinanciere.error != null) {
-        toast(`Erreur: ${ligneFinanciere.error}`);
+    if(ligneFinanciere.errorMessage) {
+        toast.error(`Erreur: ${ligneFinanciere.errorMessage}`);
         return;
     }
     window.location.reload(true);

@@ -10,8 +10,8 @@ import { httpAdapter } from "src/app/services/http-adapter.service";
 
 const submitAssembly = async(values) => {
     var assemblee = await httpAdapter.saveData(`api/assemblee`, values);
-    if(assemblee.error && assemblee.error != null) {
-        toast(`Erreur: ${assemblee.error}`);
+    if(assemblee.errorMessage) {
+        toast.error(`Erreur: ${assemblee.errorMessage}`);
         return;
     }
     window.location.reload(true);

@@ -18,8 +18,8 @@ const validationSchema = yup.object({
 
 const saveUtilisateur = async (values) => {
     var utilisateur = await httpAdapter.saveData(`/api/user`, values);
-    if (utilisateur.error && utilisateur.error != null) {
-        toast(`Erreur: ${utilisateur.error}`);
+    if (utilisateur.errorMessage) {
+        toast.error(`Erreur: ${utilisateur.errorMessage}`);
         return;
     }
     window.location.reload(true);

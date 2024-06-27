@@ -16,8 +16,8 @@ const validationSchema = yup.object({
 
 const saveTypeActivite = async(values) => {
     var type = await httpAdapter.saveData(`/api/type-activite`, values);
-    if(type.error && type.error != null) {
-        toast(`Erreur: ${type.error}`);
+    if(type.errorMessage) {
+        toast.error(`Erreur: ${type.errorMessage}`);
         return;
     }
     window.location.reload(true);

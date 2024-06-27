@@ -7,8 +7,8 @@ export const httpAdapter = {
             var response = await http.get(url);
             dataList = response.data;
         } catch(err) {
-            console.log(err);
-            return err;
+            console.error(err.response.data);
+            return err.response.data;
         }
         return dataList;
     },
@@ -19,8 +19,8 @@ export const httpAdapter = {
             var response = await http.get(url);
             data = response.data;
         } catch(err) {
-            console.log(err);
-            return err;
+            console.error(err.response.data);
+            return err.response.data;
         }
         return data;
     },
@@ -31,8 +31,8 @@ export const httpAdapter = {
             var response = await http.post(url, _data);
             data = response.data;
         } catch(err) {
-            console.log(err);
-            return err;
+            console.error(err.response.data);
+            return err.response.data;
         }
         return data;
     },
@@ -78,8 +78,8 @@ export const httpAdapter = {
             });
             console.log(response);
         } catch(err) {
-            console.error(err);
-            return err;
+            console.error(err.response.data);
+            return err.response.data;
         }
         return data;
     },
@@ -91,8 +91,8 @@ export const httpAdapter = {
                 return "Donnée supprimée avec succès";
             }
         } catch(err) {
-            console.log(err);
-            return err;
+            console.log(err.response.data);
+            return err.response.data;
         }
     },
 
@@ -103,8 +103,8 @@ export const httpAdapter = {
                 return "Donnée supprimée avec succès";
             }
         } catch(err) {
-            console.log(err);
-            return err;
+            console.error(err.response.data);
+            return err.response.data;
         }
     }
 }

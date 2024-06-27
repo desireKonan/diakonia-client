@@ -15,8 +15,8 @@ const validationSchema = yup.object({
 
 const submitVille = async(values) => {
     var ville = await httpAdapter.saveData(`api/ville`, values);
-    if(ville.error && ville.error != null) {
-        toast(`Erreur: ${ville.error}`);
+    if(ville.errorMessage) {
+        toast.error(`Erreur: ${ville.errorMessage}`);
         return;
     }
     window.location.reload(true);

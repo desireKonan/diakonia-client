@@ -32,8 +32,8 @@ const saveAme = async(values, meetingId) => {
             }
         ]
     });
-    if(ame.error && ame.error != null) {
-        toast(`Erreur: ${ame.error}`);
+    if(ame.errorMessage) {
+        toast.error(`Erreur: ${ame.errorMessage}`);
         return;
     }
     window.location.reload(true);

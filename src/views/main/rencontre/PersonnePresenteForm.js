@@ -33,8 +33,8 @@ const savePersonnePresente = async(values, meetingId) => {
             }
         ]
     });
-    if(personne.error && personne.error != null) {
-        toast(`Erreur: ${personne.error}`);
+    if(personne.errorMessage) {
+        toast.error(`Erreur: ${personne.errorMessage}`);
         return;
     }
     window.location.reload(true);
