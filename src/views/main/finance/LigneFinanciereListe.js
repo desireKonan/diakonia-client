@@ -43,13 +43,14 @@ const LigneFinanciereListe = () => {
                 <Paper variant="outlined">
                     {
                         loading ? loading : (
-                            <TableContainer>
+                            <TableContainer sx={{ overflow: 'auto', width: { xs: '280px', sm: 'auto' }, maxHeight: 440, }}>
                                 <Table
-                                    aria-label="simple table"
                                     sx={{
                                         whiteSpace: "nowrap",
                                         mt: 2
                                     }}
+                                    stickyHeader 
+                                    aria-label="sticky table"
                                 >
                                     <TableHead>
                                         <TableRow>

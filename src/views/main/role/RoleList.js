@@ -1,4 +1,4 @@
-import {  
+import {
     Typography,
     Table,
     TableBody,
@@ -22,7 +22,7 @@ import { uniqueId } from "lodash";
 const RoleList = () => {
     const { data: roles, loading, error } = useFetch('/api/role');
 
-    const deleteRoleById = async(id) => {
+    const deleteRoleById = async (id) => {
         await httpAdapter.deleteData(`/api/role/${id}`);
         window.location.reload(true);
     }
@@ -32,7 +32,7 @@ const RoleList = () => {
             <Breadcrumb title="Liste des roles" subtitle="Liste des roles" />
             <ParentCard title="Liste des roles" action={
                 <CustomDialog
-                    label={`Ajouter un role`} 
+                    label={`Ajouter un role`}
                     title={`Formulaire d'ajout d'un role`}
                     form={<RoleForm />}
                 >
@@ -42,21 +42,22 @@ const RoleList = () => {
                     {
                         error ? (
                             <Typography variant="subtitle2" fontWeight={600}>
-                                { error }
+                                {error}
                             </Typography>
                         ) : (
                             loading ? (
                                 <Typography variant="subtitle2" fontWeight={600}>
-                                    { loading }
+                                    {loading}
                                 </Typography>
                             ) : (
-                                <TableContainer>
+                                <TableContainer sx={{ overflow: 'auto', width: { xs: '280px', sm: 'auto' }, maxHeight: 440, }}>
                                     <Table
-                                        aria-label="simple table"
                                         sx={{
                                             whiteSpace: "nowrap",
                                             mt: 2
                                         }}
+                                        stickyHeader
+                                        aria-label="sticky table"
                                     >
                                         <TableHead>
                                             <TableRow>
@@ -84,49 +85,49 @@ const RoleList = () => {
                                         </TableHead>
                                         <TableBody>
                                             {(roles && roles.length) ? (roles.map((role) => (
-                                                    <TableRow key={role.id}>
-                                                        <TableCell>
-                                                            <Typography
-                                                                sx={{
-                                                                    fontSize: "15px",
-                                                                    fontWeight: "500",
-                                                                }}
-                                                            >
-                                                                {role.id}
-                                                            </Typography>
-                                                        </TableCell>
-                                                        <TableCell>
-                                                            <Typography color="textSecondary" variant="subtitle2" fontWeight={400}>
-                                                                {role.label}
-                                                            </Typography>
-                                                        </TableCell>
-                                                        <TableCell>
-                                                            <Typography color="textSecondary" variant="subtitle2" fontWeight={400}>
-                                                                {role.description}
-                                                            </Typography>
-                                                        </TableCell>
-                                                        <TableCell>
-                                                            <CustomDialog
-                                                                label={`Ajouter un role`} 
-                                                                title={`Formulaire d'ajout un role`}
-                                                                form={
-                                                                    <RoleForm role={role} />
-                                                                }
-                                                                isIconButton={true}
-                                                                color={true}
-                                                            >
-                                                            </CustomDialog>
-                                                            <Button 
-                                                                variant="contained" 
-                                                                color="error" 
-                                                                onClick={(e) => deleteRoleById(role.id)} 
-                                                                style={{margin: 5}}
-                                                            >
-                                                                Supprimer 
-                                                            </Button>
-                                                        </TableCell>
-                                                    </TableRow>
-                                                ))) :
+                                                <TableRow key={role.id}>
+                                                    <TableCell>
+                                                        <Typography
+                                                            sx={{
+                                                                fontSize: "15px",
+                                                                fontWeight: "500",
+                                                            }}
+                                                        >
+                                                            {role.id}
+                                                        </Typography>
+                                                    </TableCell>
+                                                    <TableCell>
+                                                        <Typography color="textSecondary" variant="subtitle2" fontWeight={400}>
+                                                            {role.label}
+                                                        </Typography>
+                                                    </TableCell>
+                                                    <TableCell>
+                                                        <Typography color="textSecondary" variant="subtitle2" fontWeight={400}>
+                                                            {role.description}
+                                                        </Typography>
+                                                    </TableCell>
+                                                    <TableCell>
+                                                        <CustomDialog
+                                                            label={`Ajouter un role`}
+                                                            title={`Formulaire d'ajout un role`}
+                                                            form={
+                                                                <RoleForm role={role} />
+                                                            }
+                                                            isIconButton={true}
+                                                            color={true}
+                                                        >
+                                                        </CustomDialog>
+                                                        <Button
+                                                            variant="contained"
+                                                            color="error"
+                                                            onClick={(e) => deleteRoleById(role.id)}
+                                                            style={{ margin: 5 }}
+                                                        >
+                                                            Supprimer
+                                                        </Button>
+                                                    </TableCell>
+                                                </TableRow>
+                                            ))) :
                                                 (
                                                     <TableRow key={`${uniqueId()}`}>
                                                         <TableCell rowSpan={4}>
@@ -141,9 +142,8 @@ const RoleList = () => {
                                     </Table>
                                 </TableContainer>
                             )
-                        )   
+                        )
                     }
-                    
                 </Paper>
             </ParentCard>
         </PageContainer>

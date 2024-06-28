@@ -186,7 +186,7 @@ const RencontreAssembleeForm = ({ rencontre, assemblyId }) => {
                                 value={formik.values.start}
                                 onChange={(newValue) => {
                                     var start = dateTime(newValue);
-                                    console.log(start);
+                                    console.log(start, newValue);
                                     formik.setFieldValue('start', start);
                                 }}
                             />
@@ -212,7 +212,7 @@ const RencontreAssembleeForm = ({ rencontre, assemblyId }) => {
                                 value={formik.values.end}
                                 onChange={(newValue) => {
                                     var end = dateTime(newValue); 
-                                    console.log(end);
+                                    console.log(end, newValue);
                                     formik.setFieldValue('end', end);
                                 }}
                             />

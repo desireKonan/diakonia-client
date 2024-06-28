@@ -1,9 +1,9 @@
-import {  
+import {
     Typography,
     Table,
     TableBody,
     TableCell,
-    TableHead,  
+    TableHead,
     TableRow,
     IconButton,
     Paper,
@@ -26,10 +26,10 @@ import { httpAdapter } from "src/app/services/http-adapter.service";
 
 
 const RencontreList = () => {
-    const {data: rencontres, error, loading } = useFetch('/api/rencontre', []);
+    const { data: rencontres, error, loading } = useFetch('/api/rencontre', []);
     const navigate = useNavigate();
-    
-    const deleteRencontre = async(id) => {
+
+    const deleteRencontre = async (id) => {
         await httpAdapter.deleteDatas(`api/rencontre/${id}`);
         window.location.reload(true);
     }
@@ -38,8 +38,8 @@ const RencontreList = () => {
         <PageContainer title="Liste des rencontres" description="Liste des rencontres">
             <Breadcrumb title="Liste des rencontres" subtitle="Liste des rencontres" />
             <ParentCard title="Liste des rencontres" action={
-                <CustomDialog 
-                    label={`Ajouter un rencontre`} 
+                <CustomDialog
+                    label={`Ajouter un rencontre`}
                     title={`Formulaire d'ajout d'un rencontre`}
                     form={<RencontreForm />}
                 ></CustomDialog>
@@ -50,82 +50,83 @@ const RencontreList = () => {
                             <Grid item xs={12} lg={4} sm={6} display="flex" alignItems="stretch">
                                 <ChildCard title="Error">
                                     <Typography color="textSecondary" variant="subtitle2" fontWeight={400}>
-                                        { error }
+                                        {error}
                                     </Typography>
                                 </ChildCard>
                             </Grid>
-                        ): null
-                    }   
+                        ) : null
+                    }
 
                     {
                         error ? (
                             <Typography variant="subtitle2" fontWeight={600}>
-                                { error }
+                                {error}
                             </Typography>
                         ) :
-                        (loading ? (
-                            <Grid item xs={12} lg={4} sm={6} display="flex" alignItems="stretch">
-                                <ChildCard title="Error">
-                                    <Typography color="textSecondary" variant="subtitle2" fontWeight={400}>
-                                        { loading }
-                                    </Typography>
-                                </ChildCard>
-                            </Grid>
-                        ): (
-                            <TableContainer>
-                                <Table
-                                    aria-label="simple table"
-                                    sx={{
-                                        whiteSpace: "nowrap",
-                                        mt: 2
-                                    }}
-                                >
-                                    <TableHead>
-                                        <TableRow>
-                                            <TableCell>
-                                                <Typography variant="subtitle2" fontWeight={600}>
-                                                    Id
-                                                </Typography>
-                                            </TableCell>
-                                            <TableCell>
-                                                <Typography variant="subtitle2" fontWeight={600}>
-                                                    Libéllé
-                                                </Typography>
-                                            </TableCell>
-                                            <TableCell>
-                                                <Typography variant="subtitle2" fontWeight={600}>
-                                                    Lieu
-                                                </Typography>
-                                            </TableCell>
-                                            <TableCell>
-                                                <Typography variant="subtitle2" fontWeight={600}>
-                                                    Zone
-                                                </Typography>
-                                            </TableCell>
-                                            <TableCell>
-                                                <Typography variant="subtitle2" fontWeight={600}>
-                                                    Type de rencontre
-                                                </Typography>
-                                            </TableCell>
-                                            <TableCell>
-                                                <Typography variant="subtitle2" fontWeight={600}>
-                                                    Date de debut de la rencontre
-                                                </Typography>
-                                            </TableCell>
-                                            <TableCell>
-                                                <Typography variant="subtitle2" fontWeight={600}>
-                                                    Date de fin de la rencontre
-                                                </Typography>
-                                            </TableCell>
-                                            <TableCell>
-                                                <Typography variant="subtitle2" fontWeight={600}>
-                                                    Actions
-                                                </Typography>
-                                            </TableCell>
-                                        </TableRow>
-                                    </TableHead>
-                                    <TableBody>
-                                        {(rencontres && rencontres.length !== 0) ? (rencontres.map((rencontre) => (
+                            (loading ? (
+                                <Grid item xs={12} lg={4} sm={6} display="flex" alignItems="stretch">
+                                    <ChildCard title="Error">
+                                        <Typography color="textSecondary" variant="subtitle2" fontWeight={400}>
+                                            {loading}
+                                        </Typography>
+                                    </ChildCard>
+                                </Grid>
+                            ) : (
+                                <TableContainer sx={{ overflow: 'auto', width: { xs: '280px', sm: 'auto' }, maxHeight: 440, }}>
+                                    <Table
+                                        sx={{
+                                            whiteSpace: "nowrap",
+                                            mt: 2
+                                        }}
+                                        stickyHeader
+                                        aria-label="sticky table"
+                                    >
+                                        <TableHead>
+                                            <TableRow>
+                                                <TableCell>
+                                                    <Typography variant="subtitle2" fontWeight={600}>
+                                                        Id
+                                                    </Typography>
+                                                </TableCell>
+                                                <TableCell>
+                                                    <Typography variant="subtitle2" fontWeight={600}>
+                                                        Libéllé
+                                                    </Typography>
+                                                </TableCell>
+                                                <TableCell>
+                                                    <Typography variant="subtitle2" fontWeight={600}>
+                                                        Lieu
+                                                    </Typography>
+                                                </TableCell>
+                                                <TableCell>
+                                                    <Typography variant="subtitle2" fontWeight={600}>
+                                                        Zone
+                                                    </Typography>
+                                                </TableCell>
+                                                <TableCell>
+                                                    <Typography variant="subtitle2" fontWeight={600}>
+                                                        Type de rencontre
+                                                    </Typography>
+                                                </TableCell>
+                                                <TableCell>
+                                                    <Typography variant="subtitle2" fontWeight={600}>
+                                                        Date de debut de la rencontre
+                                                    </Typography>
+                                                </TableCell>
+                                                <TableCell>
+                                                    <Typography variant="subtitle2" fontWeight={600}>
+                                                        Date de fin de la rencontre
+                                                    </Typography>
+                                                </TableCell>
+                                                <TableCell>
+                                                    <Typography variant="subtitle2" fontWeight={600}>
+                                                        Actions
+                                                    </Typography>
+                                                </TableCell>
+                                            </TableRow>
+                                        </TableHead>
+                                        <TableBody>
+                                            {(rencontres && rencontres.length !== 0) ? (rencontres.map((rencontre) => (
                                                 <TableRow key={rencontre.id}>
                                                     <TableCell>
                                                         <Typography
@@ -168,29 +169,29 @@ const RencontreList = () => {
                                                         </Typography>
                                                     </TableCell>
                                                     <TableCell>
-                                                        <CustomDialog 
-                                                                label={`Modifier un rencontre`} 
-                                                                title={`Formulaire de modification d'un rencontre`}
-                                                                color={`warning`}
-                                                                style={{margin: 3}}
-                                                                form={<RencontreForm rencontre={rencontre} />}
+                                                        <CustomDialog
+                                                            label={`Modifier un rencontre`}
+                                                            title={`Formulaire de modification d'un rencontre`}
+                                                            color={`warning`}
+                                                            style={{ margin: 3 }}
+                                                            form={<RencontreForm rencontre={rencontre} />}
                                                         ></CustomDialog>
                                                         <Tooltip title="Liste des âmes">
-                                                            <Button 
-                                                                variant="contained" 
-                                                                color="secondary" 
-                                                                onClick={(e) => navigate(`/rencontre/${rencontre.id}/ames`)} 
-                                                                style={{margin: 5}}
+                                                            <Button
+                                                                variant="contained"
+                                                                color="secondary"
+                                                                onClick={(e) => navigate(`/rencontre/${rencontre.id}/ames`)}
+                                                                style={{ margin: 5 }}
                                                             >
                                                                 Liste des âmes
                                                             </Button>
                                                         </Tooltip>
                                                         <Tooltip title="Liste des personnes présentes à la rencontre">
                                                             <IconButton
-                                                                variant="contained" 
-                                                                color="primary" 
-                                                                onClick={(e) => navigate(`/rencontre/${rencontre.id}/personnes`)} 
-                                                                style={{margin: 5}}
+                                                                variant="contained"
+                                                                color="primary"
+                                                                onClick={(e) => navigate(`/rencontre/${rencontre.id}/personnes`)}
+                                                                style={{ margin: 5 }}
                                                             >
                                                                 <IconPlus width={30} height={30} />
                                                             </IconButton>
@@ -198,10 +199,10 @@ const RencontreList = () => {
 
                                                         <Tooltip title="Supprimer une rencontre">
                                                             <IconButton
-                                                                variant="contained" 
-                                                                color="error" 
-                                                                onClick={(e) => deleteRencontre(rencontre.id)} 
-                                                                style={{margin: 5}}
+                                                                variant="contained"
+                                                                color="error"
+                                                                onClick={(e) => deleteRencontre(rencontre.id)}
+                                                                style={{ margin: 5 }}
                                                             >
                                                                 <IconTrash width={30} height={30} />
                                                             </IconButton>
@@ -209,21 +210,21 @@ const RencontreList = () => {
                                                     </TableCell>
                                                 </TableRow>
                                             ))) :
-                                            (
-                                                <TableRow key={`Aucune`}>
-                                                    <TableCell rowSpan={4}>
-                                                        <Typography color="textSecondary" variant="subtitle2" fontWeight={400}>
-                                                            Aucune rencontres disponibles
-                                                        </Typography>
-                                                    </TableCell>
-                                                </TableRow>
-                                            )
-                                        }
-                                    </TableBody>
-                                </Table>
-                            </TableContainer>
-                        ))
-                    }                 
+                                                (
+                                                    <TableRow key={`Aucune`}>
+                                                        <TableCell rowSpan={4}>
+                                                            <Typography color="textSecondary" variant="subtitle2" fontWeight={400}>
+                                                                Aucune rencontres disponibles
+                                                            </Typography>
+                                                        </TableCell>
+                                                    </TableRow>
+                                                )
+                                            }
+                                        </TableBody>
+                                    </Table>
+                                </TableContainer>
+                            ))
+                    }
                 </Paper>
             </ParentCard>
         </PageContainer>

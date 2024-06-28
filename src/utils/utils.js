@@ -13,11 +13,11 @@ export function instant(dateTime) {
 
 export function dateTime(datetime) {
     return datetime ? 
-        moment(datetime, 'DD-MM-yyyy hh:mm:ss').format('yyyy-MM-DDThh:mm:ss') : 'Aucune date';
+        moment(datetime, 'DD-MM-yyyy HH:mm:ss').format('yyyy-MM-DDTHH:mm:ss') : 'Aucune date';
 }
 
 export function dateTimeView(dateTime) {
-    return dateTime ?? moment(dateTime, 'DD-MM-yyyy hh:mm:ss').format('DD-MM-yyyy hh:mm:ss');
+    return dateTime ?? moment(dateTime, 'DD-MM-yyyy HH:mm:ss').format('DD-MM-yyyy HH:mm:ss');
 }
 
 export function instantTime(dateTime) {

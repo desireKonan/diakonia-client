@@ -1,4 +1,4 @@
-import {  
+import {
     Typography,
     Table,
     TableBody,
@@ -23,7 +23,7 @@ import { uniqueId } from "lodash";
 const RubriqueList = () => {
     const { data: rubriques, loading } = useFetch('/api/rubrique-financiere');
 
-    const deleteRubrique = async(id) => {
+    const deleteRubrique = async (id) => {
         await httpAdapter.deleteData(`/api/rubrique-financiere/${id}`);
         window.location.reload(true);
     }
@@ -32,8 +32,8 @@ const RubriqueList = () => {
         <PageContainer title="Liste des rubriques" description="Liste des rubriques">
             <Breadcrumb title="Liste des rubriques" subtitle="Liste des rubriques" />
             <ParentCard title="Liste des rubriques" action={
-                <CustomDialog 
-                    label={`Ajouter un rubrique`} 
+                <CustomDialog
+                    label={`Ajouter un rubrique`}
                     title={`Formulaire d'ajout d'une rubrique`}
                     form={<RubriqueForm />}
                 ></CustomDialog>
@@ -41,13 +41,14 @@ const RubriqueList = () => {
                 <Paper variant="outlined">
                     {
                         loading ? loading : (
-                            <TableContainer>
+                            <TableContainer sx={{ overflow: 'auto', width: { xs: '280px', sm: 'auto' }, maxHeight: 440, }}>
                                 <Table
-                                    aria-label="simple table"
                                     sx={{
                                         whiteSpace: "nowrap",
                                         mt: 2
                                     }}
+                                    stickyHeader
+                                    aria-label="sticky table"
                                 >
                                     <TableHead>
                                         <TableRow>
@@ -85,58 +86,58 @@ const RubriqueList = () => {
                                     </TableHead>
                                     <TableBody>
                                         {(rubriques && rubriques.length !== 0) ? (rubriques.map((rubrique) => (
-                                                <TableRow key={rubrique.id}>
-                                                    <TableCell>
-                                                        <Typography
-                                                            sx={{
-                                                                fontSize: "15px",
-                                                                fontWeight: "500",
-                                                            }}
-                                                        >
-                                                            {rubrique.id}
-                                                        </Typography>
-                                                    </TableCell>
-                                                    <TableCell>
-                                                        <Typography color="textSecondary" variant="subtitle2" fontWeight={400}>
-                                                            {rubrique.label}
-                                                        </Typography>
-                                                    </TableCell>
-                                                    <TableCell>
-                                                        <Typography color="textSecondary" variant="subtitle2" fontWeight={400}>
-                                                            {rubrique.description}
-                                                        </Typography>
-                                                    </TableCell>
-                                                    <TableCell>
-                                                        <Typography color="textSecondary" variant="subtitle2" fontWeight={400}>
-                                                            {instant(rubrique.createdAt)}
-                                                        </Typography>
-                                                    </TableCell>
-                                                    <TableCell>
-                                                        <Typography color="textSecondary" variant="subtitle2" fontWeight={400}>
-                                                            {instant(rubrique.updatedAt)}
-                                                        </Typography>
-                                                    </TableCell>
-                                                    <TableCell>
-                                                        <CustomDialog 
-                                                            label={`Modifier une rubrique`} 
-                                                            title={`Formulaire de modification d'une rubrique`}
-                                                            color={`warning`}
-                                                            style={{margin: 3}}
-                                                            form={
-                                                                <RubriqueForm rubrique={rubrique}/>
-                                                            }
-                                                        ></CustomDialog>
-                                                        <Button 
-                                                            variant="contained" 
-                                                            color="error" 
-                                                            onClick={(e) => deleteRubrique(rubrique.id)} 
-                                                            style={{margin: 5}}
-                                                        >
-                                                            Supprimer 
-                                                        </Button>
-                                                    </TableCell>
-                                                </TableRow>
-                                            ))) :
+                                            <TableRow key={rubrique.id}>
+                                                <TableCell>
+                                                    <Typography
+                                                        sx={{
+                                                            fontSize: "15px",
+                                                            fontWeight: "500",
+                                                        }}
+                                                    >
+                                                        {rubrique.id}
+                                                    </Typography>
+                                                </TableCell>
+                                                <TableCell>
+                                                    <Typography color="textSecondary" variant="subtitle2" fontWeight={400}>
+                                                        {rubrique.label}
+                                                    </Typography>
+                                                </TableCell>
+                                                <TableCell>
+                                                    <Typography color="textSecondary" variant="subtitle2" fontWeight={400}>
+                                                        {rubrique.description}
+                                                    </Typography>
+                                                </TableCell>
+                                                <TableCell>
+                                                    <Typography color="textSecondary" variant="subtitle2" fontWeight={400}>
+                                                        {instant(rubrique.createdAt)}
+                                                    </Typography>
+                                                </TableCell>
+                                                <TableCell>
+                                                    <Typography color="textSecondary" variant="subtitle2" fontWeight={400}>
+                                                        {instant(rubrique.updatedAt)}
+                                                    </Typography>
+                                                </TableCell>
+                                                <TableCell>
+                                                    <CustomDialog
+                                                        label={`Modifier une rubrique`}
+                                                        title={`Formulaire de modification d'une rubrique`}
+                                                        color={`warning`}
+                                                        style={{ margin: 3 }}
+                                                        form={
+                                                            <RubriqueForm rubrique={rubrique} />
+                                                        }
+                                                    ></CustomDialog>
+                                                    <Button
+                                                        variant="contained"
+                                                        color="error"
+                                                        onClick={(e) => deleteRubrique(rubrique.id)}
+                                                        style={{ margin: 5 }}
+                                                    >
+                                                        Supprimer
+                                                    </Button>
+                                                </TableCell>
+                                            </TableRow>
+                                        ))) :
                                             (
                                                 <TableRow key={`${uniqueId()}`}>
                                                     <TableCell rowSpan={4}>
@@ -150,7 +151,7 @@ const RubriqueList = () => {
                                     </TableBody>
                                 </Table>
                             </TableContainer>
-                        ) 
+                        )
                     }
                 </Paper>
             </ParentCard>

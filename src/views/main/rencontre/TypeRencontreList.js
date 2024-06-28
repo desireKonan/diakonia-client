@@ -1,4 +1,4 @@
-import {  
+import {
     Typography,
     Table,
     TableBody,
@@ -22,7 +22,7 @@ import { uniqueId } from "lodash";
 const TypeRencontreList = () => {
     const { data: typeRencontres, loading } = useFetch('/api/type-rencontre', []);
 
-    const deleteTypeRencontre = async(id) => {
+    const deleteTypeRencontre = async (id) => {
         await httpAdapter.deleteDatas(`api/type-rencontre/${id}`);
         window.location.reload(true);
     }
@@ -31,22 +31,23 @@ const TypeRencontreList = () => {
         <PageContainer title="Liste des types de rencontres" description="Liste des types de rencontres">
             <Breadcrumb title="Liste des types de rencontres" subtitle="Liste des types de rencontres" />
             <ParentCard title="Liste des types de rencontres" action={
-                <CustomDialog 
-                    label={`Ajouter un rencontre`} 
+                <CustomDialog
+                    label={`Ajouter un rencontre`}
                     title={`Formulaire d'ajout d'un rencontre`}
-                    form={<TypeRencontreForm/>}
+                    form={<TypeRencontreForm />}
                 ></CustomDialog>
             }>
                 <Paper variant="outlined">
                     {
                         loading ? loading : (
-                            <TableContainer>
+                            <TableContainer sx={{ overflow: 'auto', width: { xs: '280px', sm: 'auto' }, maxHeight: 440, }}>
                                 <Table
-                                    aria-label="simple table"
                                     sx={{
                                         whiteSpace: "nowrap",
                                         mt: 2
                                     }}
+                                    stickyHeader
+                                    aria-label="sticky table"
                                 >
                                     <TableHead>
                                         <TableRow>
@@ -84,58 +85,58 @@ const TypeRencontreList = () => {
                                     </TableHead>
                                     <TableBody>
                                         {(typeRencontres && typeRencontres.length !== 0) ? (typeRencontres.map((typeRencontre) => (
-                                                <TableRow key={typeRencontre.id}>
-                                                    <TableCell>
-                                                        <Typography
-                                                            sx={{
-                                                                fontSize: "15px",
-                                                                fontWeight: "500",
-                                                            }}
-                                                        >
-                                                            {typeRencontre.id}
-                                                        </Typography>
-                                                    </TableCell>
-                                                    <TableCell>
-                                                        <Typography color="textSecondary" variant="subtitle2" fontWeight={400}>
-                                                            {typeRencontre.name}
-                                                        </Typography>
-                                                    </TableCell>
-                                                    <TableCell>
-                                                        <Typography color="textSecondary" variant="subtitle2" fontWeight={400}>
-                                                            {typeRencontre.description}
-                                                        </Typography>
-                                                    </TableCell>
-                                                    <TableCell>
-                                                        <Typography color="textSecondary" variant="subtitle2" fontWeight={400}>
-                                                            {date(typeRencontre.createdAt)}
-                                                        </Typography>
-                                                    </TableCell>
-                                                    <TableCell>
-                                                        <Typography color="textSecondary" variant="subtitle2" fontWeight={400}>
-                                                            {date(typeRencontre.updatedAt)}
-                                                        </Typography>
-                                                    </TableCell>
-                                                    <TableCell>
-                                                        <CustomDialog 
-                                                            label={`Modifier un type de rencontre`} 
-                                                            title={`Formulaire de modification d'un type de rencontre`}
-                                                            color={`warning`}
-                                                            style={{margin: 3}}
-                                                            form={
-                                                                <TypeRencontreForm typeRencontre={typeRencontre}/>
-                                                            }
-                                                        ></CustomDialog>
-                                                        <Button 
-                                                            variant="contained" 
-                                                            color="error" 
-                                                            onClick={(e) => deleteTypeRencontre(typeRencontre.id)} 
-                                                            style={{margin: 5}}
-                                                        >
-                                                            Supprimer 
-                                                        </Button>
-                                                    </TableCell>
-                                                </TableRow>
-                                            ))) :
+                                            <TableRow key={typeRencontre.id}>
+                                                <TableCell>
+                                                    <Typography
+                                                        sx={{
+                                                            fontSize: "15px",
+                                                            fontWeight: "500",
+                                                        }}
+                                                    >
+                                                        {typeRencontre.id}
+                                                    </Typography>
+                                                </TableCell>
+                                                <TableCell>
+                                                    <Typography color="textSecondary" variant="subtitle2" fontWeight={400}>
+                                                        {typeRencontre.name}
+                                                    </Typography>
+                                                </TableCell>
+                                                <TableCell>
+                                                    <Typography color="textSecondary" variant="subtitle2" fontWeight={400}>
+                                                        {typeRencontre.description}
+                                                    </Typography>
+                                                </TableCell>
+                                                <TableCell>
+                                                    <Typography color="textSecondary" variant="subtitle2" fontWeight={400}>
+                                                        {date(typeRencontre.createdAt)}
+                                                    </Typography>
+                                                </TableCell>
+                                                <TableCell>
+                                                    <Typography color="textSecondary" variant="subtitle2" fontWeight={400}>
+                                                        {date(typeRencontre.updatedAt)}
+                                                    </Typography>
+                                                </TableCell>
+                                                <TableCell>
+                                                    <CustomDialog
+                                                        label={`Modifier un type de rencontre`}
+                                                        title={`Formulaire de modification d'un type de rencontre`}
+                                                        color={`warning`}
+                                                        style={{ margin: 3 }}
+                                                        form={
+                                                            <TypeRencontreForm typeRencontre={typeRencontre} />
+                                                        }
+                                                    ></CustomDialog>
+                                                    <Button
+                                                        variant="contained"
+                                                        color="error"
+                                                        onClick={(e) => deleteTypeRencontre(typeRencontre.id)}
+                                                        style={{ margin: 5 }}
+                                                    >
+                                                        Supprimer
+                                                    </Button>
+                                                </TableCell>
+                                            </TableRow>
+                                        ))) :
                                             (
                                                 <TableRow key={uniqueId()}>
                                                     <TableCell rowSpan={4}>
@@ -149,7 +150,7 @@ const TypeRencontreList = () => {
                                     </TableBody>
                                 </Table>
                             </TableContainer>
-                        ) 
+                        )
                     }
                 </Paper>
             </ParentCard>

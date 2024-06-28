@@ -1,9 +1,9 @@
-import {  
+import {
     Typography,
     Table,
     TableBody,
     TableCell,
-    TableHead,  
+    TableHead,
     TableRow,
     IconButton,
     Paper,
@@ -24,7 +24,7 @@ import { httpAdapter } from "src/app/services/http-adapter.service";
 
 const RencontrePresenteList = () => {
     const params = useParams();
-    const {data: rencontre } = useFetch(`/api/rencontre/${params.id}`, {});
+    const { data: rencontre } = useFetch(`/api/rencontre/${params.id}`, {});
 
     const deletePersonne = (data) => {
         httpAdapter.deleteDatas(`api/rencontre/personnes/supprimer`, data);
@@ -35,20 +35,21 @@ const RencontrePresenteList = () => {
         <PageContainer title="Liste des personnes présentes" description="Liste des personnes présentes">
             <Breadcrumb title="Liste des personnes présentes" subtitle="Liste des personnes présentes" />
             <ParentCard title="Liste des personnes présentes" action={
-                <CustomDialog 
-                    label={`Ajouter une personne présente`} 
+                <CustomDialog
+                    label={`Ajouter une personne présente`}
                     title={`Formulaire d'ajout d'une personne présente`}
                     form={<PersonnePresenteForm meetingId={params.id} />}
                 ></CustomDialog>
             }>
                 <Paper variant="outlined">
-                    <TableContainer>
+                    <TableContainer sx={{ overflow: 'auto', width: { xs: '280px', sm: 'auto' }, maxHeight: 440, }}>
                         <Table
-                            aria-label="simple table"
                             sx={{
                                 whiteSpace: "nowrap",
                                 mt: 2
                             }}
+                            stickyHeader
+                            aria-label="sticky table"
                         >
                             <TableHead>
                                 <TableRow>
@@ -155,23 +156,23 @@ const RencontrePresenteList = () => {
                                                 </Typography>
                                             </TableCell>
                                             <TableCell>
-                                                <CustomDialog 
-                                                        label={`Modifier les informations `} 
-                                                        title={`Formulaire de modification les informations d'une personne présente`}
-                                                        color={`warning`}
-                                                        style={{margin: 3}}
-                                                        form={<PersonnePresenteForm personne={person} meetingId={params.id} />}
+                                                <CustomDialog
+                                                    label={`Modifier les informations `}
+                                                    title={`Formulaire de modification les informations d'une personne présente`}
+                                                    color={`warning`}
+                                                    style={{ margin: 3 }}
+                                                    form={<PersonnePresenteForm personne={person} meetingId={params.id} />}
                                                 ></CustomDialog>
-                                                
+
                                                 <Tooltip title="Supprimer les informations d'une personne présente">
                                                     <IconButton
-                                                        variant="contained" 
-                                                        color="error" 
+                                                        variant="contained"
+                                                        color="error"
                                                         onClick={(e) => deletePersonne({
                                                             meetingId: params.id,
                                                             personIds: [person.id]
-                                                        })} 
-                                                        style={{margin: 5}}
+                                                        })}
+                                                        style={{ margin: 5 }}
                                                     >
                                                         <IconTrash width={30} height={30} />
                                                     </IconButton>
@@ -179,15 +180,15 @@ const RencontrePresenteList = () => {
                                             </TableCell>
                                         </TableRow>
                                     ))) :
-                                    (
-                                        <TableRow key={uniqueId()}>
-                                            <TableCell rowSpan={9}>
-                                                <Typography color="textSecondary" variant="subtitle2" fontWeight={400}>
-                                                    Aucune personnes présentes disponibles
-                                                </Typography>
-                                            </TableCell>
-                                        </TableRow>
-                                    )
+                                        (
+                                            <TableRow key={uniqueId()}>
+                                                <TableCell rowSpan={9}>
+                                                    <Typography color="textSecondary" variant="subtitle2" fontWeight={400}>
+                                                        Aucune personnes présentes disponibles
+                                                    </Typography>
+                                                </TableCell>
+                                            </TableRow>
+                                        )
                                 }
                             </TableBody>
                         </Table>

@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
-import { 
-    Grid, 
-    Typography, 
+import {
+    Grid,
+    Typography,
     TableContainer,
     Table,
     TableHead,
@@ -9,7 +9,8 @@ import {
     TableCell,
     TableBody,
     Stack,
-    Button} from '@mui/material';
+    Button
+} from '@mui/material';
 import CustomFormLabel from 'src/components/forms/theme-elements/CustomFormLabel';
 import { date2, month } from 'src/utils/utils';
 import { useFormik } from 'formik';
@@ -33,12 +34,12 @@ const SousZoneRapportMois = ({ subzone }) => {
         },
     });
 
-    const getSubzoneReport = async(values) => {
+    const getSubzoneReport = async (values) => {
         var subzoneReport = await httpAdapter.saveData(`api/rapport/sous-zone/mois`, {
             subzone: subzone,
             month: month(values['month'])
         });
-        if(subzoneReport.error && subzoneReport.error != null) {
+        if (subzoneReport.error && subzoneReport.error != null) {
             console.log(`Erreur: ${subzoneReport.error}`);
             toast(`${subzoneReport.error}`);
             return;
@@ -46,10 +47,10 @@ const SousZoneRapportMois = ({ subzone }) => {
         setSubzoneReport(subzoneReport);
     }
 
-    const generateEffectiveSubzoneReport = async() => {
+    const generateEffectiveSubzoneReport = async () => {
         await httpAdapter.generateReport(`api/rapport/export/sous-zone/mois`, {
             subzone: subzone,
-            month: month(formik.values.month) 
+            month: month(formik.values.month)
         });
     }
 
@@ -106,13 +107,14 @@ const SousZoneRapportMois = ({ subzone }) => {
 
             <Grid container spacing={3}>
                 <Grid item xs={12} sm={12}>
-                    <TableContainer>
+                    <TableContainer sx={{ overflow: 'auto', width: { xs: '280px', sm: 'auto' }, maxHeight: 440, }}>
                         <Table
-                            aria-label="simple table"
                             sx={{
                                 whiteSpace: "nowrap",
                                 mt: 2
                             }}
+                            stickyHeader
+                            aria-label="sticky table"
                         >
                             <TableHead>
                                 <TableRow>
@@ -157,8 +159,8 @@ const SousZoneRapportMois = ({ subzone }) => {
                                 {
                                     (subzoneReport && subzoneReport.length !== 0) ? subzoneReport.map((subzoneR, index) => (
                                         <TableRow key={subzoneR.id}>
-                                            <TableCell style={(index === subzoneReport.length - 1) ? {backgroundColor: "#2ecc71"} : {backgroundColor: "#f39c12"}}>
-                                                <Typography color="#f5f6fa" variant="subtitle2" fontWeight={ (index === (subzoneReport.length - 1)) ? 700 : 500}>
+                                            <TableCell style={(index === subzoneReport.length - 1) ? { backgroundColor: "#2ecc71" } : { backgroundColor: "#f39c12" }}>
+                                                <Typography color="#f5f6fa" variant="subtitle2" fontWeight={(index === (subzoneReport.length - 1)) ? 700 : 500}>
                                                     {subzoneR.label}
                                                 </Typography>
                                             </TableCell>

@@ -108,13 +108,14 @@ const AssembleeRapportMois = ({ assemblee }) => {
 
             <Grid container spacing={3}>
                 <Grid item xs={12} sm={12}>
-                    <TableContainer>
+                    <TableContainer sx={{ overflow: 'auto', width: { xs: '280px', sm: 'auto' }, maxHeight: 440, }}>
                         <Table
-                            aria-label="simple table"
                             sx={{
                                 whiteSpace: "nowrap",
                                 mt: 2
                             }}
+                            stickyHeader
+                            aria-label="sticky table"
                         >
                             <TableHead>
                                 <TableRow>
@@ -156,14 +157,14 @@ const AssembleeRapportMois = ({ assemblee }) => {
                                         if (index === assemblyReport.length - 1) {
                                             return (
                                                 <>
-                                                    <TableRow key={uniqueId()} style={{backgroundColor: "#1abc9c"}}>
+                                                    <TableRow key={uniqueId()} style={{ backgroundColor: "#1abc9c" }}>
                                                         <TableCell colSpan={6}>
                                                             <Typography color="#ecf0f1" variant="subtitle2" fontWeight={500}>
                                                                 Totaux
                                                             </Typography>
                                                         </TableCell>
                                                     </TableRow>
-                                                    <TableRow key={assemblyR.id} style={{backgroundColor: "#3498db"}}>
+                                                    <TableRow key={assemblyR.id} style={{ backgroundColor: "#3498db" }}>
                                                         <TableCell>
                                                             <Typography color="#ecf0f1" variant="subtitle2" fontWeight={400}>
                                                                 {assemblyR.adult_count}

@@ -20,7 +20,7 @@ import CustomDialog from "src/components/custom/CustomDialog";
 import { IconTrash } from "@tabler/icons";
 import { uniqueId } from "lodash";
 import { httpAdapter } from "src/app/services/http-adapter.service";
-import { nameMeeting, dateTimeView, ROLES, date, date2, date3 } from "src/utils/utils";
+import { nameMeeting, dateTimeView, ROLES, date3 } from "src/utils/utils";
 import RencontreAssembleeForm from "./RencontreAssembleeForm";
 import { useAuth } from "src/app/services/useAuth";
 
@@ -57,13 +57,14 @@ const RencontreList = () => {
                             </Typography>
                         ) : (
                             loading ? loading : (
-                                <TableContainer>
+                                <TableContainer sx={{ overflow: 'auto', width: { xs: '280px', sm: 'auto' }, maxHeight: 440, }}>
                                     <Table
-                                        aria-label="simple table"
                                         sx={{
                                             whiteSpace: "nowrap",
                                             mt: 2
                                         }}
+                                        stickyHeader 
+                                        aria-label="sticky table"
                                     >
                                         <TableHead>
                                             <TableRow>
