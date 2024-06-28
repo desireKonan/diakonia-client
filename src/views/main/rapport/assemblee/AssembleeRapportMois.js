@@ -86,7 +86,7 @@ const AssembleeRapportMois = ({ assemblee }) => {
                                 placeholder="Entrez le mois recherché"
                                 value={formik.values.month}
                                 onChange={(newValue) => {
-                                    var month = date2(newValue);
+                                    var month = month(newValue);
                                     console.log(month, newValue);
                                     formik.setFieldValue('month', month);
                                 }}

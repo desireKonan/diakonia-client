@@ -17,19 +17,20 @@ export function dateTime(datetime) {
 }
 
 export function dateTimeView(dateTime) {
-    return dateTime ?? moment(dateTime, 'DD-MM-yyyy HH:mm:ss').format('DD-MM-yyyy HH:mm:ss');
+    return dateTime ?
+        moment(dateTime, 'DD-MM-yyyy HH:mm:ss').format('DD-MM-yyyy HH:mm:ss') : 'Aucun temps';
 }
 
 export function instantTime(dateTime) {
-    return dateTime ?? moment(dateTime, 'yyyy-MM-DDTHH:mm:ss.sssZ').format('yyyy-MM-DDTHH:mm:ss.sssZ');
+    return dateTime ? moment(dateTime, 'yyyy-MM-DDTHH:mm:ss.sssZ').format('yyyy-MM-DDTHH:mm:ss.sssZ') : 'Aucun temps';
 }
 
 export function month(monthYear) {
-    return monthYear ?? moment(monthYear).format('MM/yyyy');
+    return monthYear ? moment(monthYear).format('MM/yyyy') : 'Aucun mois !';
 }
 
 export function year(_year) {
-    return _year ?? moment(_year).format('yyyy');
+    return _year ? moment(_year).format('yyyy') : 'Aucune année';
 }
 
 
