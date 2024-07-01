@@ -1,19 +1,15 @@
-FROM node:20.14-alpine AS builder
+FROM node:18-alpine
 
-WORKDIR /app
+WORKDIR /cmci-erp-app
 
 COPY package*.json ./
+
+RUN npm install --force
 
 COPY . .
 
 RUN npm run build
 
-FROM node:20.14-alpine
-
-COPY --from=builder /app/node_modules ./node_modules
-COPY --from=builder /app/package*.json ./
-COPY --from=builder /app/build ./build
-
-EXPOSE 3015
+EXPOSE 3000
 
 CMD ["npm", "run", "start:prod"]

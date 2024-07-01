@@ -1,0 +1,12 @@
+version: '3.7'
+services:
+  cmci-erp-client:
+    container_name: cmci-erp-client
+    build: 
+      context: .
+      dockerfile: Dockerfile
+    restart: always
+    ports:
+      - "3000:3000"
+    env_file:
+      - ./.env.prod
