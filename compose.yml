@@ -1,6 +1,7 @@
-version: '3.7'
+version: '3.8'
 services:
   cmci-erp-client:
+    image: cmci-erp-client
     container_name: cmci-erp-client
     build: 
       context: .
