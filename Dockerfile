@@ -9,11 +9,9 @@ COPY package*.json  ./
 
 COPY . .
 
-RUN npm ci
-
 RUN npm install serve -g
 
-RUN npm install --production
+RUN npm ci --production
 
 RUN npx browserslist@latest --update-db
 

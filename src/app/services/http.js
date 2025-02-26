@@ -1,5 +1,7 @@
 import axios from "axios";
 
+console.log(process.env.REACT_APP_DIAKONIA_URL);
+
 const http = axios.create({
     baseURL: process.env.REACT_APP_DIAKONIA_URL,
     headers: {
