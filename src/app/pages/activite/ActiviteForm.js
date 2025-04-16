@@ -11,7 +11,7 @@ import { date } from "src/_ui/utils/utils";
 import { DatePicker, LocalizationProvider } from '@mui/x-date-pickers';
 import { AdapterDateFns } from "@mui/x-date-pickers/AdapterDateFns";
 import AddButtonDetails from "src/app/components/custom/AddButtonDetails";
-import useAddDetails from "src/app/custom-hooks/useAddDetails";
+import useAddDetails from "src/app/components/hooks/useAddDetails";
 import { IconTrash } from "@tabler/icons";
 import { useFormik } from "formik";
 import { httpAdapter } from "src/app/services/http-adapter.service";
