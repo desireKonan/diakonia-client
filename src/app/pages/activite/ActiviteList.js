@@ -2,12 +2,13 @@ import { IconEye, IconEdit, IconTrash } from '@tabler/icons';
 import { useNavigate } from "react-router-dom";
 import { httpAdapter } from "src/app/services/http-adapter.service";
 import ActiviteForm from "./ActiviteForm";
-import DiakoniaPaginationTableWithAction from "src/app/components/custom/DiakoniaPaginationTableWithAction";
+import DiakoniaPaginationActionTable from "src/app/components/custom/DiakoniaPaginationActionTable";
 import useLoadDataPerBatch from "src/app/services/useLoadDataPerBatch";
-import { DiakoniaButtonDialog, DiakoniaDialog, useDialogEvent } from "src/app/components/custom/AppDialog";
+import { DiakoniaDialog, useDialogEvent } from "src/app/components/custom/AppDialog";
 import { ACTIVITE_HEADER_CELLS } from "./table/activite.columns";
 import { useState } from "react";
 import { DiakoniaContainer, DiakoniaMessage } from "src/app/components/custom/ComponentUtils";
+import { Button } from '@mui/material';
 
 const ActiviteList = () => {
     const navigate = useNavigate();
@@ -28,7 +29,7 @@ const ActiviteList = () => {
 
     const deleteActiviteById = async (id) => {
         await httpAdapter.deleteData(`/api/activite/${id}`);
-        window.location.reload(true);
+        // window.location.reload(true);
     }
 
     if (error) {
@@ -66,15 +67,11 @@ const ActiviteList = () => {
             description="Liste des activités"
             subtitle="Liste des activités"
             action={
-                <DiakoniaButtonDialog
-                    label={`Ajouter une activité`}
-                    openDialog={openDialog}
-                >
-                </DiakoniaButtonDialog>
+                <Button onClick={openDialog} >Ajouter une activité</Button>
             }
         >
             <>
-                <DiakoniaPaginationTableWithAction
+                <DiakoniaPaginationActionTable
                     columns={ACTIVITE_HEADER_CELLS}
                     data={activites}
                     actions={[
@@ -82,25 +79,27 @@ const ActiviteList = () => {
                             id: "view",
                             label: "Voir details",
                             icon: <IconEye size="1.1rem" />,
-                            handler: (row) => {
-                                console.log('La ligne ', row);
+                            handler: (row, event) => {
                                 navigate(`/activite/${row.id}/participants`);
                             }
                         },
                         {
                             id: "edit",
                             label: "Modifier l'activite",
-                            icon: <IconEdit size="1.1rem" onClick={openDialog} />,
-                            handler: (row) => {
-                                console.log('Edit:', row);
+                            icon: <IconEdit size="1.1rem" />,
+                            handler: (row, event) => {
                                 setSelectedActivite(row);
+                                openDialog();
                             }
                         },
                         {
                             id: "delete",
                             label: "Supprime l'activite",
                             icon: <IconTrash size="1.1rem" />,
-                            handler: (row) => deleteActiviteById(row.id)
+                            handler: (row, event) => {
+                                console.log('Suppression de l\'activite', row.id);
+                                deleteActiviteById(row.id);
+                            }
                         }
                     ]}
                     totalCount={totalCount}

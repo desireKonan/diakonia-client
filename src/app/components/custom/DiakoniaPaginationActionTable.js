@@ -13,7 +13,6 @@ import {
   Typography,
   Box,
   IconButton,
-  Tooltip,
   Menu,
   MenuItem,
   ListItemIcon,
@@ -95,6 +94,8 @@ const RowActions = ({ actions, row }) => {
     setAnchorEl(null);
   };
 
+  console.log(row);
+
   return (
     <>
       <IconButton
@@ -112,7 +113,7 @@ const RowActions = ({ actions, row }) => {
         {actions.map((action) => (
           <MenuItem 
             key={action.id} 
-            onClick={() => action.handler(action.id)}
+            onClick={(event) => action.handler(row, event)}
             disabled={action.disabled?.(row)}
           >
             <ListItemIcon>{action.icon}</ListItemIcon>
@@ -124,7 +125,7 @@ const RowActions = ({ actions, row }) => {
   );
 };
 
-const DiakoniaPaginationTableWithAction = ({
+const DiakoniaPaginationActionTable = ({
   columns,
   data = [],
   totalCount = 0,
@@ -135,10 +136,8 @@ const DiakoniaPaginationTableWithAction = ({
   actions = [],
   onPageChange,
   onRowsPerPageChange,
-  onActionClick,
   onRowClick,
   rowsPerPageOptions = [5, 10, 25],
-
   elevation = 2,
   stickyHeader = true,
   size = 'medium',
@@ -150,10 +149,6 @@ const DiakoniaPaginationTableWithAction = ({
 
   const handleChangeRowsPerPage = (event) => {
     onRowsPerPageChange(parseInt(event.target.value, 10));
-  };
-
-  const handleRowAction = (actionId, row) => {
-    onActionClick?.(actionId, row);
   };
 
   const handleRowClick = (row) => {
@@ -248,7 +243,7 @@ const DiakoniaPaginationTableWithAction = ({
   );
 };
 
-DiakoniaPaginationTableWithAction.propTypes = {
+DiakoniaPaginationActionTable.propTypes = {
   columns: PropTypes.arrayOf(
     PropTypes.shape({
       id: PropTypes.string.isRequired,
@@ -284,7 +279,7 @@ DiakoniaPaginationTableWithAction.propTypes = {
   sx: PropTypes.object,
 };
 
-DiakoniaPaginationTableWithAction.defaultProps = {
+DiakoniaPaginationActionTable.defaultProps = {
   actions: [],
   loading: false,
   rowsPerPageOptions: [5, 10, 25],
@@ -293,4 +288,4 @@ DiakoniaPaginationTableWithAction.defaultProps = {
   size: 'medium',
 };
 
-export default DiakoniaPaginationTableWithAction;
+export default DiakoniaPaginationActionTable;
