@@ -27,7 +27,7 @@ const ActiviteList = () => {
 
     const deleteActiviteById = async (id) => {
         await httpAdapter.deleteData(`/api/activite/${id}`);
-        // window.location.reload(true);
+        window.location.reload(true);
     }
 
     if (error) {
