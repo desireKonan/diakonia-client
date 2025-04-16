@@ -17,7 +17,7 @@ import { nameMeeting } from "src/_ui/utils/utils";
 import { uniqueId } from "lodash";
 import useFetch from "src/app/services/useFetch";
 import LigneFinanciereRencontreForm from "./LigneFinanciereRencontreForm";
-import { AppDialog, useDialogEvent } from "src/app/components/custom/AppDialog";
+import { DiakoniaDialog, useDialogEvent } from "src/app/components/custom/AppDialog";
 
 const LigneFinanciereRencontreList = () => {
     const params = useParams();
@@ -96,7 +96,7 @@ const LigneFinanciereRencontreList = () => {
                                                                     </TableCell>
                                                                 ))
                                                             }
-                                                            <AppDialog  
+                                                            <DiakoniaDialog  
                                                                 title={`Formulaire de sauvegarder d'une ligne financières`}
                                                                 form={<LigneFinanciereRencontreForm meetingId={rencontre.id} ligneFinanciere={financialLine} />}
                                                                 open={open}

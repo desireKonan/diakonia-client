@@ -1,180 +1,115 @@
-import {  
-    Typography,
-    Table,
-    TableBody,
-    TableCell,
-    TableHead,
-    TableRow,
-    Button,
-    Paper,
-    TableContainer,
-} from "@mui/material";
+import { IconEye, IconEdit, IconTrash } from '@tabler/icons';
 import { useNavigate } from "react-router-dom";
-import ParentCard from "src/_ui/components/shared/ParentCard";
-import PageContainer from "src/_ui/components/container/PageContainer";
-import Breadcrumb from "src/_ui/layouts/full/shared/breadcrumb/Breadcrumb";
-import useFetch from "src/app/services/useFetch";
 import { httpAdapter } from "src/app/services/http-adapter.service";
-import CustomDialog from "src/app/components/custom/CustomDialog";
 import ActiviteForm from "./ActiviteForm";
-import { uniqueId } from "lodash";
-
+import DiakoniaPaginationTable from "src/app/components/custom/DiakoniaPaginationTable";
+import useLoadDataPerBatch from "src/app/services/useLoadDataPerBatch";
+import { DiakoniaButtonDialog, DiakoniaDialog, useDialogEvent } from "src/app/components/custom/AppDialog";
+import { ACTIVITE_HEADER_CELLS } from "./table/activite.columns";
+import { useState } from "react";
+import { DiakoniaContainer, DiakoniaMessage } from "src/app/components/custom/ComponentUtils";
+import useFetch from 'src/app/services/useFetch';
 
 const ActiviteList = () => {
     const navigate = useNavigate();
+    // const { data: activites, loading, error, handlePageChange, totalCount } = useLoadDataPerBatch(`/api/activite/search`, []);
     const { data: activites, loading, error } = useFetch(`/api/activite`, []);
+    const [selectedActivite, setSelectedActivite] = useState(null);
+    const { open, openDialog, closeDialog } = useDialogEvent();
 
-    const deleteActiviteById = async(id) => {
+    const deleteActiviteById = async (id) => {
         await httpAdapter.deleteData(`/api/activite/${id}`);
         window.location.reload(true);
     }
 
+    if (error) {
+        return (
+            <DiakoniaContainer
+                title="Liste des activités"
+                description="Liste des activités"
+                subtitle="Liste des activités"
+            >
+                <DiakoniaMessage
+                    message={error}
+                />
+            </DiakoniaContainer>
+        );
+    }
+
+
+    if (loading) {
+        return (
+            <DiakoniaContainer
+                title="Liste des activités"
+                description="Liste des activités"
+                subtitle="Liste des activités"
+            >
+                <DiakoniaMessage
+                    message={loading}
+                />
+            </DiakoniaContainer>
+        );
+    }
 
     return (
-        <PageContainer title="Liste des activités" description="Liste des activités">
-            <Breadcrumb title="Liste des activités" subtitle="Liste des activités" />
-            <ParentCard title="Liste des activités" action={
-                <CustomDialog
-                    label={`Ajouter une activité`} 
-                    title={`Formulaire d'ajout d'une activité`}
-                    form={<ActiviteForm />}
+        <DiakoniaContainer
+            title="Liste des activités"
+            description="Liste des activités"
+            subtitle="Liste des activités"
+            action={
+                <DiakoniaButtonDialog
+                    label={`Ajouter une activité`}
+                    openDialog={openDialog}
                 >
-                </CustomDialog>
-            }>
-                <Paper variant="outlined">
-                    {
-                        error ? (
-                            <Typography variant="subtitle2" fontWeight={600}>
-                                { error }
-                            </Typography>
-                        ) : (
-                            loading ? 
-                            (<Typography variant="subtitle2" fontWeight={600}>
-                                { loading }
-                            </Typography>) : (
-                                <TableContainer sx={{ overflow: 'auto', width: { xs: '280px', sm: 'auto' }, maxHeight: 440, }}>
-                                    <Table
-                                        sx={{
-                                            whiteSpace: "nowrap",
-                                            mt: 2
-                                        }}
-                                        stickyHeader 
-                                        aria-label="sticky table"
-                                    >
-                                        <TableHead>
-                                            <TableRow>
-                                                <TableCell>
-                                                    <Typography variant="subtitle2" fontWeight={600}>
-                                                        Id
-                                                    </Typography>
-                                                </TableCell>
-                                                <TableCell>
-                                                    <Typography variant="subtitle2" fontWeight={600}>
-                                                        Libéllé
-                                                    </Typography>
-                                                </TableCell>
-                                                <TableCell>
-                                                    <Typography variant="subtitle2" fontWeight={600}>
-                                                        Description
-                                                    </Typography>
-                                                </TableCell>
-                                                <TableCell>
-                                                    <Typography variant="subtitle2" fontWeight={600}>
-                                                        Type d'activité
-                                                    </Typography>
-                                                </TableCell>
-                                                <TableCell>
-                                                    <Typography variant="subtitle2" fontWeight={600}>
-                                                        Détails
-                                                    </Typography>
-                                                </TableCell>
-                                                <TableCell>
-                                                    <Typography variant="subtitle2" fontWeight={600}>
-                                                        Actions
-                                                    </Typography>
-                                                </TableCell>
-                                            </TableRow>
-                                        </TableHead>
-                                        <TableBody>
-                                            {(activites && activites.length) ? (activites.map((activite) => (
-                                                    <TableRow key={activite.id}>
-                                                        <TableCell>
-                                                            <Typography
-                                                                sx={{
-                                                                    fontSize: "15px",
-                                                                    fontWeight: "500",
-                                                                }}
-                                                            >
-                                                                {activite.id}
-                                                            </Typography>
-                                                        </TableCell>
-                                                        <TableCell>
-                                                            <Typography color="textSecondary" variant="subtitle2" fontWeight={400}>
-                                                                {activite.label}
-                                                            </Typography>
-                                                        </TableCell>
-                                                        <TableCell>
-                                                            <Typography color="textSecondary" variant="subtitle2" fontWeight={400}>
-                                                                {activite.description}
-                                                            </Typography>
-                                                        </TableCell>
-                                                        <TableCell>
-                                                            <Typography color="textSecondary" variant="subtitle2" fontWeight={400}>
-                                                                {activite.typeLabel}
-                                                            </Typography>
-                                                        </TableCell>
-                                                        <TableCell>
-                                                            <Typography color="textSecondary" variant="subtitle2" fontWeight={400}>
-                                                                {JSON.stringify(activite.details)}
-                                                            </Typography>
-                                                        </TableCell>
-                                                        <TableCell>
-                                                            <CustomDialog
-                                                                label={`Ajouter une activité`} 
-                                                                title={`Formulaire d'ajout d'une activité`}
-                                                                form={<ActiviteForm activite={activite} />}
-                                                                isIconButton={true}
-                                                                color={true}
-                                                            >
-                                                            </CustomDialog>
-                                                            <Button 
-                                                                variant="contained" 
-                                                                color="primary" 
-                                                                onClick={(e) => navigate(`/activite/${activite.id}/participants`)} 
-                                                                style={{margin: 5}}
-                                                            > 
-                                                                Ajouter des participants 
-                                                            </Button>
-                                                            <Button 
-                                                                variant="contained" 
-                                                                color="error" 
-                                                                onClick={(e) => deleteActiviteById(activite.id)} 
-                                                                style={{margin: 5}}
-                                                            >
-                                                                Supprimer 
-                                                            </Button>
-                                                        </TableCell>
-                                                    </TableRow>
-                                                ))) :
-                                                (
-                                                    <TableRow key={uniqueId()}>
-                                                        <TableCell rowSpan={4}>
-                                                            <Typography color="textSecondary" variant="subtitle2" fontWeight={400}>
-                                                                Aucune activités disponibles !
-                                                            </Typography>
-                                                        </TableCell>
-                                                    </TableRow>
-                                                )
-                                            }
-                                        </TableBody>
-                                    </Table>
-                                </TableContainer>
-                            )
-                        )
-                    }
-                </Paper>
-            </ParentCard>
-        </PageContainer>
+                </DiakoniaButtonDialog>
+            }
+        >
+            <>
+                <DiakoniaPaginationTable
+                    fetchData={activites}
+                    columns={ACTIVITE_HEADER_CELLS}
+                    actions={[
+                        {
+                            id: "view",
+                            label: "Voir details",
+                            icon: <IconEye size="1.1rem" />,
+                            handler: (row) => {
+                                console.log('La ligne ', row);
+                                navigate(`/activite/${row.id}/participants`);
+                            }
+                        },
+                        {
+                            id: "edit",
+                            label: "Modifier l'activite",
+                            icon: <IconEdit size="1.1rem" onClick={openDialog} />,
+                            handler: (row) => {
+                                console.log('Edit:', row);
+                                setSelectedActivite(row);
+                            }
+                        },
+                        {
+                            id: "delete",
+                            label: "Supprime l'activite",
+                            icon: <IconTrash size="1.1rem" />,
+                            handler: (row) => deleteActiviteById(row.id)
+                        }
+                    ]}
+                    initialRowsPerPage={10}
+                    rowsPerPageOptions={[5, 10, 25, 50]}
+                    sx={{ mt: 3 }}
+                    refreshable
+                />
+                {open && (
+                    <DiakoniaDialog
+                        title={`Formulaire d'ajout d'une activité`}
+                        open={open}
+                        closeDialog={closeDialog}
+                    >
+                        <ActiviteForm activite={selectedActivite} />
+                    </DiakoniaDialog>
+                )}
+            </>
+        </DiakoniaContainer>
     );
 }
 

@@ -20,7 +20,7 @@ const CustomDialog = ({ isIconButton, label, title, form, color }) => {
         <>
             {
                 isIconButton ? (
-                    <Tooltip title="Modifier une assemblée">
+                    <Tooltip title={label}>
                         <IconButton
                             variant="contained" 
                             color={ !color ? "primary": "warning" } 
