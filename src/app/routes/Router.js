@@ -167,11 +167,6 @@ const Router = [
           </ProtectedRoute>
         )
       },
-      // { 
-      //   path: '/test', exact: true, element: (
-      //   <TestPaginationPage />
-      //   )
-      // },
       { path: '*', element: <Navigate to="/auth/404" /> },
     ],
   },

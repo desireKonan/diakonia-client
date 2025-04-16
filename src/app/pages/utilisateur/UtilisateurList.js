@@ -1,172 +1,117 @@
-import {  
-    Typography,
-    Table,
-    TableBody,
-    TableCell,
-    TableHead,
-    TableRow,
-    Button,
-    Paper,
-    TableContainer
-} from "@mui/material";
-import ParentCard from "src/_ui/components/shared/ParentCard";
-import PageContainer from "src/_ui/components/container/PageContainer";
-import Breadcrumb from "src/_ui/layouts/full/shared/breadcrumb/Breadcrumb";
-import useFetch from "src/app/services/useFetch";
-import CustomDialog from "src/app/components/custom/CustomDialog";
+import { Button } from "@mui/material";
 import UtilisateurForm from "./UtilisateurForm";
 import { httpAdapter } from "src/app/services/http-adapter.service";
-import { uniqueId } from "lodash";
+import useLoadDataPerBatch from "src/app/services/useLoadDataPerBatch";
+import { useState } from "react";
+import { DiakoniaDialog, useDialogEvent } from "src/app/components/custom/AppDialog";
+import { DiakoniaContainer, DiakoniaMessage } from "src/app/components/custom/ComponentUtils";
+import DiakoniaPaginationActionTable from "src/app/components/custom/DiakoniaPaginationActionTable";
+import { IconEdit, IconTrash } from "@tabler/icons";
+import { UTILISATEURS_HEADER_CELLS } from "./table/user.columns";
 
 
 const UtilisateurList = () => {
-    const { data: utilisateurs, loading, error } = useFetch('/api/user');
-
-    const deleteUtilisateurById = async(id) => {
+    const {
+        data: utilisateurs,
+        loading,
+        error,
+        totalCount,
+        page,
+        rowsPerPage,
+        handlePageChange,
+        handleRowsPerPageChange
+    } = useLoadDataPerBatch(`/api/user/search`);
+    const [selectedUser, setSelectedUser] = useState(null);
+    const { open, openDialog, closeDialog } = useDialogEvent();
+    
+    const deleteUtilisateurById = async (id) => {
         await httpAdapter.deleteData(`/api/user/${id}`);
         window.location.reload(true);
     }
 
+    
+    if (error) {
+        return (
+            <DiakoniaContainer
+                title="Liste des assemblées"
+                description="Liste des assemblées"
+                subtitle="Liste des assemblées"
+            >
+                <DiakoniaMessage
+                    message={error}
+                />
+            </DiakoniaContainer>
+        );
+    }
+
+
+    if (loading) {
+        return (
+            <DiakoniaContainer
+                title="Liste des assemblées"
+                description="Liste des assemblées"
+                subtitle="Liste des assemblées"
+            >
+                <DiakoniaMessage
+                    message={loading}
+                />
+            </DiakoniaContainer>
+        );
+    }
+
     return (
-        <PageContainer title="Liste des utilisateurs" description="Liste des utilisateurs">
-            <Breadcrumb title="Liste des utilisateurs" subtitle="Liste des utilisateurs" />
-            <ParentCard title="Liste des utilisateurs" action={
-                <CustomDialog
-                    label={`Ajouter un utilisateur`} 
-                    title={`Formulaire d'ajout d'un utilisateur`}
-                    form={<UtilisateurForm />}
-                >
-                </CustomDialog>
-            }>
-                <Paper variant="outlined">
-                    {
-                        error ? (
-                            <Typography variant="subtitle2" fontWeight={600}>
-                                { error }
-                            </Typography>
-                        ) : (
-                            loading ? (
-                                <Typography variant="subtitle2" fontWeight={600}>
-                                    { loading }
-                                </Typography>
-                            ) : (
-                                <TableContainer sx={{ overflow: 'auto', width: { xs: '280px', sm: 'auto' }, maxHeight: 440, }}>
-                                    <Table
-                                        sx={{
-                                            whiteSpace: "nowrap",
-                                            mt: 2
-                                        }}
-                                        stickyHeader 
-                                        aria-label="sticky table"
-                                    >
-                                        <TableHead>
-                                            <TableRow>
-                                                <TableCell>
-                                                    <Typography variant="subtitle2" fontWeight={600}>
-                                                        Id
-                                                    </Typography>
-                                                </TableCell>
-                                                <TableCell>
-                                                    <Typography variant="subtitle2" fontWeight={600}>
-                                                        Nom et prenoms
-                                                    </Typography>
-                                                </TableCell>
-                                                <TableCell>
-                                                    <Typography variant="subtitle2" fontWeight={600}>
-                                                        Username
-                                                    </Typography>
-                                                </TableCell>
-                                                <TableCell>
-                                                    <Typography variant="subtitle2" fontWeight={600}>
-                                                        Id de disciple
-                                                    </Typography>
-                                                </TableCell>
-                                                <TableCell>
-                                                    <Typography variant="subtitle2" fontWeight={600}>
-                                                        Roles
-                                                    </Typography>
-                                                </TableCell>
-                                                <TableCell>
-                                                    <Typography variant="subtitle2" fontWeight={600}>
-                                                        Actions
-                                                    </Typography>
-                                                </TableCell>
-                                            </TableRow>
-                                        </TableHead>
-                                        <TableBody>
-                                            {(utilisateurs && utilisateurs.length) ? (utilisateurs.map((utilisateur) => (
-                                                    <TableRow key={utilisateur.id}>
-                                                        <TableCell>
-                                                            <Typography
-                                                                sx={{
-                                                                    fontSize: "15px",
-                                                                    fontWeight: "500",
-                                                                }}
-                                                            >
-                                                                {utilisateur.id}
-                                                            </Typography>
-                                                        </TableCell>
-                                                        <TableCell>
-                                                            <Typography color="textSecondary" variant="subtitle2" fontWeight={400}>
-                                                                { `${utilisateur.firstname} ${utilisateur.lastname}` }
-                                                            </Typography>
-                                                        </TableCell>
-                                                        <TableCell>
-                                                            <Typography color="textSecondary" variant="subtitle2" fontWeight={400}>
-                                                                {utilisateur.username}
-                                                            </Typography>
-                                                        </TableCell>
-                                                        <TableCell>
-                                                            <Typography color="textSecondary" variant="subtitle2" fontWeight={400}>
-                                                                {utilisateur.discipleId}
-                                                            </Typography>
-                                                        </TableCell>
-                                                        <TableCell>
-                                                            <Typography color="textSecondary" variant="subtitle2" fontWeight={400}>
-                                                                {JSON.stringify(utilisateur.roles)}
-                                                            </Typography>
-                                                        </TableCell>
-                                                        <TableCell>
-                                                            <CustomDialog
-                                                                label={`Ajouter un utilisateur`} 
-                                                                title={`Formulaire d'ajout un utilisateur`}
-                                                                form={
-                                                                    <UtilisateurForm utilisateur={utilisateur} />
-                                                                }
-                                                                isIconButton={true}
-                                                                color={true}
-                                                            >
-                                                            </CustomDialog>
-                                                            <Button 
-                                                                variant="contained" 
-                                                                color="error" 
-                                                                onClick={(e) => deleteUtilisateurById(utilisateur.id)} 
-                                                                style={{margin: 5}}
-                                                            >
-                                                                Supprimer 
-                                                            </Button>
-                                                        </TableCell>
-                                                    </TableRow>
-                                                ))) :
-                                                (
-                                                    <TableRow key={`${uniqueId()}`}>
-                                                        <TableCell rowSpan={4}>
-                                                            <Typography color="textSecondary" variant="subtitle2" fontWeight={400}>
-                                                                Aucun utilisateurs !
-                                                            </Typography>
-                                                        </TableCell>
-                                                    </TableRow>
-                                                )
-                                            }
-                                        </TableBody>
-                                    </Table>
-                                </TableContainer>
-                            )
-                        )   
-                    }
-                </Paper>
-            </ParentCard>
-        </PageContainer>
+        <DiakoniaContainer
+            title="Liste des assemblées"
+            description="Liste des assemblées"
+            subtitle="Liste des assemblées"
+            action={<Button onClick={openDialog}>Formulaire d'ajout d'une assemblée</Button>}
+        >
+            <>
+                <DiakoniaPaginationActionTable
+                    columns={UTILISATEURS_HEADER_CELLS}
+                    data={utilisateurs}
+                    actions={[
+                        {
+                            id: "edit",
+                            label: "Modifier les infos sur un utilisateur",
+                            icon: <IconEdit size="1.1rem" />,
+                            handler: (row, event) => {
+                                setSelectedUser(row);
+                                openDialog();
+                            }
+                        },
+                        {
+                            id: "delete",
+                            label: "Supprimer un utilisateur",
+                            icon: <IconTrash size="1.1rem" />,
+                            handler: (row, event) => {
+                                console.log('Suppression de l\'assemblee', row.id);
+                                deleteUtilisateurById(row.id);
+                            }
+                        }
+                    ]}
+                    totalCount={totalCount}
+                    page={page}
+                    rowsPerPage={rowsPerPage}
+                    loading={loading}
+                    error={error}
+                    onPageChange={handlePageChange}
+                    onRowsPerPageChange={handleRowsPerPageChange}
+                    rowsPerPageOptions={[5, 10, 25]}
+                    sx={{ mt: 3 }}
+                />
+
+                {open && (
+                    <DiakoniaDialog
+                        title={`Formulaire d'ajout d'une assemblée`}
+                        open={open}
+                        closeDialog={closeDialog}
+                    >
+                        <UtilisateurForm utilisateur={selectedUser} />
+                    </DiakoniaDialog>
+                )}
+            </>
+        </DiakoniaContainer>
     );
 }
 
