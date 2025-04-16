@@ -1,10 +1,10 @@
 import { CssBaseline, ThemeProvider } from '@mui/material';
 import { useRoutes } from 'react-router-dom';
 import { useSelector } from 'react-redux';
-import { ThemeSettings } from './theme/Theme';
-import RTL from './layouts/full/shared/customizer/RTL';
-import ScrollToTop from './components/shared/ScrollToTop';
-import Router from './routes/Router';
+import { ThemeSettings } from './_ui/theme/Theme';
+import RTL from './_ui/layouts/full/shared/customizer/RTL';
+import ScrollToTop from './_ui/components/shared/ScrollToTop';
+import Router from './app/routes/Router';
 import { AuthProvider } from './app/services/useAuth';
 
 function App() {

@@ -3,9 +3,9 @@ import ReactDOM from 'react-dom/client';
 import App from './App';
 import { Provider } from 'react-redux';
 import { BrowserRouter } from 'react-router-dom';
-import { store } from './store/Store';
-import Spinner from './views/spinner/Spinner';
-import './utils/i18n';
+import { store } from './app/store/Store';
+import Spinner from './_ui/views/spinner/Spinner';
+import './_ui/utils/i18n';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
