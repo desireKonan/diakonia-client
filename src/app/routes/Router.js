@@ -3,7 +3,7 @@ import { Navigate } from 'react-router-dom';
 
 import Loadable from '../../_ui/layouts/full/shared/loadable/Loadable';
 import ProtectedRoute from './ProtectedRoute';
-import { ROLES } from 'src/_ui/utils/utils';
+import { ROLES } from 'src/app/services/utils';
 
 /* ***Layouts**** */
 const FullLayout = Loadable(lazy(() => import('../../_ui/layouts/full/FullLayout')));

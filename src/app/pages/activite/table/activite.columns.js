@@ -1,4 +1,4 @@
-import { IconEye, IconEdit, IconTrash } from "@tabler/icons";
+import { instantTime } from "src/app/services/utils";
 
 export const ACTIVITE_HEADER_CELLS = [
     {
@@ -29,6 +29,10 @@ export const ACTIVITE_HEADER_CELLS = [
     {
         id: 'createdAt',
         label: 'Date de creation',
-        minWidth: 150
+        minWidth: 150,
+        render: (createdAt) => {
+            console.log(createdAt);
+            return instantTime(createdAt);
+        }
     },
 ];

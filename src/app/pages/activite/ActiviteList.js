@@ -66,9 +66,7 @@ const ActiviteList = () => {
             title="Liste des activités"
             description="Liste des activités"
             subtitle="Liste des activités"
-            action={
-                <Button onClick={openDialog} >Ajouter une activité</Button>
-            }
+            action={<Button onClick={openDialog}>Ajouter une activité</Button>}
         >
             <>
                 <DiakoniaPaginationActionTable

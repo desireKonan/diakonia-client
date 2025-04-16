@@ -9,7 +9,7 @@ import CustomTextField from "src/_ui/components/forms/theme-elements/CustomTextF
 import CustomSelect from "src/_ui/components/forms/theme-elements/CustomSelect";
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import { date } from 'src/_ui/utils/utils';
+import { date } from 'src/app/services/utils';
 import useFetch from 'src/app/services/useFetch';
 import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns';
 import 'react-toastify/dist/ReactToastify.css';

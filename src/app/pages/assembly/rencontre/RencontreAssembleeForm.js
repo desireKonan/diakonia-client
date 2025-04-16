@@ -5,7 +5,7 @@ import CustomSelect from "src/_ui/components/forms/theme-elements/CustomSelect";
 import CustomTextField from "src/_ui/components/forms/theme-elements/CustomTextField";
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import { MeetingType, dateTime } from 'src/_ui/utils/utils';
+import { MeetingType, dateTime } from 'src/app/services/utils';
 import { LocalizationProvider } from '@mui/x-date-pickers';
 import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns';
 import { DateTimePicker } from '@mui/x-date-pickers/DateTimePicker';

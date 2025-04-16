@@ -3,7 +3,7 @@ import { useAuth } from 'src/app/services/useAuth';
 import SousZoneDashboard from './SousZoneDashboard';
 import AssembleeDashboard from './AssembleeDashboard';
 import AdminDashboard from './AdminDashboard';
-import { ROLES } from 'src/_ui/utils/utils';
+import { ROLES } from 'src/app/services/utils';
 
 const Modern = () => {
   const { user } = useAuth();

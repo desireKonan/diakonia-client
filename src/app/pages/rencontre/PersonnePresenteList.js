@@ -13,7 +13,7 @@ import { useParams } from "react-router";
 import PageContainer from "src/_ui/components/container/PageContainer";
 import ParentCard from "src/_ui/components/shared/ParentCard";
 import Breadcrumb from "src/_ui/layouts/full/shared/breadcrumb/Breadcrumb";
-import { dateTime } from "src/_ui/utils/utils";
+import { dateTime } from "src/app/services/utils";
 import CustomDialog from "src/app/components/custom/CustomDialog";
 import useFetch from "src/app/services/useFetch";
 import Tooltip from '@mui/material/Tooltip';

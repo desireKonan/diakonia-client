@@ -18,12 +18,10 @@ const useLoadDataPerBatch = (url, params = { page: 0, size: 15 }) => {
                     size: rowsPerPage
                 }
             });
-            console.log('Response du fetch pour la page ', params.page, ' , donnees: ', response.data, 'Reponses ', response.status);
             if (response.status === 200) {
                 setData(response.data.content);
                 setTotalCount(response.data.totalElements);
                 handlePageChange(params.page);
-                console.log(response.data.content, response.data.totalElements, params.page);
                 setError(null);
             }
         } catch (err) {

@@ -6,7 +6,7 @@ import { httpAdapter } from "src/app/services/http-adapter.service";
 import { ToastContainer, toast } from 'react-toastify';
 import * as yup from 'yup';
 import CustomSelect from "src/_ui/components/forms/theme-elements/CustomSelect";
-import { ROLES } from "src/_ui/utils/utils";
+import { ROLES } from "src/app/services/utils";
 
 
 const validationSchema = yup.object({

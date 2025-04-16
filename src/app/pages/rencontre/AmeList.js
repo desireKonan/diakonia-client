@@ -16,7 +16,7 @@ import PageContainer from "src/_ui/components/container/PageContainer";
 import Breadcrumb from "src/_ui/layouts/full/shared/breadcrumb/Breadcrumb";
 import Tooltip from '@mui/material/Tooltip';
 import { IconTrash } from "@tabler/icons";
-import { date } from "src/_ui/utils/utils";
+import { date } from "src/app/services/utils";
 import CustomDialog from "src/app/components/custom/CustomDialog";
 import useFetch from "src/app/services/useFetch";
 import AmeForm from "./AmeForm";

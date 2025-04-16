@@ -3,7 +3,7 @@ import EffectiveSousZoneRapport from "./sous-zone/EffectifSousZoneRapport";
 import AucunRapport from "./AucunRapport";
 import EffectifAssembleeRapport from "./assemblee/EffectifAssembleeRapport";
 import { useAuth } from "src/app/services/useAuth";
-import { ROLES } from "src/_ui/utils/utils";
+import { ROLES } from "src/app/services/utils";
 
 const RapportBase = () => {
     const { user } = useAuth();

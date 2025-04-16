@@ -16,7 +16,7 @@ import ParentCard from "src/_ui/components/shared/ParentCard";
 import useFetch from "src/app/services/useFetch";
 import { uniqueId } from "lodash";
 import { httpAdapter } from "src/app/services/http-adapter.service";
-import { date3, dateTime, dateTimeView, ROLES } from "src/_ui/utils/utils";
+import { date3, dateTime, dateTimeView, ROLES } from "src/app/services/utils";
 import CustomDialog from "src/app/components/custom/CustomDialog";
 import Tooltip from '@mui/material/Tooltip';
 import MembreForm from "./MembreForm";

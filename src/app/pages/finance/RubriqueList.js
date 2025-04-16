@@ -15,7 +15,7 @@ import Breadcrumb from "src/_ui/layouts/full/shared/breadcrumb/Breadcrumb";
 import CustomDialog from "src/app/components/custom/CustomDialog";
 import RubriqueForm from "./RubriqueForm";
 import useFetch from "src/app/services/useFetch";
-import { instant } from "src/_ui/utils/utils";
+import { instant } from "src/app/services/utils";
 import { httpAdapter } from "src/app/services/http-adapter.service";
 import { uniqueId } from "lodash";
 

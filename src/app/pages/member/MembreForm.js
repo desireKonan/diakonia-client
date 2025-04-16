@@ -8,7 +8,7 @@ import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns';
 import { DateTimePicker } from '@mui/x-date-pickers/DateTimePicker';
 import CustomCheckbox from "src/_ui/components/forms/theme-elements/CustomCheckbox";
 import moment from "moment/moment";
-import { date, dateTime, SEX } from "src/_ui/utils/utils";
+import { date, dateTime, SEX } from "src/app/services/utils";
 import { TabContext, TabList, TabPanel } from "@mui/lab";
 import { useFormik } from "formik";
 import { httpAdapter } from "src/app/services/http-adapter.service";

@@ -4,7 +4,7 @@ import {
 } from '@tabler/icons';
 
 import { uniqueId } from 'lodash';
-import { ROLES } from 'src/_ui/utils/utils';
+import { ROLES } from 'src/app/services/utils';
 
 const Menuitems = [
   {

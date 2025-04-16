@@ -1,7 +1,7 @@
 import React from "react";
 import { Navigate, useLocation } from "react-router-dom";
 import { useAuth } from "src/app/services/useAuth";
-import { isIncludeIn } from "src/_ui/utils/utils";
+import { isIncludeIn } from "src/app/services/utils";
 
 const ProtectedRoute = ({ children, routesAllowed = [] }) => {
   const location = useLocation();

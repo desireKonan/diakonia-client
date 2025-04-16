@@ -15,7 +15,7 @@ import Breadcrumb from "src/_ui/layouts/full/shared/breadcrumb/Breadcrumb";
 import CustomDialog from "src/app/components/custom/CustomDialog";
 import { useParams } from "react-router";
 import LigneFinanciereForm from "./LigneFinanciereForm";
-import { instant } from "src/_ui/utils/utils";
+import { instant } from "src/app/services/utils";
 import { httpAdapter } from "src/app/services/http-adapter.service";
 import { uniqueId } from "lodash";
 import Tooltip from '@mui/material/Tooltip';

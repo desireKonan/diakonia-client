@@ -7,7 +7,7 @@ import { useState } from "react";
 import CustomFormLabel from "src/_ui/components/forms/theme-elements/CustomFormLabel";
 import CustomTextField from "src/_ui/components/forms/theme-elements/CustomTextField";
 import CustomSelect from "src/_ui/components/forms/theme-elements/CustomSelect";
-import { date } from "src/_ui/utils/utils";
+import { date } from "src/app/services/utils";
 import { DatePicker, LocalizationProvider } from '@mui/x-date-pickers';
 import { AdapterDateFns } from "@mui/x-date-pickers/AdapterDateFns";
 import AddButtonDetails from "src/app/components/custom/AddButtonDetails";

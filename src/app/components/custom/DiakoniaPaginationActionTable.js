@@ -94,8 +94,6 @@ const RowActions = ({ actions, row }) => {
     setAnchorEl(null);
   };
 
-  console.log(row);
-
   return (
     <>
       <IconButton
@@ -185,7 +183,7 @@ const DiakoniaPaginationActionTable = ({
             ) : data.length === 0 && !loading ? (
               <TableRow>
                 <TableCell colSpan={columns.length + (actions.length > 0 ? 1 : 0)} align="center" sx={{ py: 3 }}>
-                  <Typography> Aucune donnee disponible </Typography>
+                  <Typography> Aucune donnees disponible </Typography>
                 </TableCell>
               </TableRow>
             ) : (

@@ -10,7 +10,7 @@ import useFetch from 'src/app/services/useFetch';
 import CustomFormLabel from 'src/_ui/components/forms/theme-elements/CustomFormLabel';
 import CustomSelect from 'src/_ui/components/forms/theme-elements/CustomSelect';
 import CustomTextField from 'src/_ui/components/forms/theme-elements/CustomTextField';
-import { date, dateTime, PersonType, SEX } from 'src/_ui/utils/utils';
+import { date, dateTime, PersonType, SEX } from 'src/app/services/utils';
 
 
 const saveParticipant = async(values, meetingId) => {

@@ -7,7 +7,7 @@ import PageContainer from "src/_ui/components/container/PageContainer";
 import CustomDialog from "src/app/components/custom/CustomDialog";
 import ParentCard from "src/_ui/components/shared/ParentCard";
 import Breadcrumb from "src/_ui/layouts/full/shared/breadcrumb/Breadcrumb";
-import { date, nameMeeting } from "src/_ui/utils/utils";
+import { date, nameMeeting } from "src/app/services/utils";
 import ParticipantRencontreForm from "./ParticipantRencontreForm";
 import { httpAdapter } from "src/app/services/http-adapter.service";
 

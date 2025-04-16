@@ -18,7 +18,7 @@ import DashboardCard from '../../shared/DashboardCard';
 import CustomFormLabel from 'src/_ui/components/forms/theme-elements/CustomFormLabel';
 import CustomSelect from 'src/_ui/components/forms/theme-elements/CustomSelect';
 import useFetch from 'src/app/services/useFetch';
-import { date2, MeetingType, titleDashboard } from 'src/_ui/utils/utils';
+import { date2, MeetingType, titleDashboard } from 'src/app/services/utils';
 import { useFormik } from 'formik';
 import { httpAdapter } from 'src/app/services/http-adapter.service';
 import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns';

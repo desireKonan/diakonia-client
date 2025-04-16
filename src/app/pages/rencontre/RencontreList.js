@@ -14,7 +14,7 @@ import {
 import ParentCard from "src/_ui/components/shared/ParentCard";
 import PageContainer from "src/_ui/components/container/PageContainer";
 import Breadcrumb from "src/_ui/layouts/full/shared/breadcrumb/Breadcrumb";
-import { dateTime } from "src/_ui/utils/utils";
+import { dateTime } from "src/app/services/utils";
 import CustomDialog from "src/app/components/custom/CustomDialog";
 import RencontreForm from "./RencontreForm";
 import useFetch from "src/app/services/useFetch";

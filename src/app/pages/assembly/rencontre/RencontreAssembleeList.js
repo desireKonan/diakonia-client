@@ -20,7 +20,7 @@ import CustomDialog from "src/app/components/custom/CustomDialog";
 import { IconTrash } from "@tabler/icons";
 import { uniqueId } from "lodash";
 import { httpAdapter } from "src/app/services/http-adapter.service";
-import { nameMeeting, dateTimeView, ROLES, date3 } from "src/_ui/utils/utils";
+import { nameMeeting, dateTimeView, ROLES, date3 } from "src/app/services/utils";
 import RencontreAssembleeForm from "./RencontreAssembleeForm";
 import { useAuth } from "src/app/services/useAuth";
 
