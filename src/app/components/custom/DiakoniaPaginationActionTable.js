@@ -16,7 +16,8 @@ import {
   Menu,
   MenuItem,
   ListItemIcon,
-  ListItemText
+  ListItemText,
+  Tooltip
 } from '@mui/material';
 import {
   FirstPage,
@@ -25,6 +26,7 @@ import {
   KeyboardArrowRight,
   MoreVert
 } from '@mui/icons-material';
+import { renderingColumn, renderingTitle, truncate } from 'src/app/utils/render';
 
 // Composant de pagination personnalisé
 function TablePaginationActions(props) {
@@ -197,12 +199,14 @@ const DiakoniaPaginationActionTable = ({
                     {
                         columns.map((column) => {
                             return (
+                              <Tooltip title={renderingTitle(row[column.id])}>
                                 <TableCell 
                                     key={column.id} 
                                     align={column.align || 'left'}
                                 >
-                                    {column.render ? column.render(row[column.id], row) : typeof row[column.id] === 'object' ? JSON.stringify(row[column.id]) : row[column.id]}
+                                    { renderingColumn(column, row) }
                                 </TableCell>
+                              </Tooltip>
                             )
                         })
                     }

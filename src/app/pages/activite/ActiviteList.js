@@ -25,8 +25,6 @@ const ActiviteList = () => {
     const [selectedActivite, setSelectedActivite] = useState(null);
     const { open, openDialog, closeDialog } = useDialogEvent();
 
-    console.log(activites);
-
     const deleteActiviteById = async (id) => {
         await httpAdapter.deleteData(`/api/activite/${id}`);
         // window.location.reload(true);
