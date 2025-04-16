@@ -1,52 +1,64 @@
 import http from "./http";
-import { useState, useEffect, useCallback, useMemo } from "react";
+import { useState, useEffect, useCallback } from "react";
 
-const useLoadDataPerBatch = (url, initialData, params = { page: 0, size: 15 }) => {
+const useLoadDataPerBatch = (url, params = { page: 0, size: 15 }) => {
     const [loading, setLoading] = useState(false);
-    const [data, setData] = useState(initialData);
+    const [data, setData] = useState([]);
     const [error, setError] = useState("");
     const [page, setPage] = useState(params.page);
+    const [rowsPerPage, setRowsPerPage] = useState(params.size);
     const [totalCount, setTotalCount] = useState(0);
 
     const fetchData = useCallback(async (_url) => {
         try {
-            setLoading(false);
+            setLoading(true);
             const response = await http.get(_url, {
                 params: {
                     page: page,
-                    size: params.size
+                    size: rowsPerPage
                 }
             });
-            console.log('Response du fetch pour la page ', params.page, ' , donnees: ', response.data);
+            console.log('Response du fetch pour la page ', params.page, ' , donnees: ', response.data, 'Reponses ', response.status);
             if (response.status === 200) {
                 setData(response.data.content);
-                setTotalCount(response.data.numberOfElements);
+                setTotalCount(response.data.totalElements);
                 handlePageChange(params.page);
+                console.log(response.data.content, response.data.totalElements, params.page);
+                setError(null);
             }
-            setError(null);
         } catch (err) {
             var errorData = err.response.data['errorMessage'];
             console.error(errorData);
             setError(errorData);
         } finally {
-            setLoading(true);
+            setLoading(false);
         }
-    });
-
-    const handlePageChange = useCallback(
-        (_, newPage) => {
-            setPage(newPage);
-        },
-        []
-    );
+    }, [page, rowsPerPage]); 
 
     useEffect(() => {
         fetchData(url);
-    }, [page, url]);
+    }, [page, rowsPerPage]);
 
-    const memoizedData = useMemo(() => data, [data]);
+    const handlePageChange = (newPage) => {
+        setPage(newPage);
+    };
 
-    return { data: memoizedData, error, loading, page, totalCount, handlePageChange };
+    const handleRowsPerPageChange = (event) => {
+        const newRowsPerPage = parseInt(event.target.value, 10);
+        setRowsPerPage(newRowsPerPage);
+        setPage(0);
+    };
+
+    return {
+        data,
+        error,
+        loading,
+        page,
+        totalCount,
+        rowsPerPage,
+        handlePageChange,
+        handleRowsPerPageChange,
+    };
 }
 
 export default useLoadDataPerBatch;

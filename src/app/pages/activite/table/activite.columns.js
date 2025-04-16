@@ -4,27 +4,27 @@ export const ACTIVITE_HEADER_CELLS = [
     {
         id: 'id',
         label: 'Id',
-        minWidth: 50
+        minWidth: 150
     },
     {
         id: 'label',
         label: 'Libelle',
-        minWidth: 150
+        minWidth: 200
     },
     {
         id: 'description',
         label: 'Description',
-        minWidth: 150
+        minWidth: 200
     },
     {
         id: 'typeLabel',
         label: 'Type d\'activité',
-        minWidth: 150
+        minWidth: 200
     },
     {
         id: 'details',
         label: 'Details',
-        minWidth: 150
+        minWidth: 200
     },
     {
         id: 'createdAt',

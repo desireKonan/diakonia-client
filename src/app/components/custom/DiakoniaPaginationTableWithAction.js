@@ -13,16 +13,24 @@ import {
   Typography,
   Box,
   IconButton,
-  Tooltip
+  Tooltip,
+  Menu,
+  MenuItem,
+  ListItemIcon,
+  ListItemText
 } from '@mui/material';
 import {
   FirstPage,
   LastPage,
   KeyboardArrowLeft,
-  KeyboardArrowRight
+  KeyboardArrowRight,
+  MoreVert
 } from '@mui/icons-material';
 
-function TablePaginationActions({ count, page, rowsPerPage, onPageChange }) {
+// Composant de pagination personnalisé
+function TablePaginationActions(props) {
+  const { count, page, rowsPerPage, onPageChange } = props;
+
   const handleFirstPageButtonClick = (event) => {
     onPageChange(event, 0);
   };
@@ -73,17 +81,64 @@ function TablePaginationActions({ count, page, rowsPerPage, onPageChange }) {
   );
 }
 
-const DiakoniaPaginationTable = ({
+// Composant pour les actions de ligne
+const RowActions = ({ actions, row }) => {
+  const [anchorEl, setAnchorEl] = useState(null);
+  const open = Boolean(anchorEl);
+
+  const handleClick = (event) => {
+    event.stopPropagation();
+    setAnchorEl(event.currentTarget);
+  };
+
+  const handleClose = () => {
+    setAnchorEl(null);
+  };
+
+  return (
+    <>
+      <IconButton
+        aria-label="actions"
+        size="small"
+        onClick={handleClick}
+      >
+        <MoreVert />
+      </IconButton>
+      <Menu
+        anchorEl={anchorEl}
+        open={open}
+        onClose={handleClose}
+      >
+        {actions.map((action) => (
+          <MenuItem 
+            key={action.id} 
+            onClick={() => action.handler(action.id)}
+            disabled={action.disabled?.(row)}
+          >
+            <ListItemIcon>{action.icon}</ListItemIcon>
+            <ListItemText>{action.label}</ListItemText>
+          </MenuItem>
+        ))}
+      </Menu>
+    </>
+  );
+};
+
+const DiakoniaPaginationTableWithAction = ({
   columns,
-  data,
+  data = [],
   totalCount = 0,
   page = 0,
   rowsPerPage = 10,
   loading = false,
   error = null,
+  actions = [],
   onPageChange,
   onRowsPerPageChange,
+  onActionClick,
+  onRowClick,
   rowsPerPageOptions = [5, 10, 25],
+
   elevation = 2,
   stickyHeader = true,
   size = 'medium',
@@ -95,6 +150,14 @@ const DiakoniaPaginationTable = ({
 
   const handleChangeRowsPerPage = (event) => {
     onRowsPerPageChange(parseInt(event.target.value, 10));
+  };
+
+  const handleRowAction = (actionId, row) => {
+    onActionClick?.(actionId, row);
+  };
+
+  const handleRowClick = (row) => {
+    onRowClick?.(row);
   };
 
   return (
@@ -114,32 +177,51 @@ const DiakoniaPaginationTable = ({
                   {column.label}
                 </TableCell>
               ))}
+              {actions.length > 0 && <TableCell align="right" sx={{ minWidth: 50 }}>Actions</TableCell>}
             </TableRow>
           </TableHead>
           <TableBody>
             {error ? (
               <TableRow>
-                <TableCell colSpan={columns.length} align="center" sx={{ py: 3 }}>
+                <TableCell colSpan={columns.length + (actions.length > 0 ? 1 : 0)} align="center" sx={{ py: 3 }}>
                   <Typography color="error">{error}</Typography>
                 </TableCell>
               </TableRow>
             ) : data.length === 0 && !loading ? (
               <TableRow>
-                <TableCell colSpan={columns.length} align="center" sx={{ py: 3 }}>
-                  <Typography>Aucune donnee disponible</Typography>
+                <TableCell colSpan={columns.length + (actions.length > 0 ? 1 : 0)} align="center" sx={{ py: 3 }}>
+                  <Typography> Aucune donnee disponible </Typography>
                 </TableCell>
               </TableRow>
             ) : (
-              data.map((row, rowIndex) => (
-                <TableRow hover key={rowIndex}>
-                  {columns.map((column) => {
-                    const value = row[column.id];
-                    return (
-                      <TableCell key={column.id} align={column.align || 'left'}>
-                        {column.render ? column.render(value, row) : value}
-                      </TableCell>
-                    );
-                  })}
+              data.map((row, index) => (
+                <TableRow 
+                  hover 
+                  key={index}
+                  onClick={() => handleRowClick(row)}
+                  sx={{ cursor: onRowClick ? 'pointer' : 'default' }}
+                >
+                    {
+                        columns.map((column) => {
+                            return (
+                                <TableCell 
+                                    key={column.id} 
+                                    align={column.align || 'left'}
+                                >
+                                    {column.render ? column.render(row[column.id], row) : typeof row[column.id] === 'object' ? JSON.stringify(row[column.id]) : row[column.id]}
+                                </TableCell>
+                            )
+                        })
+                    }
+
+                    {actions.length > 0 && (
+                        <TableCell align="right" onClick={(e) => e.stopPropagation()}>
+                            <RowActions 
+                                actions={actions} 
+                                row={row}
+                            />
+                        </TableCell>
+                    )}
                 </TableRow>
               ))
             )}
@@ -155,13 +237,18 @@ const DiakoniaPaginationTable = ({
         page={page}
         onPageChange={handleChangePage}
         onRowsPerPageChange={handleChangeRowsPerPage}
-        ActionsComponent={TablePaginationActions}
+        ActionsComponent={(props) => (
+          <TablePaginationActions 
+            {...props} 
+            onPageChange={handleChangePage}
+          />
+        )}
       />
     </Paper>
   );
 };
 
-DiakoniaPaginationTable.propTypes = {
+DiakoniaPaginationTableWithAction.propTypes = {
   columns: PropTypes.arrayOf(
     PropTypes.shape({
       id: PropTypes.string.isRequired,
@@ -177,8 +264,19 @@ DiakoniaPaginationTable.propTypes = {
   rowsPerPage: PropTypes.number.isRequired,
   loading: PropTypes.bool,
   error: PropTypes.string,
+  actions: PropTypes.arrayOf(
+    PropTypes.shape({
+      id: PropTypes.string.isRequired,
+      label: PropTypes.string.isRequired,
+      icon: PropTypes.node.isRequired,
+      disabled: PropTypes.func,
+      handler: PropTypes.func
+    })
+  ),
   onPageChange: PropTypes.func.isRequired,
   onRowsPerPageChange: PropTypes.func.isRequired,
+  onActionClick: PropTypes.func,
+  onRowClick: PropTypes.func,
   rowsPerPageOptions: PropTypes.arrayOf(PropTypes.number),
   elevation: PropTypes.number,
   stickyHeader: PropTypes.bool,
@@ -186,4 +284,13 @@ DiakoniaPaginationTable.propTypes = {
   sx: PropTypes.object,
 };
 
-export default DiakoniaPaginationTable;
+DiakoniaPaginationTableWithAction.defaultProps = {
+  actions: [],
+  loading: false,
+  rowsPerPageOptions: [5, 10, 25],
+  elevation: 2,
+  stickyHeader: true,
+  size: 'medium',
+};
+
+export default DiakoniaPaginationTableWithAction;

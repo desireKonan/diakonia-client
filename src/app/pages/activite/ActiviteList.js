@@ -2,20 +2,29 @@ import { IconEye, IconEdit, IconTrash } from '@tabler/icons';
 import { useNavigate } from "react-router-dom";
 import { httpAdapter } from "src/app/services/http-adapter.service";
 import ActiviteForm from "./ActiviteForm";
-import DiakoniaPaginationTable from "src/app/components/custom/DiakoniaPaginationTable";
+import DiakoniaPaginationTableWithAction from "src/app/components/custom/DiakoniaPaginationTableWithAction";
 import useLoadDataPerBatch from "src/app/services/useLoadDataPerBatch";
 import { DiakoniaButtonDialog, DiakoniaDialog, useDialogEvent } from "src/app/components/custom/AppDialog";
 import { ACTIVITE_HEADER_CELLS } from "./table/activite.columns";
 import { useState } from "react";
 import { DiakoniaContainer, DiakoniaMessage } from "src/app/components/custom/ComponentUtils";
-import useFetch from 'src/app/services/useFetch';
 
 const ActiviteList = () => {
     const navigate = useNavigate();
-    // const { data: activites, loading, error, handlePageChange, totalCount } = useLoadDataPerBatch(`/api/activite/search`, []);
-    const { data: activites, loading, error } = useFetch(`/api/activite`, []);
+    const { 
+        data: activites, 
+        loading, 
+        error, 
+        totalCount, 
+        page, 
+        rowsPerPage, 
+        handlePageChange, 
+        handleRowsPerPageChange 
+    } = useLoadDataPerBatch(`/api/activite/search`);
     const [selectedActivite, setSelectedActivite] = useState(null);
     const { open, openDialog, closeDialog } = useDialogEvent();
+
+    console.log(activites);
 
     const deleteActiviteById = async (id) => {
         await httpAdapter.deleteData(`/api/activite/${id}`);
@@ -65,9 +74,9 @@ const ActiviteList = () => {
             }
         >
             <>
-                <DiakoniaPaginationTable
-                    fetchData={activites}
+                <DiakoniaPaginationTableWithAction
                     columns={ACTIVITE_HEADER_CELLS}
+                    data={activites}
                     actions={[
                         {
                             id: "view",
@@ -94,10 +103,15 @@ const ActiviteList = () => {
                             handler: (row) => deleteActiviteById(row.id)
                         }
                     ]}
-                    initialRowsPerPage={10}
-                    rowsPerPageOptions={[5, 10, 25, 50]}
+                    totalCount={totalCount}
+                    page={page}
+                    rowsPerPage={rowsPerPage}
+                    loading={loading}
+                    error={error}
+                    onPageChange={handlePageChange}
+                    onRowsPerPageChange={handleRowsPerPageChange}
+                    rowsPerPageOptions={[5, 10, 25]}
                     sx={{ mt: 3 }}
-                    refreshable
                 />
                 {open && (
                     <DiakoniaDialog
