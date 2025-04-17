@@ -10,7 +10,7 @@ import { useState } from "react";
 import { DiakoniaContainer, DiakoniaMessage } from "src/app/components/custom/ComponentUtils";
 import AssemblyForm from "./AssemblyForm";
 import { IconEye, IconEdit, IconTrash, IconAlignRight } from '@tabler/icons';
-import { ASSEMBLEES_HEADER_CELLS } from "./table/assembly.columns";
+import { ASSEMBLEES_HEADER_CELLS } from "../../components/tables/columns/assembly.columns";
 
 
 const AssemblyList = () => {

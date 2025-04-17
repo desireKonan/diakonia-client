@@ -5,10 +5,10 @@ import ActiviteForm from "./ActiviteForm";
 import DiakoniaPaginationActionTable from "src/app/components/custom/DiakoniaPaginationActionTable";
 import useLoadDataPerBatch from "src/app/services/useLoadDataPerBatch";
 import { DiakoniaDialog, useDialogEvent } from "src/app/components/custom/AppDialog";
-import { ACTIVITE_HEADER_CELLS } from "./table/activite.columns";
 import { useState } from "react";
 import { DiakoniaContainer, DiakoniaMessage } from "src/app/components/custom/ComponentUtils";
 import { Button } from '@mui/material';
+import { ACTIVITE_HEADER_CELLS } from 'src/app/components/tables/columns/activite.columns';
 
 const ActiviteList = () => {
     const navigate = useNavigate();

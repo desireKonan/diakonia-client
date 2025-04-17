@@ -9,7 +9,7 @@ import { useAuth } from "src/app/services/useAuth";
 import { DiakoniaContainer, DiakoniaMessage } from "src/app/components/custom/ComponentUtils";
 import DiakoniaPaginationActionTable from "src/app/components/custom/DiakoniaPaginationActionTable";
 import { DiakoniaDialog, useDialogEvent } from "src/app/components/custom/AppDialog";
-import { RENCONTRES_HEADER_CELLS } from "../table/meeting.columns";
+import { RENCONTRES_HEADER_CELLS } from "../../../components/tables/columns/meeting.columns";
 import useLoadDataPerBatch from "src/app/services/useLoadDataPerBatch";
 import { useState } from "react";
 

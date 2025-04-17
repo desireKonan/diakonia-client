@@ -5,10 +5,10 @@ import { httpAdapter } from "src/app/services/http-adapter.service";
 import useLoadDataPerBatch from "src/app/services/useLoadDataPerBatch";
 import { useState } from "react";
 import { DiakoniaDialog, useDialogEvent } from "src/app/components/custom/AppDialog";
-import { PARTICIPANTS_HEADER_CELLS } from "../table/participants.columns";
 import DiakoniaPaginationActionTable from "src/app/components/custom/DiakoniaPaginationActionTable";
 import { IconEdit, IconTrash } from "@tabler/icons";
 import { DiakoniaContainer, DiakoniaMessage } from "src/app/components/custom/ComponentUtils";
+import { PARTICIPANTS_HEADER_CELLS } from "src/app/components/tables/columns/participants.columns";
 
 const ParticipantList = () => {
     const params = useParams();
