@@ -26,7 +26,7 @@ import {
   KeyboardArrowRight,
   MoreVert
 } from '@mui/icons-material';
-import { renderingColumn, renderingTitle, truncate } from 'src/app/utils/render';
+import { renderingColumn, renderingTitle } from 'src/app/utils/render';
 
 // Composant de pagination personnalisé
 function TablePaginationActions(props) {
@@ -110,9 +110,9 @@ const RowActions = ({ actions, row }) => {
         open={open}
         onClose={handleClose}
       >
-        {actions.map((action) => (
-          <MenuItem 
-            key={action.id} 
+        {actions.filter(action => action.isEnabled).map((action) => (
+          <MenuItem
+            key={action.id}
             onClick={(event) => action.handler(row, event)}
             disabled={action.disabled?.(row)}
           >
@@ -190,35 +190,34 @@ const DiakoniaPaginationActionTable = ({
               </TableRow>
             ) : (
               data.map((row, index) => (
-                <TableRow 
-                  hover 
+                <TableRow
+                  hover
                   key={index}
                   onClick={() => handleRowClick(row)}
                   sx={{ cursor: onRowClick ? 'pointer' : 'default' }}
                 >
-                    {
-                        columns.map((column) => {
-                            return (
-                              <Tooltip title={renderingTitle(row[column.id])}>
-                                <TableCell 
-                                    key={column.id} 
-                                    align={column.align || 'left'}
-                                >
-                                    { renderingColumn(column, row) }
-                                </TableCell>
-                              </Tooltip>
-                            )
-                        })
-                    }
-
-                    {actions.length > 0 && (
-                        <TableCell align="right" onClick={(e) => e.stopPropagation()}>
-                            <RowActions 
-                                actions={actions} 
-                                row={row}
-                            />
-                        </TableCell>
-                    )}
+                  {
+                    columns.map((column) => {
+                      return (
+                        <Tooltip title={renderingTitle(row[column.id])}>
+                          <TableCell
+                            key={column.id}
+                            align={column.align || 'left'}
+                          >
+                            {renderingColumn(column, row)}
+                          </TableCell>
+                        </Tooltip>
+                      )
+                    })
+                  }
+                  {actions.length > 0 && (
+                    <TableCell align="right" onClick={(e) => e.stopPropagation()}>
+                      <RowActions
+                        actions={actions}
+                        row={row}
+                      />
+                    </TableCell>
+                  )}
                 </TableRow>
               ))
             )}
@@ -235,8 +234,8 @@ const DiakoniaPaginationActionTable = ({
         onPageChange={handleChangePage}
         onRowsPerPageChange={handleChangeRowsPerPage}
         ActionsComponent={(props) => (
-          <TablePaginationActions 
-            {...props} 
+          <TablePaginationActions
+            {...props}
             onPageChange={handleChangePage}
           />
         )}
@@ -267,7 +266,8 @@ DiakoniaPaginationActionTable.propTypes = {
       label: PropTypes.string.isRequired,
       icon: PropTypes.node.isRequired,
       disabled: PropTypes.func,
-      handler: PropTypes.func
+      handler: PropTypes.func,
+      isEnabled: PropTypes.bool
     })
   ),
   onPageChange: PropTypes.func.isRequired,

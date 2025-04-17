@@ -1,5 +1,3 @@
-import { date, instantTime } from "src/app/services/utils";
-
 export const ASSEMBLEES_HEADER_CELLS = [
     {
         id: 'id',
