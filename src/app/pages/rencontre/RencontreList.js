@@ -1,32 +1,29 @@
-import {
-    Typography,
-    Table,
-    TableBody,
-    TableCell,
-    TableHead,
-    TableRow,
-    IconButton,
-    Paper,
-    Grid,
-    Button,
-    TableContainer
-} from "@mui/material";
-import ParentCard from "src/_ui/components/shared/ParentCard";
-import PageContainer from "src/_ui/components/container/PageContainer";
-import Breadcrumb from "src/_ui/layouts/full/shared/breadcrumb/Breadcrumb";
-import { dateTime } from "src/app/services/utils";
-import CustomDialog from "src/app/components/custom/CustomDialog";
+import { Button } from "@mui/material";
 import RencontreForm from "./RencontreForm";
-import useFetch from "src/app/services/useFetch";
-import Tooltip from '@mui/material/Tooltip';
-import { IconPlus, IconTrash } from "@tabler/icons";
+import { IconEdit, IconEye, IconTrash } from "@tabler/icons";
 import { useNavigate } from "react-router";
-import ChildCard from "src/_ui/components/shared/ChildCard";
 import { httpAdapter } from "src/app/services/http-adapter.service";
+import { DiakoniaDialog, useDialogEvent } from "src/app/components/custom/AppDialog";
+import DiakoniaPaginationActionTable from "src/app/components/custom/DiakoniaPaginationActionTable";
+import { DiakoniaContainer, DiakoniaMessage } from "src/app/components/custom/ComponentUtils";
+import useLoadDataPerBatch from "src/app/services/useLoadDataPerBatch";
+import { useState } from "react";
+import { RENCONTRES_HEADER_CELLS } from "./table/meeting.columns";
 
 
 const RencontreList = () => {
-    const { data: rencontres, error, loading } = useFetch('/api/rencontre', []);
+    const {
+        data: rencontres,
+        loading,
+        error,
+        totalCount,
+        page,
+        rowsPerPage,
+        handlePageChange,
+        handleRowsPerPageChange
+    } = useLoadDataPerBatch(`/api/rencontre/search`);
+    const [selectedMeeting, setSelectedMeeting] = useState(null);
+    const { open, openDialog, closeDialog } = useDialogEvent();
     const navigate = useNavigate();
 
     const deleteRencontre = async (id) => {
@@ -34,200 +31,104 @@ const RencontreList = () => {
         window.location.reload(true);
     }
 
+    if (error) {
+        return (
+            <DiakoniaContainer
+                title="Liste des rencontres"
+                description="Liste des rencontres"
+                subtitle="Liste des rencontres"
+            >
+                <DiakoniaMessage
+                    message={error}
+                />
+            </DiakoniaContainer>
+        );
+    }
+
+
+    if (loading) {
+        return (
+            <DiakoniaContainer
+                title="Liste des rencontres"
+                description="Liste des rencontres"
+                subtitle="Liste des rencontres"
+            >
+                <DiakoniaMessage
+                    message={loading}
+                />
+            </DiakoniaContainer>
+        );
+    }
+
     return (
-        <PageContainer title="Liste des rencontres" description="Liste des rencontres">
-            <Breadcrumb title="Liste des rencontres" subtitle="Liste des rencontres" />
-            <ParentCard title="Liste des rencontres" action={
-                <CustomDialog
-                    label={`Ajouter un rencontre`}
-                    title={`Formulaire d'ajout d'un rencontre`}
-                    form={<RencontreForm />}
-                ></CustomDialog>
-            }>
-                <Paper variant="outlined">
-                    {
-                        error ? (
-                            <Grid item xs={12} lg={4} sm={6} display="flex" alignItems="stretch">
-                                <ChildCard title="Error">
-                                    <Typography color="textSecondary" variant="subtitle2" fontWeight={400}>
-                                        {error}
-                                    </Typography>
-                                </ChildCard>
-                            </Grid>
-                        ) : null
-                    }
+        <DiakoniaContainer
+            title="Liste des rencontres"
+            description="Liste des rencontres"
+            subtitle="Liste des rencontres"
+            action={<Button onClick={openDialog}>Ajouter un rencontre</Button>}
+        >
+            <>
+                <DiakoniaPaginationActionTable
+                    columns={RENCONTRES_HEADER_CELLS}
+                    data={rencontres}
+                    actions={[
+                        {
+                            id: "view-meeting",
+                            label: "Voir la liste des personnes présentes à la rencontre",
+                            icon: <IconEye size="1.1rem" />,
+                            handler: (row, event) => {
+                                navigate(`/rencontre/${row.id}/personnes`);
+                            }
+                        },
+                        {
+                            id: "view-soul",
+                            label: "Voir la liste des âmes",
+                            icon: <IconEye size="1.1rem" />,
+                            handler: (row, event) => {
+                                navigate(`/rencontre/${row.id}/ames`);
+                            }
+                        },
+                        {
+                            id: "edit",
+                            label: "Modifier les infos sur une rencontre",
+                            icon: <IconEdit size="1.1rem" />,
+                            handler: (row, event) => {
+                                setSelectedMeeting(row);
+                                openDialog();
+                            }
+                        },
+                        {
+                            id: "delete",
+                            label: "Supprimer une rencontre",
+                            icon: <IconTrash size="1.1rem" />,
+                            handler: (row, event) => {
+                                console.log('Suppression d\'une rencontre', row.id);
+                                deleteRencontre(row.id);
+                            }
+                        }
+                    ]}
+                    totalCount={totalCount}
+                    page={page}
+                    rowsPerPage={rowsPerPage}
+                    loading={loading}
+                    error={error}
+                    onPageChange={handlePageChange}
+                    onRowsPerPageChange={handleRowsPerPageChange}
+                    rowsPerPageOptions={[5, 10, 25]}
+                    sx={{ mt: 3 }}
+                />
 
-                    {
-                        error ? (
-                            <Typography variant="subtitle2" fontWeight={600}>
-                                {error}
-                            </Typography>
-                        ) :
-                            (loading ? (
-                                <Grid item xs={12} lg={4} sm={6} display="flex" alignItems="stretch">
-                                    <ChildCard title="Error">
-                                        <Typography color="textSecondary" variant="subtitle2" fontWeight={400}>
-                                            {loading}
-                                        </Typography>
-                                    </ChildCard>
-                                </Grid>
-                            ) : (
-                                <TableContainer sx={{ overflow: 'auto', width: { xs: '280px', sm: 'auto' }, maxHeight: 440, }}>
-                                    <Table
-                                        sx={{
-                                            whiteSpace: "nowrap",
-                                            mt: 2
-                                        }}
-                                        stickyHeader
-                                        aria-label="sticky table"
-                                    >
-                                        <TableHead>
-                                            <TableRow>
-                                                <TableCell>
-                                                    <Typography variant="subtitle2" fontWeight={600}>
-                                                        Id
-                                                    </Typography>
-                                                </TableCell>
-                                                <TableCell>
-                                                    <Typography variant="subtitle2" fontWeight={600}>
-                                                        Libéllé
-                                                    </Typography>
-                                                </TableCell>
-                                                <TableCell>
-                                                    <Typography variant="subtitle2" fontWeight={600}>
-                                                        Lieu
-                                                    </Typography>
-                                                </TableCell>
-                                                <TableCell>
-                                                    <Typography variant="subtitle2" fontWeight={600}>
-                                                        Zone
-                                                    </Typography>
-                                                </TableCell>
-                                                <TableCell>
-                                                    <Typography variant="subtitle2" fontWeight={600}>
-                                                        Type de rencontre
-                                                    </Typography>
-                                                </TableCell>
-                                                <TableCell>
-                                                    <Typography variant="subtitle2" fontWeight={600}>
-                                                        Date de debut de la rencontre
-                                                    </Typography>
-                                                </TableCell>
-                                                <TableCell>
-                                                    <Typography variant="subtitle2" fontWeight={600}>
-                                                        Date de fin de la rencontre
-                                                    </Typography>
-                                                </TableCell>
-                                                <TableCell>
-                                                    <Typography variant="subtitle2" fontWeight={600}>
-                                                        Actions
-                                                    </Typography>
-                                                </TableCell>
-                                            </TableRow>
-                                        </TableHead>
-                                        <TableBody>
-                                            {(rencontres && rencontres.length !== 0) ? (rencontres.map((rencontre) => (
-                                                <TableRow key={rencontre.id}>
-                                                    <TableCell>
-                                                        <Typography
-                                                            sx={{
-                                                                fontSize: "15px",
-                                                                fontWeight: "500",
-                                                            }}
-                                                        >
-                                                            {rencontre.id}
-                                                        </Typography>
-                                                    </TableCell>
-                                                    <TableCell>
-                                                        <Typography color="textSecondary" variant="subtitle2" fontWeight={400}>
-                                                            {rencontre.label}
-                                                        </Typography>
-                                                    </TableCell>
-                                                    <TableCell>
-                                                        <Typography color="textSecondary" variant="subtitle2" fontWeight={400}>
-                                                            {rencontre.localization}
-                                                        </Typography>
-                                                    </TableCell>
-                                                    <TableCell>
-                                                        <Typography color="textSecondary" variant="subtitle2" fontWeight={400}>
-                                                            {rencontre.type}
-                                                        </Typography>
-                                                    </TableCell>
-                                                    <TableCell>
-                                                        <Typography color="textSecondary" variant="subtitle2" fontWeight={400}>
-                                                            {rencontre.meetingTypeLabel}
-                                                        </Typography>
-                                                    </TableCell>
-                                                    <TableCell>
-                                                        <Typography color="textSecondary" variant="subtitle2" fontWeight={400}>
-                                                            {dateTime(rencontre.start)}
-                                                        </Typography>
-                                                    </TableCell>
-                                                    <TableCell>
-                                                        <Typography color="textSecondary" variant="subtitle2" fontWeight={400}>
-                                                            {dateTime(rencontre.end)}
-                                                        </Typography>
-                                                    </TableCell>
-                                                    <TableCell>
-                                                        <CustomDialog
-                                                            label={`Modifier un rencontre`}
-                                                            title={`Formulaire de modification d'un rencontre`}
-                                                            color={`warning`}
-                                                            style={{ margin: 3 }}
-                                                            form={<RencontreForm rencontre={rencontre} />}
-                                                        ></CustomDialog>
-                                                        <Tooltip title="Liste des âmes">
-                                                            <Button
-                                                                variant="contained"
-                                                                color="secondary"
-                                                                onClick={(e) => navigate(`/rencontre/${rencontre.id}/ames`)}
-                                                                style={{ margin: 5 }}
-                                                            >
-                                                                Liste des âmes
-                                                            </Button>
-                                                        </Tooltip>
-                                                        <Tooltip title="Liste des personnes présentes à la rencontre">
-                                                            <IconButton
-                                                                variant="contained"
-                                                                color="primary"
-                                                                onClick={(e) => navigate(`/rencontre/${rencontre.id}/personnes`)}
-                                                                style={{ margin: 5 }}
-                                                            >
-                                                                <IconPlus width={30} height={30} />
-                                                            </IconButton>
-                                                        </Tooltip>
-
-                                                        <Tooltip title="Supprimer une rencontre">
-                                                            <IconButton
-                                                                variant="contained"
-                                                                color="error"
-                                                                onClick={(e) => deleteRencontre(rencontre.id)}
-                                                                style={{ margin: 5 }}
-                                                            >
-                                                                <IconTrash width={30} height={30} />
-                                                            </IconButton>
-                                                        </Tooltip>
-                                                    </TableCell>
-                                                </TableRow>
-                                            ))) :
-                                                (
-                                                    <TableRow key={`Aucune`}>
-                                                        <TableCell rowSpan={4}>
-                                                            <Typography color="textSecondary" variant="subtitle2" fontWeight={400}>
-                                                                Aucune rencontres disponibles
-                                                            </Typography>
-                                                        </TableCell>
-                                                    </TableRow>
-                                                )
-                                            }
-                                        </TableBody>
-                                    </Table>
-                                </TableContainer>
-                            ))
-                    }
-                </Paper>
-            </ParentCard>
-        </PageContainer>
+                {open && (
+                    <DiakoniaDialog
+                        title={`Formulaire d'ajout d'un rencontre`}
+                        open={open}
+                        closeDialog={closeDialog}
+                    >
+                        <RencontreForm rencontre={selectedMeeting} />
+                    </DiakoniaDialog>
+                )}
+            </>
+        </DiakoniaContainer>
     );
 }
 

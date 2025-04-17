@@ -1,4 +1,3 @@
-
 export const UTILISATEURS_HEADER_CELLS = [
     {
         id: 'id',
