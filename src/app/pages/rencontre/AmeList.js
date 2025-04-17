@@ -1,247 +1,128 @@
 import {
-    Typography,
-    Table,
-    TableBody,
-    TableCell,
-    TableHead,
-    TableRow,
-    Paper,
-    TableContainer,
-    Grid,
-    IconButton,
+    Button,
 } from "@mui/material";
 import { useParams } from "react-router";
-import ParentCard from "src/_ui/components/shared/ParentCard";
-import PageContainer from "src/_ui/components/container/PageContainer";
-import Breadcrumb from "src/_ui/layouts/full/shared/breadcrumb/Breadcrumb";
-import Tooltip from '@mui/material/Tooltip';
-import { IconTrash } from "@tabler/icons";
-import { date } from "src/app/services/utils";
-import CustomDialog from "src/app/components/custom/CustomDialog";
-import useFetch from "src/app/services/useFetch";
+import { IconEdit, IconTrash } from "@tabler/icons";
 import AmeForm from "./AmeForm";
-import { uniqueId } from "lodash";
-import ChildCard from "src/_ui/components/shared/ChildCard";
 import { httpAdapter } from "src/app/services/http-adapter.service";
+import useLoadDataPerBatch from "src/app/services/useLoadDataPerBatch";
+import { useState } from "react";
+import { DiakoniaDialog, useDialogEvent } from "src/app/components/custom/AppDialog";
+import { DiakoniaContainer, DiakoniaMessage } from "src/app/components/custom/ComponentUtils";
+import DiakoniaPaginationActionTable from "src/app/components/custom/DiakoniaPaginationActionTable";
+import { AMES_HEADER_CELLS } from "src/app/components/tables/columns/soul.columns";
 
 
 const AmeList = () => {
     const params = useParams();
-    const { data: rencontre, loading, error } = useFetch(`/api/rencontre/${params.id}`, {});
+    // const { data: rencontre } = useFetch(`/api/rencontre/${params.id}`, {});
+    const {
+        data: ames,
+        loading,
+        error,
+        totalCount,
+        page,
+        rowsPerPage,
+        handlePageChange,
+        handleRowsPerPageChange
+    } = useLoadDataPerBatch(`/api/rencontre/${params.id}/ames/search`);
+    const [selectedSoul, setSelectedPresentPersons] = useState(null);
+    const { open, openDialog, closeDialog } = useDialogEvent();
 
     const deleteAme = async (data) => {
         await httpAdapter.deleteDatas(`api/rencontre/ames/suppression`, data);
         window.location.reload(true);
     }
 
-    return (
-        <PageContainer title="Liste des âmes" description="Liste des âmes">
-            <Breadcrumb title="Liste des âmes" subtitle="Liste des âmes" />
-            <ParentCard title="Liste des âmes" action={
-                <CustomDialog
-                    label={`Ajouter une âme`}
-                    title={`Formulaire d'ajout d'une âme`}
-                    form={<AmeForm meetingId={params.id} />}
-                ></CustomDialog>
-            }>
-                <Paper variant="outlined">
-                    {
-                        error ? (
-                            <Grid item xs={12} lg={4} sm={6} display="flex" alignItems="stretch">
-                                <ChildCard key={uniqueId()} title="Error">
-                                    <Typography key={uniqueId()} color="textSecondary" variant="subtitle2" fontWeight={400}>
-                                        {error}
-                                    </Typography>
-                                </ChildCard>
-                            </Grid>
-                        ) : (loading ? (
-                            <Grid item xs={12} lg={4} sm={6} display="flex" alignItems="stretch">
-                                <ChildCard key={uniqueId()} title="Error">
-                                    <Typography key={uniqueId()} color="textSecondary" variant="subtitle2" fontWeight={400}>
-                                        {loading}
-                                    </Typography>
-                                </ChildCard>
-                            </Grid>
-                        ) : (
-                            <TableContainer sx={{ overflow: 'auto', width: { xs: '280px', sm: 'auto' }, maxHeight: 440, }}>
-                                <Table
-                                    sx={{
-                                        whiteSpace: "nowrap",
-                                        mt: 2
-                                    }}
-                                    stickyHeader
-                                    aria-label="sticky table"
-                                >
-                                    <TableHead>
-                                        <TableRow>
-                                            <TableCell>
-                                                <Typography variant="subtitle2" fontWeight={600}>
-                                                    Id
-                                                </Typography>
-                                            </TableCell>
-                                            <TableCell>
-                                                <Typography variant="subtitle2" fontWeight={600}>
-                                                    Nom complet
-                                                </Typography>
-                                            </TableCell>
-                                            <TableCell>
-                                                <Typography variant="subtitle2" fontWeight={600}>
-                                                    Contacts
-                                                </Typography>
-                                            </TableCell>
-                                            <TableCell>
-                                                <Typography variant="subtitle2" fontWeight={600}>
-                                                    Lieu
-                                                </Typography>
-                                            </TableCell>
-                                            <TableCell>
-                                                <Typography variant="subtitle2" fontWeight={600}>
-                                                    Date de repentance
-                                                </Typography>
-                                            </TableCell>
-                                            <TableCell>
-                                                <Typography variant="subtitle2" fontWeight={600}>
-                                                    Date de baptême
-                                                </Typography>
-                                            </TableCell>
-                                            <TableCell>
-                                                <Typography variant="subtitle2" fontWeight={600}>
-                                                    Date d'intégration
-                                                </Typography>
-                                            </TableCell>
-                                            <TableCell>
-                                                <Typography variant="subtitle2" fontWeight={600}>
-                                                    Date d'évangélisation
-                                                </Typography>
-                                            </TableCell>
-                                            <TableCell>
-                                                <Typography variant="subtitle2" fontWeight={600}>
-                                                    Date de création
-                                                </Typography>
-                                            </TableCell>
-                                            <TableCell>
-                                                <Typography variant="subtitle2" fontWeight={600}>
-                                                    Date de mise à jour
-                                                </Typography>
-                                            </TableCell>
-                                            <TableCell>
-                                                <Typography variant="subtitle2" fontWeight={600}>
-                                                    Actions
-                                                </Typography>
-                                            </TableCell>
-                                        </TableRow>
-                                    </TableHead>
-                                    <TableBody>
-                                        {(rencontre.souls && rencontre.souls.length !== 0) ? (rencontre.souls.map((soul) => (
-                                            <TableRow key={soul.id}>
-                                                <TableCell>
-                                                    <Typography
-                                                        sx={{
-                                                            fontSize: "15px",
-                                                            fontWeight: "500",
-                                                        }}
-                                                    >
-                                                        {soul.id}
-                                                    </Typography>
-                                                </TableCell>
-                                                <TableCell>
-                                                    <Typography color="textSecondary" variant="subtitle2" fontWeight={400}>
-                                                        {soul.fullname}
-                                                    </Typography>
-                                                </TableCell>
-                                                <TableCell>
-                                                    <Typography color="textSecondary" variant="subtitle2" fontWeight={400}>
-                                                        {
-                                                            <ul>
-                                                                {
-                                                                    soul.contacts.map(contact => (
-                                                                        <li key={contact}> {contact} </li>
-                                                                    ))
-                                                                }
-                                                            </ul>
-                                                        }
-                                                    </Typography>
-                                                </TableCell>
-                                                <TableCell>
-                                                    <Typography color="textSecondary" variant="subtitle2" fontWeight={400}>
-                                                        {soul.place}
-                                                    </Typography>
-                                                </TableCell>
-                                                <TableCell>
-                                                    <Typography color="textSecondary" variant="subtitle2" fontWeight={400}>
-                                                        {date(soul.repentDate)}
-                                                    </Typography>
-                                                </TableCell>
-                                                <TableCell>
-                                                    <Typography color="textSecondary" variant="subtitle2" fontWeight={400}>
-                                                        {date(soul.baptizeDate)}
-                                                    </Typography>
-                                                </TableCell>
-                                                <TableCell>
-                                                    <Typography color="textSecondary" variant="subtitle2" fontWeight={400}>
-                                                        {date(soul.integrationDate)}
-                                                    </Typography>
-                                                </TableCell>
-                                                <TableCell>
-                                                    <Typography color="textSecondary" variant="subtitle2" fontWeight={400}>
-                                                        {date(soul.evangelizeDate)}
-                                                    </Typography>
-                                                </TableCell>
-                                                <TableCell>
-                                                    <Typography color="textSecondary" variant="subtitle2" fontWeight={400}>
-                                                        {date(soul.createdAt)}
-                                                    </Typography>
-                                                </TableCell>
-                                                <TableCell>
-                                                    <Typography color="textSecondary" variant="subtitle2" fontWeight={400}>
-                                                        {date(soul.updatedAt)}
-                                                    </Typography>
-                                                </TableCell>
-                                                <TableCell>
-                                                    <CustomDialog
-                                                        label={`Modifier une âme`}
-                                                        title={`Formulaire de modification d'une âme`}
-                                                        color={`warning`}
-                                                        style={{ margin: 3 }}
-                                                        form={
-                                                            <AmeForm ame={soul} meetingId={params.id} />
-                                                        }
-                                                    ></CustomDialog>
+    if (error) {
+        return (
+            <DiakoniaContainer
+                title={`Liste des âmes`}
+                description={`Liste des âmes`}
+                subtitle={`Liste des âmes`}
+            >
+                <DiakoniaMessage
+                    message={error}
+                />
+            </DiakoniaContainer>
+        );
+    }
 
-                                                    <Tooltip title="Archiver l'âme">
-                                                        <IconButton
-                                                            variant="contained"
-                                                            color="error"
-                                                            onClick={(e) => deleteAme({
-                                                                meetingId: params.id,
-                                                                soulIds: [soul.id]
-                                                            })}
-                                                            style={{ margin: 5 }}
-                                                        >
-                                                            <IconTrash width={30} height={30} />
-                                                        </IconButton>
-                                                    </Tooltip>
-                                                </TableCell>
-                                            </TableRow>
-                                        ))) :
-                                            (
-                                                <TableRow key={uniqueId()}>
-                                                    <TableCell rowSpan={4}>
-                                                        <Typography color="textSecondary" variant="subtitle2" fontWeight={400}>
-                                                            Il n'y a pas d'âmes
-                                                        </Typography>
-                                                    </TableCell>
-                                                </TableRow>
-                                            )
-                                        }
-                                    </TableBody>
-                                </Table>
-                            </TableContainer>
-                        ))
-                    }
-                </Paper>
-            </ParentCard>
-        </PageContainer>
+
+    if (loading) {
+        return (
+            <DiakoniaContainer
+                title={`Liste des âmes`}
+                description={`Liste des âmes`}
+                subtitle={`Liste des âmes`}
+            >
+                <DiakoniaMessage
+                    message={loading}
+                />
+            </DiakoniaContainer>
+        );
+    }
+
+    return (
+        <DiakoniaContainer
+            title={`Liste des âmes`}
+            description={`Liste des âmes`}
+            subtitle={`Liste des âmes`}
+            action={
+                (
+                    <Button onClick={openDialog}>Ajouter une âme</Button>
+                )
+            }
+        >
+            <>
+                <DiakoniaPaginationActionTable
+                    columns={AMES_HEADER_CELLS}
+                    data={ames}
+                    actions={[
+                        {
+                            id: "edit",
+                            label: "Modifier les infos sur une personne presente a une rencontre",
+                            icon: <IconEdit size="1.1rem" />,
+                            handler: (row, event) => {
+                                setSelectedPresentPersons(row);
+                                openDialog();
+                            },
+                        },
+                        {
+                            id: "delete",
+                            label: "Supprime une personne presente a une rencontre",
+                            icon: <IconTrash size="1.1rem" />,
+                            handler: (row, event) => {
+                                console.log('Suppression d\'une personne presente a une rencontre', row.id);
+                                deleteAme({
+                                    meetingId: params.id,
+                                    soulIds: [row.id]
+                                })
+                            },
+                        }
+                    ]}
+                    totalCount={totalCount}
+                    page={page}
+                    rowsPerPage={rowsPerPage}
+                    loading={loading}
+                    error={error}
+                    onPageChange={handlePageChange}
+                    onRowsPerPageChange={handleRowsPerPageChange}
+                    rowsPerPageOptions={[5, 10, 25]}
+                    sx={{ mt: 3 }}
+                />
+
+                {open && (
+                    <DiakoniaDialog
+                        title={`Formulaire d'ajout d'une âme`}
+                        open={open}
+                        closeDialog={closeDialog}
+                    >
+                        <AmeForm meetingId={params.id} personne={selectedSoul} />
+                    </DiakoniaDialog>
+                )}
+            </>
+        </DiakoniaContainer>
     );
 }
 

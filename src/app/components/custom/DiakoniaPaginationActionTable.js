@@ -96,6 +96,8 @@ const RowActions = ({ actions, row }) => {
     setAnchorEl(null);
   };
 
+  const _actions = actions.filter(action => action.isEnabled == null || action.isEnabled); 
+
   return (
     <>
       <IconButton
@@ -110,7 +112,7 @@ const RowActions = ({ actions, row }) => {
         open={open}
         onClose={handleClose}
       >
-        {actions.filter(action => action.isEnabled).map((action) => (
+        {_actions.map((action) => (
           <MenuItem
             key={action.id}
             onClick={(event) => action.handler(row, event)}

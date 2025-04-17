@@ -1,4 +1,4 @@
-import { date, instantTime } from "src/app/services/utils";
+import { date } from "src/app/services/utils";
 
 export const PARTICIPANTS_HEADER_CELLS = [
     {
