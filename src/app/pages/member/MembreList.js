@@ -10,8 +10,8 @@ import { useState } from "react";
 import { DiakoniaDialog, useDialogEvent } from "src/app/components/custom/AppDialog";
 import DiakoniaPaginationActionTable from "src/app/components/custom/DiakoniaPaginationActionTable";
 import { DiakoniaContainer, DiakoniaMessage } from "src/app/components/custom/ComponentUtils";
-import { MEMBRES_HEADER_CELLS } from "./table/membres.columns";
 import { IconEdit, IconTrash } from "@tabler/icons";
+import { MEMBRES_HEADER_CELLS } from "src/app/components/tables/columns/membres.columns";
 
 const MemberList = () => {
     const params = useParams();

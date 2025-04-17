@@ -1,4 +1,4 @@
-import { dateTimeView } from "src/app/services/utils";
+import { dateTime } from "src/app/services/utils";
 
 export const RENCONTRES_HEADER_CELLS = [
     {
@@ -12,35 +12,30 @@ export const RENCONTRES_HEADER_CELLS = [
         minWidth: 200
     },
     {
-        id: 'meetingType',
-        label: 'Type de rencontre',
+        id: 'localization',
+        label: 'Lieu',
         minWidth: 200
     },
     {
-        id: 'details',
-        label: 'Details de rencontre',
+        id: 'locationType',
+        label: 'Type d\'eglise',
         minWidth: 200,
-        render: (row) => {
-            console.log(row);
-            return JSON.stringify(row);
-        }
+    },
+    {
+        id: 'meetingTypeLabel',
+        label: 'Type de rencontre',
+        minWidth: 200,
     },
     {
         id: 'start',
-        label: 'Date de début',
+        label: 'Date de debut de la rencontre',
         minWidth: 200,
-        render: (start) => {
-            console.log(start);
-            return dateTimeView(start);
-        }
+        render: (start) => dateTime(start)
     },
     {
         id: 'end',
-        label: 'Date de fin',
+        label: 'Date de fin de la rencontre',
         minWidth: 200,
-        render: (end) => {
-            console.log(end);
-            return dateTimeView(end);
-        }
+        render: (end) => dateTime(end)
     },
 ];

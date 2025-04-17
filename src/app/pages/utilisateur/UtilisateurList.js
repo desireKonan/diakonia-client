@@ -7,7 +7,7 @@ import { DiakoniaDialog, useDialogEvent } from "src/app/components/custom/AppDia
 import { DiakoniaContainer, DiakoniaMessage } from "src/app/components/custom/ComponentUtils";
 import DiakoniaPaginationActionTable from "src/app/components/custom/DiakoniaPaginationActionTable";
 import { IconEdit, IconTrash } from "@tabler/icons";
-import { UTILISATEURS_HEADER_CELLS } from "./table/user.columns";
+import { UTILISATEURS_HEADER_CELLS } from "../../components/tables/columns/user.columns";
 
 
 const UtilisateurList = () => {

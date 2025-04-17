@@ -8,7 +8,7 @@ import DiakoniaPaginationActionTable from "src/app/components/custom/DiakoniaPag
 import { DiakoniaContainer, DiakoniaMessage } from "src/app/components/custom/ComponentUtils";
 import useLoadDataPerBatch from "src/app/services/useLoadDataPerBatch";
 import { useState } from "react";
-import { RENCONTRES_HEADER_CELLS } from "./table/meeting.columns";
+import { RENCONTRES_HEADER_CELLS } from "src/app/components/tables/columns/meeting.columns";
 
 
 const RencontreList = () => {
