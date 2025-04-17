@@ -1,5 +1,7 @@
 export function truncate(data = "", length = 50, separator = '...') {
-    return `${data.slice(0, length)}${separator}`
+    if(data.length > length)
+        return `${data.slice(0, length)}${separator}`;
+    return data;
 }
 
 export const renderingColumn = (column, row) =>

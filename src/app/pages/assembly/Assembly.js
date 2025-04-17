@@ -27,7 +27,6 @@ const Assembly = () => {
     const { user } = useAuth();
     const { data: assemblee, loading, error } = useFetch(`/api/assemblee/${user.place.assembly_id}`, {});
 
-    console.info(assemblee.members);
 
     const deleteMemberById = async (id) => {
         await httpAdapter.deleteData(`/api/assemblee/membre/${id}`);

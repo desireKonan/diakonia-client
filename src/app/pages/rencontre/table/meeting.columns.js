@@ -17,8 +17,8 @@ export const RENCONTRES_HEADER_CELLS = [
         minWidth: 200
     },
     {
-        id: 'type',
-        label: 'Type de ville',
+        id: 'locationType',
+        label: 'Type d\'eglise',
         minWidth: 200,
     },
     {
