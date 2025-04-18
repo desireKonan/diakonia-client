@@ -1,4 +1,4 @@
-import { IconButton, Paper, Tooltip, Typography } from "@mui/material";
+import { Button, IconButton, Paper, TableCell, TableRow, Tooltip, Typography } from "@mui/material";
 import { IconEdit, IconPlus } from "@tabler/icons";
 import PropTypes from "prop-types";
 import PageContainer from "src/_ui/components/container/PageContainer";
@@ -39,27 +39,29 @@ DiakoniaMessage.propTypes = {
 
 
 
-export const DiakoniaButton = ({ label, isUpdateMode = false, openDialog = () => { } }) => (
+export const DiakoniaButton = ({ label, keyId = '', Icon = null, isUpdateMode = false, openDialog = () => {}, isDisabled = false }) => (
     <Tooltip title={label}>
-        <Button variant="contained" color={isUpdateMode ? "primary" : "warning"} onClick={openDialog}>
-            {label}
+        <Button key={keyId} variant="contained" color={isUpdateMode ? "warning" : "primary"} onClick={openDialog} disabled={isDisabled}>
+            { Icon && <Icon /> }  {label}
         </Button>
     </Tooltip>
 );
 
 DiakoniaButton.propTypes = {
     label: PropTypes.string.isRequired,
+    keyId: PropTypes.string.isRequired,
+    Icon: PropTypes.any,
     isUpdateMode: PropTypes.bool,
-    openDialog: PropTypes.func
+    openDialog: PropTypes.func,
+    isDisabled: PropTypes.bool
 };
-
 
 
 export const DiakoniaIconButton = ({ label, isUpdateMode = false, openDialog = () => { } }) => (
     <Tooltip title={label}>
         <IconButton
             variant="contained"
-            color={isSimple ? "primary" : "warning"}
+            color={isUpdateMode ? "warning" : "primary"}
             onClick={openDialog}
             style={{ margin: 5 }}
         >
@@ -73,3 +75,20 @@ DiakoniaIconButton.propTypes = {
     isUpdateMode: PropTypes.bool,
     openDialog: PropTypes.func
 };
+
+
+export const renderEmptyRow = ({ message = '', columns = [], tableStyles = {} }) => (
+    <TableRow>
+        <TableCell colSpan={columns.length} align="center">
+            <Typography sx={tableStyles.bodyCell}>
+                {message}
+            </Typography>
+        </TableCell>
+    </TableRow>
+);
+
+renderEmptyRow.propTypes = {
+    message: PropTypes.string.isRequired,
+    columns: PropTypes.array,
+    tableStyles: PropTypes.object
+}; 

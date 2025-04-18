@@ -14,7 +14,7 @@ import {
     Avatar,
     Box
 } from '@mui/material';
-import DashboardCard from '../../shared/DashboardCard';
+import DashboardCard from '../../../_ui/components/shared/DashboardCard';
 import CustomFormLabel from 'src/_ui/components/forms/theme-elements/CustomFormLabel';
 import CustomSelect from 'src/_ui/components/forms/theme-elements/CustomSelect';
 import useFetch from 'src/app/services/useFetch';

@@ -4,7 +4,7 @@ import memberIcon from '../../../assets/images/svgs/icon-user-male.svg';
 import homeIcon from '../../../assets/images/svgs/icon-office-bag.svg';
 import meetingIcon from '../../../assets/images/svgs/icon-favorites.svg';
 import useFetch from "src/app/services/useFetch";
-import SubzoneReportTable from "src/_ui/components/dashboards/statistics/SubzoneReportTable";
+import SubzoneReportTable from "src/app/components/statistics/SubzoneReportTable";
 
 
 const EffectiveAssembleeRapport = () => {
