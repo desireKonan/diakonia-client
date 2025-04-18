@@ -31,7 +31,7 @@ const useLoadDataPerBatch = (url, params = { page: 0, size: 15 }) => {
         } finally {
             setLoading(false);
         }
-    }, [page, rowsPerPage]); 
+    }, [url, page, rowsPerPage]); 
 
     useEffect(() => {
         fetchData(url);
