@@ -7,7 +7,7 @@ import { useAuth } from "src/app/services/useAuth";
 import { useNavigate } from "react-router";
 import useLoadDataPerBatch from "src/app/services/useLoadDataPerBatch";
 import { useState } from "react";
-import { DiakoniaDialog, useDialogEvent } from "src/app/components/custom/AppDialog";
+import { DiakoniaDialog, useDialogEvent } from "src/app/components/custom/DiakoniaAppDialog";
 import { DiakoniaContainer, DiakoniaMessage } from "src/app/components/custom/ComponentUtils";
 import DiakoniaPaginationActionTable from "src/app/components/custom/DiakoniaPaginationActionTable";
 import { MEMBRES_HEADER_CELLS } from "../../components/tables/columns/membres.columns";

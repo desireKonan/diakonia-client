@@ -7,7 +7,7 @@ import MembreForm from "./MembreForm";
 import { useAuth } from "src/app/services/useAuth";
 import useLoadDataPerBatch from "src/app/services/useLoadDataPerBatch";
 import { useState } from "react";
-import { DiakoniaDialog, useDialogEvent } from "src/app/components/custom/AppDialog";
+import { DiakoniaDialog, useDialogEvent } from "src/app/components/custom/DiakoniaAppDialog";
 import DiakoniaPaginationActionTable from "src/app/components/custom/DiakoniaPaginationActionTable";
 import { DiakoniaContainer, DiakoniaMessage } from "src/app/components/custom/ComponentUtils";
 import { IconEdit, IconTrash } from "@tabler/icons";

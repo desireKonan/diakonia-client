@@ -3,7 +3,7 @@ import RencontreForm from "./RencontreForm";
 import { IconEdit, IconEye, IconTrash } from "@tabler/icons";
 import { useNavigate } from "react-router";
 import { httpAdapter } from "src/app/services/http-adapter.service";
-import { DiakoniaDialog, useDialogEvent } from "src/app/components/custom/AppDialog";
+import { DiakoniaDialog, useDialogEvent } from "src/app/components/custom/DiakoniaAppDialog";
 import DiakoniaPaginationActionTable from "src/app/components/custom/DiakoniaPaginationActionTable";
 import { DiakoniaContainer, DiakoniaMessage } from "src/app/components/custom/ComponentUtils";
 import useLoadDataPerBatch from "src/app/services/useLoadDataPerBatch";

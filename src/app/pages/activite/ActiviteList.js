@@ -4,10 +4,9 @@ import { httpAdapter } from "src/app/services/http-adapter.service";
 import ActiviteForm from "./ActiviteForm";
 import DiakoniaPaginationActionTable from "src/app/components/custom/DiakoniaPaginationActionTable";
 import useLoadDataPerBatch from "src/app/services/useLoadDataPerBatch";
-import { DiakoniaDialog, useDialogEvent } from "src/app/components/custom/AppDialog";
+import { DiakoniaDialog, useDialogEvent } from "src/app/components/custom/DiakoniaAppDialog";
 import { useState } from "react";
-import { DiakoniaContainer, DiakoniaMessage } from "src/app/components/custom/ComponentUtils";
-import { Button } from '@mui/material';
+import { DiakoniaButton, DiakoniaContainer, DiakoniaMessage } from "src/app/components/custom/ComponentUtils";
 import { ACTIVITE_HEADER_CELLS } from 'src/app/components/tables/columns/activite.columns';
 
 const ActiviteList = () => {
@@ -64,7 +63,13 @@ const ActiviteList = () => {
             title="Liste des activités"
             description="Liste des activités"
             subtitle="Liste des activités"
-            action={<Button onClick={openDialog}>Ajouter une activité</Button>}
+            action={
+                <DiakoniaButton 
+                    label='Ajouter une activité'
+                    openDialog={openDialog}
+                    isUpdateMode
+                />
+            }
         >
             <>
                 <DiakoniaPaginationActionTable

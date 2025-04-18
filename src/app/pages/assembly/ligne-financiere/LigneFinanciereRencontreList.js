@@ -17,7 +17,7 @@ import { nameMeeting } from "src/app/services/utils";
 import { uniqueId } from "lodash";
 import useFetch from "src/app/services/useFetch";
 import LigneFinanciereRencontreForm from "./LigneFinanciereRencontreForm";
-import { DiakoniaDialog, useDialogEvent } from "src/app/components/custom/AppDialog";
+import { DiakoniaDialog, useDialogEvent } from "src/app/components/custom/DiakoniaAppDialog";
 
 const LigneFinanciereRencontreList = () => {
     const params = useParams();

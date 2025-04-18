@@ -7,7 +7,7 @@ import ParticipantRencontreForm from "./ParticipantRencontreForm";
 import { httpAdapter } from "src/app/services/http-adapter.service";
 import useLoadDataPerBatch from "src/app/services/useLoadDataPerBatch";
 import { useState } from "react";
-import { DiakoniaDialog, useDialogEvent } from "src/app/components/custom/AppDialog";
+import { DiakoniaDialog, useDialogEvent } from "src/app/components/custom/DiakoniaAppDialog";
 import { PARTICIPANTS_ASSEMBLY_HEADER_CELLS } from "src/app/components/tables/columns/participants-assembly.columns";
 import { DiakoniaContainer, DiakoniaMessage } from "src/app/components/custom/ComponentUtils";
 import DiakoniaPaginationActionTable from "src/app/components/custom/DiakoniaPaginationActionTable";
