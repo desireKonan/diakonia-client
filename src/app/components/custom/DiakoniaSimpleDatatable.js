@@ -1,5 +1,5 @@
 import { TableRow, TableCell, Typography, TableContainer, Table, TableHead, TableBody } from "@mui/material";
-import { DiakoniaButton, renderEmptyRow } from "./ComponentUtils";
+import { DiakoniaButton, DiakoniaIconButton, renderEmptyRow } from "./ComponentUtils";
 import PropTypes from "prop-types";
 
 const tableStyles = {
@@ -21,58 +21,38 @@ const tableStyles = {
     }
 };
 
-// const columns = [
-//     { id: 'id', label: 'Id' },
-//     { id: 'label', label: 'Nom' },
-//     { id: 'description', label: 'Description' },
-//     { id: 'createdAt', label: 'Date de création', format: instant },
-//     { id: 'updatedAt', label: 'Date de mise à jour', format: instant },
-//     { id: 'actions', label: 'Actions', isAction: true }
-// ];
 
-// const renderActionButtons = (rubrique) => (
-//     <>
-//         <CustomDialog
-//             label="Modifier une rubrique"
-//             title="Formulaire de modification d'une rubrique"
-//             color="warning"
-//             style={{ margin: 3 }}
-//             form={<RubriqueForm rubrique={rubrique} />}
-//         />
-//         <Button
-//             variant="contained"
-//             color="error"
-//             onClick={() => deleteRubrique(rubrique.id)}
-//             style={{ margin: 5 }}
-//         >
-//             Supprimer
-//         </Button>
-//     </>
-// );
 
 const DiakoniaSimpleRowActions = ({ actions, row }) => {
     const _actions = actions.filter(action => action.isEnabled == null || action.isEnabled);
     return (
         <>
-            {_actions.map((action) => (
-
+        {
+            _actions.map((action) => {
+                if(action.icon) {
+                    return (
+                        <DiakoniaIconButton 
+                            keyId={action.id}
+                            openDialog={(event) => action.handler(row, event)}
+                            isDisabled={action.disabled?.(row)}
+                            label={action.label}
+                            isUpdateMode={action.isUpdateMode}        
+                        >
+                            { action.icon }
+                        </DiakoniaIconButton>
+                    );
+                }
+                return (
                 <DiakoniaButton
                     keyId={action.id}
                     openDialog={(event) => action.handler(row, event)}
                     isDisabled={action.disabled?.(row)}
                     label={action.label}
-                    Icon={action.icon}
                     isUpdateMode={action.isUpdateMode}
                 />
-                //   <MenuItem
-                //     key={action.id}
-                //     onClick={(event) => action.handler(row, event)}
-                //     disabled={action.disabled?.(row)}
-                //   >
-                //     <ListItemIcon>{action.icon}</ListItemIcon>
-                //     <ListItemText>{action.label}</ListItemText>
-                //   </MenuItem>
-            ))}
+                );
+            })
+        }
         </>
     );
 };
@@ -89,6 +69,14 @@ export const DiakoniaSimpleDatatable = ({ datalist = [], columns = [], actions =
                             </Typography>
                         </TableCell>
                     ))}
+
+                    {actions.length > 0 && (
+                        <TableCell key='actions'>
+                            <Typography variant="subtitle2" sx={{ ...tableStyles.headerCell, width: '200' }}>
+                                Actions
+                            </Typography>
+                        </TableCell>
+                    )}
                 </TableRow>
             </TableHead>
             <TableBody>

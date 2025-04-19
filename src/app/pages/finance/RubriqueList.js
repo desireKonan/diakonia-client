@@ -10,7 +10,7 @@ import { RUBRICS_TYPE_HEADERS } from "src/app/components/tables/columns/rubrics.
 
 
 const RubriqueList = () => {
-    const { data: rubriques, loading } = useFetch('/api/rubrique-financiere');
+    const { data: rubriques, loading, error } = useFetch('/api/rubrique-financiere');
     const { open, openDialog, closeDialog } = useDialogEvent();
     const [selectedRubric, setSelectedRubric] = useState(null);
 
