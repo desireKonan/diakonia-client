@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
-import { 
-    Grid, 
-    Typography, 
+import {
+    Grid,
+    Typography,
     TableContainer,
     Table,
     TableHead,
@@ -41,7 +41,7 @@ const SubzoneReportTable = ({ subzone }) => {
     const secondary = theme.palette.success.main;
     const secondarylight = theme.palette.success.light;
 
-    
+
     const { data: subzones } = useFetch('/api/ville/subzones', []);
 
     const [subzoneReport, setSubzoneReport] = useState([]);
@@ -57,13 +57,13 @@ const SubzoneReportTable = ({ subzone }) => {
         },
     });
 
-    const getSubzoneReport = async(values) => {
+    const getSubzoneReport = async (values) => {
         var subzoneReport = await httpAdapter.saveData(`api/subzone/statistics`, {
             subzone: values['subzone'],
             type: values['type'],
             day: values['day']
         });
-        if(subzoneReport.error && subzoneReport.error != null) {
+        if (subzoneReport.error && subzoneReport.error != null) {
             console.log(`Erreur: ${subzoneReport.error}`);
             toast(`${subzoneReport.error}`);
             return;
@@ -79,8 +79,8 @@ const SubzoneReportTable = ({ subzone }) => {
         >
             <form onSubmit={formik.handleSubmit}>
                 <ToastContainer />
-                <Stack 
-                    direction={'row'} 
+                <Stack
+                    direction={'row'}
                     spacing={{
                         xs: 1,
                         sm: 2
@@ -93,7 +93,7 @@ const SubzoneReportTable = ({ subzone }) => {
                         <CustomFormLabel htmlFor="Sous zone">Sous zone</CustomFormLabel>
                         <CustomSelect
                             labelId="subzone"
-                            id="subzone" 
+                            id="subzone"
                             fullWidth
                             name="subzone"
                             size="large"
@@ -101,8 +101,8 @@ const SubzoneReportTable = ({ subzone }) => {
                             onChange={formik.handleChange}
                         >
                             {
-                                subzones.map(subzone => 
-                                    <MenuItem selected={subzone} value={subzone}> { subzone } </MenuItem>    
+                                subzones.map(subzone =>
+                                    <MenuItem selected={subzone} value={subzone}> {subzone} </MenuItem>
                                 )
                             }
                         </CustomSelect>
@@ -111,7 +111,7 @@ const SubzoneReportTable = ({ subzone }) => {
                         <CustomFormLabel htmlFor="Sous zone">Type de rencontres</CustomFormLabel>
                         <CustomSelect
                             labelId="meeting-type"
-                            id="meeting-type" 
+                            id="meeting-type"
                             fullWidth
                             name="type"
                             size="large"
@@ -119,8 +119,8 @@ const SubzoneReportTable = ({ subzone }) => {
                             onChange={formik.handleChange}
                         >
                             {
-                                Object.keys(MeetingType).map(type => 
-                                    <MenuItem selected={type} value={type}> { type } </MenuItem>    
+                                Object.keys(MeetingType).map(type =>
+                                    <MenuItem selected={type} value={type}> {type} </MenuItem>
                                 )
                             }
                         </CustomSelect>
@@ -129,7 +129,7 @@ const SubzoneReportTable = ({ subzone }) => {
                         <CustomFormLabel htmlFor="day">Date recherché</CustomFormLabel>
                         <LocalizationProvider dateAdapter={AdapterDateFns}>
                             <DatePicker
-                                id="day" 
+                                id="day"
                                 name="day"
                                 renderInput={(props) => <CustomTextField {...props} fullWidth size="large" sx={{
                                     '& .MuiSvgIcon-root': {
@@ -154,328 +154,326 @@ const SubzoneReportTable = ({ subzone }) => {
                         <Button variant="contained" color='primary' type="submit">
                             Rechercher
                         </Button>
-                    </Grid>  
+                    </Grid>
                 </Stack>
-            </form>          
+            </form>
             <Grid container spacing={3}>
                 <Grid item xs={12} sm={12}>
-                        <TableContainer>
-                            <Table
-                                aria-label="simple table"
-                                sx={{
-                                    whiteSpace: "nowrap",
-                                    mt: 2
-                                }}
-                            >
-                                <TableHead>
-                                    <TableRow>
-                                        <TableCell>
-                                            <Typography variant="subtitle2" fontWeight={600}>
-                                                Assemblée
-                                            </Typography>
-                                        </TableCell>
-                                        <TableCell>
-                                            <Typography variant="subtitle2" fontWeight={600}>
-                                                Nombre d'adultes
-                                            </Typography>
-                                        </TableCell>
-                                        <TableCell>
-                                            <Typography variant="subtitle2" fontWeight={600}>
-                                                Nombre d'enfants
-                                            </Typography>
-                                        </TableCell>
-                                        <TableCell>
-                                            <Typography variant="subtitle2" fontWeight={600}>
-                                                Nombre d'invités
-                                            </Typography>
-                                        </TableCell>
-                                        <TableCell>
-                                            <Typography variant="subtitle2" fontWeight={600}>
-                                                Nombre de visiteurs
-                                            </Typography>
-                                        </TableCell>
-                                        <TableCell>
-                                            <Typography variant="subtitle2" fontWeight={600}>
-                                                Total Don et offrandes
-                                            </Typography>
-                                        </TableCell>
-                                        <TableCell>
-                                            <Typography variant="subtitle2" fontWeight={600}>
-                                                Total Dons pour attiékoi
-                                            </Typography>
-                                        </TableCell>
-                                    </TableRow>
-                                </TableHead>
-                                <TableBody>
-                                    {
-                                        (subzoneReport['assembly_reports'] && subzoneReport['assembly_reports'].length !== 0) ? subzoneReport['assembly_reports'].map((subzoneR) => (
-                                            <TableRow key={subzoneR.id}>
-                                                <TableCell>
-                                                    <Typography color="textSecondary" variant="subtitle2" fontWeight={400}>
-                                                        { subzoneR.assembly }
-                                                    </Typography>
-                                                </TableCell>
-                                                <TableCell>
-                                                    <Typography color="textSecondary" variant="subtitle2" fontWeight={400}>
-                                                        { subzoneR.adult_count }
-                                                    </Typography>
-                                                </TableCell>  
-                                                <TableCell>
-                                                    <Typography color="textSecondary" variant="subtitle2" fontWeight={400}>
-                                                        { subzoneR.child_count }
-                                                    </Typography>
-                                                </TableCell>                  
-                                                <TableCell>
-                                                    <Typography color="textSecondary" variant="subtitle2" fontWeight={400}>
-                                                        { subzoneR.guest_count }
-                                                    </Typography>
-                                                </TableCell>        
-                                                <TableCell>
-                                                    <Typography color="textSecondary" variant="subtitle2" fontWeight={400}>
-                                                        { subzoneR.visitor_count }
-                                                    </Typography>
-                                                </TableCell>
-                                                <TableCell>
-                                                    <Typography color="textSecondary" variant="subtitle2" fontWeight={400}>
-                                                        { subzoneR.tithe_gift }
-                                                    </Typography>
-                                                </TableCell>
-                                                <TableCell>
-                                                    <Typography color="textSecondary" variant="subtitle2" fontWeight={400}>
-                                                        { subzoneR.attiekoi_gift }
-                                                    </Typography>
-                                                </TableCell>  
-                                            </TableRow>
-                                        )) : (
-                                            <TableRow key={`${uniqueId()}`}>
-                                                <TableCell rowSpan={6}>
-                                                    <Typography color="textSecondary" variant="subtitle2" fontWeight={400}>
-                                                        Le rapport recherché pour la sous-zone et à la date recherchée n'existe pas !
-                                                    </Typography>
-                                                </TableCell>
-                                            </TableRow>
-                                        )
-                                    }
-                                </TableBody>
-                            </Table>
-                        </TableContainer>
+                    <TableContainer>
+                        <Table
+                            aria-label="simple table"
+                            sx={{
+                                whiteSpace: "nowrap",
+                                mt: 2
+                            }}
+                        >
+                            <TableHead>
+                                <TableRow>
+                                    <TableCell>
+                                        <Typography variant="subtitle2" fontWeight={600}>
+                                            Assemblée
+                                        </Typography>
+                                    </TableCell>
+                                    <TableCell>
+                                        <Typography variant="subtitle2" fontWeight={600}>
+                                            Nombre d'adultes
+                                        </Typography>
+                                    </TableCell>
+                                    <TableCell>
+                                        <Typography variant="subtitle2" fontWeight={600}>
+                                            Nombre d'enfants
+                                        </Typography>
+                                    </TableCell>
+                                    <TableCell>
+                                        <Typography variant="subtitle2" fontWeight={600}>
+                                            Nombre d'invités
+                                        </Typography>
+                                    </TableCell>
+                                    <TableCell>
+                                        <Typography variant="subtitle2" fontWeight={600}>
+                                            Nombre de visiteurs
+                                        </Typography>
+                                    </TableCell>
+                                    <TableCell>
+                                        <Typography variant="subtitle2" fontWeight={600}>
+                                            Total Don et offrandes
+                                        </Typography>
+                                    </TableCell>
+                                    <TableCell>
+                                        <Typography variant="subtitle2" fontWeight={600}>
+                                            Total Dons pour attiékoi
+                                        </Typography>
+                                    </TableCell>
+                                </TableRow>
+                            </TableHead>
+                            <TableBody>
+                                {
+                                    (subzoneReport['assembly_reports'] && subzoneReport['assembly_reports'].length !== 0) ? subzoneReport['assembly_reports'].map((subzoneR) => (
+                                        <TableRow key={subzoneR.id}>
+                                            <TableCell>
+                                                <Typography color="textSecondary" variant="subtitle2" fontWeight={400}>
+                                                    {subzoneR.assembly}
+                                                </Typography>
+                                            </TableCell>
+                                            <TableCell>
+                                                <Typography color="textSecondary" variant="subtitle2" fontWeight={400}>
+                                                    {subzoneR.adult_count}
+                                                </Typography>
+                                            </TableCell>
+                                            <TableCell>
+                                                <Typography color="textSecondary" variant="subtitle2" fontWeight={400}>
+                                                    {subzoneR.child_count}
+                                                </Typography>
+                                            </TableCell>
+                                            <TableCell>
+                                                <Typography color="textSecondary" variant="subtitle2" fontWeight={400}>
+                                                    {subzoneR.guest_count}
+                                                </Typography>
+                                            </TableCell>
+                                            <TableCell>
+                                                <Typography color="textSecondary" variant="subtitle2" fontWeight={400}>
+                                                    {subzoneR.visitor_count}
+                                                </Typography>
+                                            </TableCell>
+                                            <TableCell>
+                                                <Typography color="textSecondary" variant="subtitle2" fontWeight={400}>
+                                                    {subzoneR.tithe_gift}
+                                                </Typography>
+                                            </TableCell>
+                                            <TableCell>
+                                                <Typography color="textSecondary" variant="subtitle2" fontWeight={400}>
+                                                    {subzoneR.attiekoi_gift}
+                                                </Typography>
+                                            </TableCell>
+                                        </TableRow>
+                                    )) : (
+                                        <TableRow key={`${uniqueId()}`}>
+                                            <TableCell rowSpan={6}>
+                                                <Typography color="textSecondary" variant="subtitle2" fontWeight={400}>
+                                                    Le rapport recherché pour la sous-zone et à la date recherchée n'existe pas !
+                                                </Typography>
+                                            </TableCell>
+                                        </TableRow>
+                                    )
+                                }
+                            </TableBody>
+                        </Table>
+                    </TableContainer>
                 </Grid>
                 <Grid item xs={12} sm={4}>
                     {
                         subzoneReport['total_report'] ? (
                             <DashboardCard title={`Rapport de sous-centre: ${subzone}`} subtitle={`Rapport bilan de sous-centre`}>
-                                <>
-                                    <Stack spacing={3} mt={5}>
-                                            <Stack
-                                                direction="row"
-                                                spacing={3}
-                                                justifyContent="space-between"
-                                                alignItems="center"
+                                <Stack spacing={3} mt={5}>
+                                    <Stack
+                                        direction="row"
+                                        spacing={3}
+                                        justifyContent="space-between"
+                                        alignItems="center"
+                                    >
+                                        <Stack direction="row" alignItems="center" spacing={2}>
+                                            <Avatar
+                                                variant="rounded"
+                                                sx={{ bgcolor: primarylight, color: primary, width: 40, height: 40 }}
                                             >
-                                                <Stack direction="row" alignItems="center" spacing={2}>
-                                                    <Avatar
-                                                        variant="rounded"
-                                                        sx={{ bgcolor: primarylight, color: primary, width: 40, height: 40 }}
-                                                    >  
-                                                    </Avatar>
-                                                    <Box>
-                                                        <Typography variant="h6" mb="4px">
-                                                            L'ancien effectif
-                                                        </Typography>
-                                                        <Typography variant="subtitle2" color="textSecondary">
-                                                            {''}
-                                                        </Typography>
-                                                    </Box>
-                                                </Stack>
-
-                                                <Typography variant="subtitle2" color="textSecondary">
-                                                    {subzoneReport['old_effective']}
+                                            </Avatar>
+                                            <Box>
+                                                <Typography variant="h6" mb="4px">
+                                                    L'ancien effectif
                                                 </Typography>
-                                            </Stack>
-                                            <Stack
-                                                direction="row"
-                                                spacing={3}
-                                                justifyContent="space-between"
-                                                alignItems="center"
-                                            >
-                                                <Stack direction="row" alignItems="center" spacing={2}>
-                                                    <Avatar
-                                                        variant="rounded"
-                                                        sx={{ bgcolor: primarylight, color: primary, width: 40, height: 40 }}
-                                                    >  
-                                                    </Avatar>
-                                                    <Box>
-                                                        <Typography variant="h6" mb="4px">
-                                                            Le nouvel effectif
-                                                        </Typography>
-                                                        <Typography variant="subtitle2" color="textSecondary">
-                                                            {''}
-                                                        </Typography>
-                                                    </Box>
-                                                </Stack>
-
                                                 <Typography variant="subtitle2" color="textSecondary">
-                                                    {subzoneReport['new_effective']}
+                                                    {''}
                                                 </Typography>
-                                            </Stack>
-                                            <Stack
-                                                direction="row"
-                                                spacing={3}
-                                                justifyContent="space-between"
-                                                alignItems="center"
-                                            >
-                                                <Stack direction="row" alignItems="center" spacing={2}>
-                                                    <Avatar
-                                                        variant="rounded"
-                                                        sx={{ bgcolor: primarylight, color: primary, width: 40, height: 40 }}
-                                                    >  
-                                                    </Avatar>
-                                                    <Box>
-                                                        <Typography variant="h6" mb="4px">
-                                                            {titleDashboard("adult_count")}
-                                                        </Typography>
-                                                        <Typography variant="subtitle2" color="textSecondary">
-                                                            {''}
-                                                        </Typography>
-                                                    </Box>
-                                                </Stack>
+                                            </Box>
+                                        </Stack>
 
-                                                <Typography variant="subtitle2" color="textSecondary">
-                                                    {subzoneReport['total_report']['adult_count']}
-                                                </Typography>
-                                            </Stack>
-                                            <Stack
-                                                direction="row"
-                                                spacing={3}
-                                                justifyContent="space-between"
-                                                alignItems="center"
-                                            >
-                                                <Stack direction="row" alignItems="center" spacing={2}>
-                                                    <Avatar
-                                                        variant="rounded"
-                                                        sx={{ bgcolor: secondarylight, color: secondary, width: 40, height: 40 }}
-                                                    >  
-                                                    </Avatar>
-                                                    <Box>
-                                                        <Typography variant="h6" mb="4px">
-                                                            {titleDashboard("child_count")}
-                                                        </Typography>
-                                                        <Typography variant="subtitle2" color="textSecondary">
-                                                            {''}
-                                                        </Typography>
-                                                    </Box>
-                                                </Stack>
-
-                                                <Typography variant="subtitle2" color="textSecondary">
-                                                    {subzoneReport['total_report']['child_count']}
-                                                </Typography>
-                                            </Stack>
-                                            <Stack
-                                                direction="row"
-                                                spacing={3}
-                                                justifyContent="space-between"
-                                                alignItems="center"
-                                            >
-                                                <Stack direction="row" alignItems="center" spacing={2}>
-                                                    <Avatar
-                                                        variant="rounded"
-                                                        sx={{ bgcolor: errorlight, color: error, width: 40, height: 40 }}
-                                                    >  
-                                                    </Avatar>
-                                                    <Box>
-                                                        <Typography variant="h6" mb="4px">
-                                                            {titleDashboard("guest_count")}
-                                                        </Typography>
-                                                        <Typography variant="subtitle2" color="textSecondary">
-                                                            {''}
-                                                        </Typography>
-                                                    </Box>
-                                                </Stack>
-
-                                                <Typography variant="subtitle2" color="textSecondary">
-                                                    {subzoneReport['total_report']['guest_count']}
-                                                </Typography>
-                                            </Stack>
-                                            <Stack
-                                                direction="row"
-                                                spacing={3}
-                                                justifyContent="space-between"
-                                                alignItems="center"
-                                            >
-                                                <Stack direction="row" alignItems="center" spacing={2}>
-                                                    <Avatar
-                                                        variant="rounded"
-                                                        sx={{ bgcolor: warninglight, color: warning, width: 40, height: 40 }}
-                                                    >  
-                                                    </Avatar>
-                                                    <Box>
-                                                        <Typography variant="h6" mb="4px">
-                                                            {titleDashboard("visitor_count")}
-                                                        </Typography>
-                                                        <Typography variant="subtitle2" color="textSecondary">
-                                                            {''}
-                                                        </Typography>
-                                                    </Box>
-                                                </Stack>
-
-                                                <Typography variant="subtitle2" color="textSecondary">
-                                                    {subzoneReport['total_report']['visitor_count']}
-                                                </Typography>
-                                            </Stack>
-                                            <Stack
-                                                direction="row"
-                                                spacing={3}
-                                                justifyContent="space-between"
-                                                alignItems="center"
-                                            >
-                                                <Stack direction="row" alignItems="center" spacing={2}>
-                                                    <Avatar
-                                                        variant="rounded"
-                                                        sx={{ bgcolor: warninglight, color: warning, width: 40, height: 40 }}
-                                                    >  
-                                                    </Avatar>
-                                                    <Box>
-                                                        <Typography variant="h6" mb="4px">
-                                                            Le nombre total de présences
-                                                        </Typography>
-                                                        <Typography variant="subtitle2" color="textSecondary">
-                                                            {''}
-                                                        </Typography>
-                                                    </Box>
-                                                </Stack>
-
-                                                <Typography variant="subtitle2" color="textSecondary">
-                                                    {subzoneReport['presence_total']}
-                                                </Typography>
-                                            </Stack>
-                                            <Stack
-                                                direction="row"
-                                                spacing={3}
-                                                justifyContent="space-between"
-                                                alignItems="center"
-                                            >
-                                                <Stack direction="row" alignItems="center" spacing={2}>
-                                                    <Avatar
-                                                        variant="rounded"
-                                                        sx={{ bgcolor: warninglight, color: warning, width: 40, height: 40 }}
-                                                    >  
-                                                    </Avatar>
-                                                    <Box>
-                                                        <Typography variant="h6" mb="4px">
-                                                            Le taux de présences
-                                                        </Typography>
-                                                        <Typography variant="subtitle2" color="textSecondary">
-                                                            {''}
-                                                        </Typography>
-                                                    </Box>
-                                                </Stack>
-
-                                                <Typography variant="subtitle2" color="textSecondary">
-                                                    {subzoneReport['rate']}%
-                                                </Typography>
-                                            </Stack>
+                                        <Typography variant="subtitle2" color="textSecondary">
+                                            {subzoneReport['old_effective']}
+                                        </Typography>
                                     </Stack>
-                                </>
+                                    <Stack
+                                        direction="row"
+                                        spacing={3}
+                                        justifyContent="space-between"
+                                        alignItems="center"
+                                    >
+                                        <Stack direction="row" alignItems="center" spacing={2}>
+                                            <Avatar
+                                                variant="rounded"
+                                                sx={{ bgcolor: primarylight, color: primary, width: 40, height: 40 }}
+                                            >
+                                            </Avatar>
+                                            <Box>
+                                                <Typography variant="h6" mb="4px">
+                                                    Le nouvel effectif
+                                                </Typography>
+                                                <Typography variant="subtitle2" color="textSecondary">
+                                                    {''}
+                                                </Typography>
+                                            </Box>
+                                        </Stack>
+
+                                        <Typography variant="subtitle2" color="textSecondary">
+                                            {subzoneReport['new_effective']}
+                                        </Typography>
+                                    </Stack>
+                                    <Stack
+                                        direction="row"
+                                        spacing={3}
+                                        justifyContent="space-between"
+                                        alignItems="center"
+                                    >
+                                        <Stack direction="row" alignItems="center" spacing={2}>
+                                            <Avatar
+                                                variant="rounded"
+                                                sx={{ bgcolor: primarylight, color: primary, width: 40, height: 40 }}
+                                            >
+                                            </Avatar>
+                                            <Box>
+                                                <Typography variant="h6" mb="4px">
+                                                    {titleDashboard("adult_count")}
+                                                </Typography>
+                                                <Typography variant="subtitle2" color="textSecondary">
+                                                    {''}
+                                                </Typography>
+                                            </Box>
+                                        </Stack>
+
+                                        <Typography variant="subtitle2" color="textSecondary">
+                                            {subzoneReport['total_report']['adult_count']}
+                                        </Typography>
+                                    </Stack>
+                                    <Stack
+                                        direction="row"
+                                        spacing={3}
+                                        justifyContent="space-between"
+                                        alignItems="center"
+                                    >
+                                        <Stack direction="row" alignItems="center" spacing={2}>
+                                            <Avatar
+                                                variant="rounded"
+                                                sx={{ bgcolor: secondarylight, color: secondary, width: 40, height: 40 }}
+                                            >
+                                            </Avatar>
+                                            <Box>
+                                                <Typography variant="h6" mb="4px">
+                                                    {titleDashboard("child_count")}
+                                                </Typography>
+                                                <Typography variant="subtitle2" color="textSecondary">
+                                                    {''}
+                                                </Typography>
+                                            </Box>
+                                        </Stack>
+
+                                        <Typography variant="subtitle2" color="textSecondary">
+                                            {subzoneReport['total_report']['child_count']}
+                                        </Typography>
+                                    </Stack>
+                                    <Stack
+                                        direction="row"
+                                        spacing={3}
+                                        justifyContent="space-between"
+                                        alignItems="center"
+                                    >
+                                        <Stack direction="row" alignItems="center" spacing={2}>
+                                            <Avatar
+                                                variant="rounded"
+                                                sx={{ bgcolor: errorlight, color: error, width: 40, height: 40 }}
+                                            >
+                                            </Avatar>
+                                            <Box>
+                                                <Typography variant="h6" mb="4px">
+                                                    {titleDashboard("guest_count")}
+                                                </Typography>
+                                                <Typography variant="subtitle2" color="textSecondary">
+                                                    {''}
+                                                </Typography>
+                                            </Box>
+                                        </Stack>
+
+                                        <Typography variant="subtitle2" color="textSecondary">
+                                            {subzoneReport['total_report']['guest_count']}
+                                        </Typography>
+                                    </Stack>
+                                    <Stack
+                                        direction="row"
+                                        spacing={3}
+                                        justifyContent="space-between"
+                                        alignItems="center"
+                                    >
+                                        <Stack direction="row" alignItems="center" spacing={2}>
+                                            <Avatar
+                                                variant="rounded"
+                                                sx={{ bgcolor: warninglight, color: warning, width: 40, height: 40 }}
+                                            >
+                                            </Avatar>
+                                            <Box>
+                                                <Typography variant="h6" mb="4px">
+                                                    {titleDashboard("visitor_count")}
+                                                </Typography>
+                                                <Typography variant="subtitle2" color="textSecondary">
+                                                    {''}
+                                                </Typography>
+                                            </Box>
+                                        </Stack>
+
+                                        <Typography variant="subtitle2" color="textSecondary">
+                                            {subzoneReport['total_report']['visitor_count']}
+                                        </Typography>
+                                    </Stack>
+                                    <Stack
+                                        direction="row"
+                                        spacing={3}
+                                        justifyContent="space-between"
+                                        alignItems="center"
+                                    >
+                                        <Stack direction="row" alignItems="center" spacing={2}>
+                                            <Avatar
+                                                variant="rounded"
+                                                sx={{ bgcolor: warninglight, color: warning, width: 40, height: 40 }}
+                                            >
+                                            </Avatar>
+                                            <Box>
+                                                <Typography variant="h6" mb="4px">
+                                                    Le nombre total de présences
+                                                </Typography>
+                                                <Typography variant="subtitle2" color="textSecondary">
+                                                    {''}
+                                                </Typography>
+                                            </Box>
+                                        </Stack>
+
+                                        <Typography variant="subtitle2" color="textSecondary">
+                                            {subzoneReport['presence_total']}
+                                        </Typography>
+                                    </Stack>
+                                    <Stack
+                                        direction="row"
+                                        spacing={3}
+                                        justifyContent="space-between"
+                                        alignItems="center"
+                                    >
+                                        <Stack direction="row" alignItems="center" spacing={2}>
+                                            <Avatar
+                                                variant="rounded"
+                                                sx={{ bgcolor: warninglight, color: warning, width: 40, height: 40 }}
+                                            >
+                                            </Avatar>
+                                            <Box>
+                                                <Typography variant="h6" mb="4px">
+                                                    Le taux de présences
+                                                </Typography>
+                                                <Typography variant="subtitle2" color="textSecondary">
+                                                    {''}
+                                                </Typography>
+                                            </Box>
+                                        </Stack>
+
+                                        <Typography variant="subtitle2" color="textSecondary">
+                                            {subzoneReport['rate']}%
+                                        </Typography>
+                                    </Stack>
+                                </Stack>
                             </DashboardCard>
                         ) : null
                     }

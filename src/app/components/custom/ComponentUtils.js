@@ -1,5 +1,6 @@
-import { Button, IconButton, Paper, TableCell, TableRow, Tooltip, Typography } from "@mui/material";
+import { Box, Button, CardContent, Grid, IconButton, Paper, TableCell, TableRow, Tooltip, Typography } from "@mui/material";
 import PropTypes from "prop-types";
+import { Link } from "react-router-dom";
 import PageContainer from "src/_ui/components/container/PageContainer";
 import ParentCard from "src/_ui/components/shared/ParentCard";
 import Breadcrumb from "src/_ui/layouts/full/shared/breadcrumb/Breadcrumb";
@@ -38,7 +39,7 @@ DiakoniaMessage.propTypes = {
 
 
 
-export const DiakoniaButton = ({ label, keyId = '', isUpdateMode = false, openDialog = () => {}, isDisabled = false }) => (
+export const DiakoniaButton = ({ label, keyId = '', isUpdateMode = false, openDialog = () => { }, isDisabled = false }) => (
     <Tooltip title={label}>
         <Button key={keyId} variant="contained" color={isUpdateMode ? "warning" : "primary"} onClick={openDialog} disabled={isDisabled}>
             {label}
@@ -55,6 +56,42 @@ DiakoniaButton.propTypes = {
 };
 
 
+export const DiakoniaCard = ({ 
+    icon = '',
+    xs = 12,
+    sm = 4,
+    lg = 2, 
+    textAlign = 'center', 
+    key = '', 
+    link = '', 
+    bgColor = '', 
+    color = '', 
+    title = '',
+    data = ''
+}) => (
+    <Grid item xs={xs} sm={sm} lg={lg} key={key}>
+        <Link to={link}>
+            <Box bgcolor={bgColor} textAlign={textAlign}>
+                <CardContent>
+                    <img src={icon} alt={icon} width="50" />
+                    <Typography
+                        color={color}
+                        mt={1}
+                        variant="subtitle1"
+                        fontWeight={600}
+                    >
+                        { title }
+                    </Typography>
+                    <Typography color={color} variant="h4" fontWeight={600}>
+                        { data }
+                    </Typography>
+                </CardContent>
+            </Box>
+        </Link>
+    </Grid>
+);
+
+
 export const DiakoniaIconButton = ({ children, label, keyId = '', isUpdateMode = false, openDialog = () => { }, isDisabled = false }) => (
     <Tooltip title={label}>
         <IconButton
@@ -63,7 +100,7 @@ export const DiakoniaIconButton = ({ children, label, keyId = '', isUpdateMode =
             onClick={openDialog}
             style={{ margin: 5 }}
         >
-            { children }
+            {children}
         </IconButton>
     </Tooltip>
 );

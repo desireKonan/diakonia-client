@@ -1,12 +1,11 @@
 import React from 'react';
 import Welcome from 'src/_ui/layouts/full/shared/welcome/Welcome';
-import { Link } from 'react-router-dom';
-import { Box, CardContent, Grid, Typography } from '@mui/material';
+import { Box, Grid } from '@mui/material';
 import icon1 from 'src/_ui/assets/images/svgs/icon-connect.svg';
-import icon2 from 'src/_ui/assets/images/svgs/icon-user-male.svg';
 import useFetch from 'src/app/services/useFetch';
 import { useAuth } from 'src/app/services/useAuth';
 import { uniqueId } from 'lodash';
+import { DiakoniaCard } from 'src/app/components/custom/ComponentUtils';
 
 const SousZoneDashboard = () => {
     const { user } = useAuth();
@@ -18,46 +17,32 @@ const SousZoneDashboard = () => {
                 {/* column */}
                 <Grid item sm={12} lg={12}>
                     <Grid container spacing={3} mt={3}>
-                        <Grid item xs={12} sm={4} lg={2} key={uniqueId()}>
-                            <Link to={'#'}>
-                                <Box bgcolor={'primary.light'} textAlign="center">
-                                    <CardContent>
-                                        <img src={icon1} alt={icon1} width="50" />
-                                        <Typography
-                                            color={'primary.main'}
-                                            mt={1}
-                                            variant="subtitle1"
-                                            fontWeight={600}
-                                        >
-                                            Membres
-                                        </Typography>
-                                        <Typography color={'primary.main'} variant="h4" fontWeight={600}>
-                                            { data?.assembly_count }
-                                        </Typography>
-                                    </CardContent>
-                                </Box>
-                            </Link>
-                        </Grid>
-                        <Grid item xs={12} sm={4} lg={2} key={uniqueId()}>
-                            <Link to={'#'}>
-                                <Box bgcolor={'warning.light'} textAlign="center">
-                                    <CardContent>
-                                        <img src={icon2} alt={icon2} width="50" />
-                                        <Typography
-                                            color={'warning.main'}
-                                            mt={1}
-                                            variant="subtitle1"
-                                            fontWeight={600}
-                                        >
-                                            Disciples
-                                        </Typography>
-                                        <Typography color={'warning.main'} variant="h4" fontWeight={600}>
-                                            { data?.disciple_count }
-                                        </Typography>
-                                    </CardContent>
-                                </Box>
-                            </Link>
-                        </Grid>
+                        <DiakoniaCard
+                            icon={icon1}
+                            key={uniqueId()}
+                            xs={12}
+                            sm={4}
+                            lg={2}
+                            textAlign='center'
+                            bgColor={`primary.light`}
+                            color={`primary.main`}
+                            link={'#'}
+                            title={`Membres`}
+                            data={data?.assembly_count}
+                        />
+                        <DiakoniaCard
+                            icon={icon1}
+                            key={uniqueId()}
+                            xs={12}
+                            sm={4}
+                            lg={2}
+                            textAlign='center'
+                            bgColor={`warning.light`}
+                            color={`warning.main`}
+                            link={'#'}
+                            title={`Disciples`}
+                            data={data?.disciple_count}
+                        />
                     </Grid>
                 </Grid>
                 {/* column */}
