@@ -108,7 +108,7 @@ const AmeList = () => {
                     error={error}
                     onPageChange={handlePageChange}
                     onRowsPerPageChange={handleRowsPerPageChange}
-                    rowsPerPageOptions={[5, 10, 25]}
+                    rowsPerPageOptions={[10, 15, 25, 50]}
                     sx={{ mt: 3 }}
                 />
 

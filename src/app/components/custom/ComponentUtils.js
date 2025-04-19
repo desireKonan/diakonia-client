@@ -1,5 +1,4 @@
 import { Button, IconButton, Paper, TableCell, TableRow, Tooltip, Typography } from "@mui/material";
-import { IconEdit, IconPlus } from "@tabler/icons";
 import PropTypes from "prop-types";
 import PageContainer from "src/_ui/components/container/PageContainer";
 import ParentCard from "src/_ui/components/shared/ParentCard";

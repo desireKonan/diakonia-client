@@ -83,7 +83,7 @@ const DiakoniaPaginationTable = ({
   error = null,
   onPageChange,
   onRowsPerPageChange,
-  rowsPerPageOptions = [5, 10, 25],
+  rowsPerPageOptions = [5, 10, 15, 25],
   elevation = 2,
   stickyHeader = true,
   size = 'medium',

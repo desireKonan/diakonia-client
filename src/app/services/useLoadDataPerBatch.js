@@ -42,9 +42,9 @@ const useLoadDataPerBatch = (url, params = { page: 0, size: 15 }) => {
     };
 
     const handleRowsPerPageChange = (event) => {
-        const newRowsPerPage = parseInt(event.target.value, 10);
+        const newRowsPerPage = parseInt(event, 10);
         setRowsPerPage(newRowsPerPage);
-        setPage(0);
+        setPage(page);
     };
 
     return {
