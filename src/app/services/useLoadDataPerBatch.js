@@ -20,6 +20,7 @@ const useLoadDataPerBatch = (url, params = { page: 0, size: 15 }) => {
             });
             if (response.status === 200) {
                 setData(response.data.content);
+                console.log('Data ====>', response.data.content);
                 setTotalCount(response.data.totalElements);
                 handlePageChange(params.page);
                 setError(null);

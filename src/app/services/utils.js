@@ -1,18 +1,64 @@
 import moment from "moment";
 
+export const downloadFile = (data, filename, mimeType) => {
+    // Créer un blob selon le type de données
+    let blob;
+
+    if (typeof data === 'string') {
+        // Si c'est une URL
+        if (data.startsWith('http') || data.startsWith('blob') || data.startsWith('data:')) {
+            return downloadFromUrl(data, filename);
+        }
+        // Si c'est du texte/JSON/CSV
+        blob = new Blob([data], { type: mimeType || 'text/plain' });
+    } else if (data instanceof Blob) {
+        blob = data;
+    } else if (data instanceof Uint8Array) {
+        blob = new Blob([data], { type: mimeType || 'application/octet-stream' });
+    } else {
+        console.error('Type de données non supporté');
+        return;
+    }
+
+    // Créer un lien et déclencher le téléchargement
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = filename;
+    document.body.appendChild(a);
+    a.click();
+
+    // Nettoyage
+    setTimeout(() => {
+        document.body.removeChild(a);
+        URL.revokeObjectURL(url);
+    }, 100);
+};
+
+// Téléchargement depuis une URL
+const downloadFromUrl = (url, filename) => {
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = filename;
+    a.target = '_blank'; // Pour les URLs externes
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+};
+
 export function dateTimeValue(dateTime) {
     return Date.parse(dateTime);
 }
 
 export function instant(dateTime) {
-    if(!dateTime) {
+    if (!dateTime) {
         return 'Aucune date';
     }
     return new Date(dateTime).toUTCString();
 }
 
 export function dateTime(datetime) {
-    return datetime ? 
+    return datetime ?
         moment(datetime, 'DD-MM-yyyy HH:mm:ss').format('yyyy-MM-DDTHH:mm:ss') : 'Aucune date';
 }
 
@@ -78,7 +124,7 @@ export function nameMeeting(type, assemblyName, date) {
             break;
         case MeetingType.PRAYER_MEETING:
             name = `Rencontre de prières de l'assemblée ${assemblyName} du ${date}`;
-                break;
+            break;
         default:
             break;
     }
@@ -112,7 +158,7 @@ export function isIncludeIn(arrayToSearch, subArray) {
     let isAuthorize;
     for (let index = 0; index < arrayToSearch.length; index++) {
         // En fonction du nombre de roles et de l'autorization du lien, on calcule la somme des autorizations et des liens, si oui l'écran est autorisé, si non c'est non-autorisé.
-        if(subArray.includes(arrayToSearch[index])) {
+        if (subArray.includes(arrayToSearch[index])) {
             isAuthorize = true;
         } else {
             isAuthorize |= false;
@@ -180,8 +226,8 @@ export const MeetingType = Object.freeze({
 
 export const ROLES = Object.freeze({
     ADMIN: "ADMIN",
-    RESPONSABLE_EFFECTIF_ASSEMBLEE : "RESPONSABLE_EFFECTIF_ASSEMBLEE",
-    RESPONSABLE_EFFECTIF_SOUS_ZONE : "RESPONSABLE_EFFECTIF_SOUS_ZONE",
-    RESPONSABLE_EFFECTIF_ZONE : "RESPONSABLE_EFFECTIF_ZONE"
+    RESPONSABLE_EFFECTIF_ASSEMBLEE: "RESPONSABLE_EFFECTIF_ASSEMBLEE",
+    RESPONSABLE_EFFECTIF_SOUS_ZONE: "RESPONSABLE_EFFECTIF_SOUS_ZONE",
+    RESPONSABLE_EFFECTIF_ZONE: "RESPONSABLE_EFFECTIF_ZONE"
 });
 

@@ -31,7 +31,8 @@ const TypeRencontreList = () => {
             handler: (row, event) => {
                 console.log('Suppression de l\'activite', row.id);
                 deleteTypeRencontre(row.id);
-            }
+            },
+            isUpdateMode: true
         }
     ];
 

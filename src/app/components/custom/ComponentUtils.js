@@ -92,11 +92,11 @@ export const DiakoniaCard = ({
 );
 
 
-export const DiakoniaIconButton = ({ children, label, keyId = '', isUpdateMode = false, openDialog = () => { }, isDisabled = false }) => (
+export const DiakoniaIconButton = ({ children, label, keyId = '', color = '', isUpdateMode = false, openDialog = () => { }, isDisabled = false }) => (
     <Tooltip title={label}>
         <IconButton
             variant="contained"
-            color={isUpdateMode ? "warning" : "primary"}
+            color={isUpdateMode ? "warning" : color ? color : "primary" }
             onClick={openDialog}
             style={{ margin: 5 }}
         >

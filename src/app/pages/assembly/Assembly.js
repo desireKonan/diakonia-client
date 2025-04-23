@@ -1,17 +1,15 @@
-import { Button } from "@mui/material";
 import useFetch from "src/app/services/useFetch";
 import { httpAdapter } from "src/app/services/http-adapter.service";
-import Tooltip from '@mui/material/Tooltip';
 import MembreForm from "../member/MembreForm";
 import { useAuth } from "src/app/services/useAuth";
 import { useNavigate } from "react-router";
 import useLoadDataPerBatch from "src/app/services/useLoadDataPerBatch";
 import { useState } from "react";
 import { DiakoniaDialog, useDialogEvent } from "src/app/components/custom/DiakoniaAppDialog";
-import { DiakoniaContainer, DiakoniaMessage } from "src/app/components/custom/ComponentUtils";
+import { DiakoniaContainer, DiakoniaIconButton, DiakoniaMessage } from "src/app/components/custom/ComponentUtils";
 import DiakoniaPaginationActionTable from "src/app/components/custom/DiakoniaPaginationActionTable";
 import { MEMBRES_HEADER_CELLS } from "../../components/tables/columns/membres.columns";
-import { IconEdit, IconTrash } from "@tabler/icons";
+import { IconDownload, IconEdit, IconEye, IconPlus, IconTrash } from "@tabler/icons";
 
 const Assembly = () => {
     const navigate = useNavigate();
@@ -72,17 +70,29 @@ const Assembly = () => {
                 subtitle={`Liste des membres de assemblée ${assemblee.name}`}
                 action={
                     <>
-                        <Button onClick={openDialog}>Ajouter un membre</Button>                    
-                        <Tooltip title="Gérer la liste des rencontres d'une assemblée">
-                            <Button
-                                variant="contained"
-                                color="success"
-                                onClick={(e) => navigate(`/assemblee/${user.place.assembly_id}/rencontres`)}
-                                style={{ margin: 5 }}
-                            >
-                                Liste des rencontres
-                            </Button>
-                        </Tooltip>
+                        <DiakoniaIconButton 
+                            openDialog={openDialog}
+                            label="Ajouter un membre"
+                            keyId="add-member"
+                        >
+                            <IconPlus />
+                        </DiakoniaIconButton>
+                        <DiakoniaIconButton 
+                            openDialog={(e) => navigate(`/assemblee/${user.place.assembly_id}/rencontres`)}
+                            label="Gérer la liste des rencontres d'une assemblée"
+                            keyId="view-meetings"
+                            color="success" 
+                        >
+                            <IconEye />
+                        </DiakoniaIconButton>
+                        <DiakoniaIconButton 
+                            openDialog={(e) => httpAdapter.downloadAnyFile(`api/assemblee/${user.place.assembly_id}/membres/export`)}
+                            label="Telécharger la liste des membres d'une assemblée"
+                            keyId="download-member-list-pdf"
+                            color="secondary" 
+                        >
+                            <IconDownload />
+                        </DiakoniaIconButton>                   
                     </>
                 }
             >

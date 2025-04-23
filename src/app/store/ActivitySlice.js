@@ -6,7 +6,7 @@ const ActivitySlice = createSlice({
       items: [],
       currentPage: 1,
       totalPages: 1,
-      totalActivitys: 0,
+      totalActivities: 0,
       loading: false,
       error: null,
       lastUpdated: null
@@ -21,13 +21,13 @@ const ActivitySlice = createSlice({
       },
       deleteActivity: (state, action) => {
         state.items = state.items.filter(item => item.id !== action.payload);
-        state.totalActivitys -= 1;
+        state.totalActivities -= 1;
       },
       resetActivities: (state) => {
         state.items = [];
         state.currentPage = 1;
         state.totalPages = 1;
-        state.totalActivitys = 0;
+        state.totalActivities = 0;
       }
     },
     // extraReducers: (builder) => {
