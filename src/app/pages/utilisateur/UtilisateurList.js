@@ -20,7 +20,10 @@ const UtilisateurList = () => {
         rowsPerPage,
         handlePageChange,
         handleRowsPerPageChange
-    } = useLoadDataPerBatch(`/api/user/search`);
+    } = useLoadDataPerBatch(`/api/user/search`, {
+        page: page ?? 0,
+        size: rowsPerPage ?? 15
+    });
     const [selectedUser, setSelectedUser] = useState(null);
     const { open, openDialog, closeDialog } = useDialogEvent();
     
@@ -97,7 +100,7 @@ const UtilisateurList = () => {
                     error={error}
                     onPageChange={handlePageChange}
                     onRowsPerPageChange={handleRowsPerPageChange}
-                    rowsPerPageOptions={[10, 15, 25, 50]}
+                    rowsPerPageOptions={[5, 10, 15, 25, 50]}
                     sx={{ mt: 3 }}
                 />
 

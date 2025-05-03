@@ -41,6 +41,7 @@ function TablePaginationActions(props) {
   };
 
   const handleNextButtonClick = (event) => {
+    console.log('Page --->', page + 1);
     onPageChange(event, page + 1);
   };
 
@@ -139,7 +140,7 @@ const DiakoniaPaginationActionTable = ({
   onPageChange,
   onRowsPerPageChange,
   onRowClick,
-  rowsPerPageOptions = [5, 10, 15, 20, 25, 50],
+  rowsPerPageOptions = [5, 10, 15, 25, 50],
   elevation = 2,
   stickyHeader = true,
   size = 'medium',
@@ -286,7 +287,7 @@ DiakoniaPaginationActionTable.propTypes = {
 DiakoniaPaginationActionTable.defaultProps = {
   actions: [],
   loading: false,
-  rowsPerPageOptions: [5, 10, 25],
+  rowsPerPageOptions: [5, 10, 15, 25, 50],
   elevation: 2,
   stickyHeader: true,
   size: 'medium',

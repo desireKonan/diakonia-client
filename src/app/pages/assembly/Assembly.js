@@ -14,6 +14,12 @@ import { IconDownload, IconEdit, IconEye, IconPlus, IconTrash } from "@tabler/ic
 const Assembly = () => {
     const navigate = useNavigate();
     const { user } = useAuth();
+
+    const initialPagination = {
+        page: 0,
+        size: 15
+    };
+
     const {
         data: membres,
         loading,
@@ -23,7 +29,7 @@ const Assembly = () => {
         rowsPerPage,
         handlePageChange,
         handleRowsPerPageChange
-    } = useLoadDataPerBatch(`/api/assemblee/${user.place.assembly_id}/membres`);
+    } = useLoadDataPerBatch(`/api/assemblee/${user.place.assembly_id}/membres`, initialPagination);
     const [selectedMember, setSelectedMember] = useState(null);
     const { open, openDialog, closeDialog } = useDialogEvent();
     const { data: assemblee } = useFetch(`/api/assemblee/${user.place.assembly_id}`, {});
@@ -37,13 +43,11 @@ const Assembly = () => {
     if (error) {
             return (
                 <DiakoniaContainer
-                    title={`Liste des membres de assemblée ${assemblee.name}`}
-                    description={`Liste des membres de assemblée ${assemblee.name}`}
-                    subtitle={`Liste des membres de assemblée ${assemblee.name}`}
+                    title={`Liste des membres de assemblée ${assemblee?.name || ''}`}
+                    description={`Gestion des membres`}
+                    subtitle={`Erreur de chargement`}
                 >
-                    <DiakoniaMessage
-                        message={error}
-                    />
+                    <DiakoniaMessage message={error || "Une erreur est survenue"} />
                 </DiakoniaContainer>
             );
         }
@@ -52,9 +56,9 @@ const Assembly = () => {
         if (loading) {
             return (
                 <DiakoniaContainer
-                    title={`Liste des membres de assemblée ${assemblee.name}`}
-                    description={`Liste des membres de assemblée ${assemblee.name}`}
-                    subtitle={`Liste des membres de assemblée ${assemblee.name}`}
+                    title={`Liste des membres de assemblée ${assemblee?.name || ''}`}
+                    description={`Gestion des membres`}
+                    subtitle={`Veuillez patienter`}
                 >
                     <DiakoniaMessage
                         message={loading}
@@ -65,9 +69,9 @@ const Assembly = () => {
     
         return (
             <DiakoniaContainer
-                title={`Liste des membres de assemblée ${assemblee.name}`}
-                description={`Liste des membres de assemblée ${assemblee.name}`}
-                subtitle={`Liste des membres de assemblée ${assemblee.name}`}
+                title={`Liste des membres de assemblée ${assemblee?.name || ''}`}
+                description={`Gestion des membres`}
+                subtitle={`Total: ${totalCount} membres`}
                 action={
                     <>
                         <DiakoniaIconButton 
@@ -127,7 +131,7 @@ const Assembly = () => {
                         error={error}
                         onPageChange={handlePageChange}
                         onRowsPerPageChange={handleRowsPerPageChange}
-                        rowsPerPageOptions={[10, 15, 25, 50]}
+                        rowsPerPageOptions={[5, 10, 15, 25, 50]}
                         sx={{ mt: 3 }}
                     />
     

@@ -24,6 +24,7 @@ const submitMember = async(values, assemblyId) => {
             lastName: values['lastName'],
             birthDate: moment(values['birthDate']).format("YYYY-MM-DD"),
             sex: values['sex'],
+            discipleMaker: '',
             profession: values['profession'],
             active: values['active'],
         },
@@ -37,6 +38,7 @@ const submitMember = async(values, assemblyId) => {
         leftAt: values['leftAt']
     };
     
+    console.log('Member --->', member);
     let url = null;
     if(values['memberId'] === '') {
         url = 'api/assemblee/membre';
@@ -175,6 +177,7 @@ const MembreForm = ({ membre, assemblyId }) => {
                                     value={formik.values.birthDate}
                                     onChange={(newValue) => {
                                         var birthdate = date(newValue);
+                                        console.log('Date --->', birthdate);
                                         formik.setFieldValue('birthDate', birthdate);
                                     }}
                                     format="YYYY-MM-DD"
@@ -285,7 +288,7 @@ const MembreForm = ({ membre, assemblyId }) => {
                                     value={formik.values.establishedAt}
                                     onChange={(newValue) => {
                                         var establishedAt = dateTime(newValue);
-                                        console.log(establishedAt, newValue);
+                                        console.log('Date -->', establishedAt, newValue);
                                         formik.setFieldValue('establishedAt', establishedAt);
                                     }}
                                 />
@@ -310,7 +313,7 @@ const MembreForm = ({ membre, assemblyId }) => {
                                     value={formik.values.resignedAt}
                                     onChange={(newValue) => {
                                         var resignedAt = dateTime(newValue);
-                                        console.log(resignedAt, newValue);
+                                        console.log('Date --->', resignedAt, newValue);
                                         formik.setFieldValue('resignedAt', resignedAt);
                                     }}
                                 />

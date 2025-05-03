@@ -1,7 +1,7 @@
 import http from "./http";
 import { useState, useEffect, useCallback } from "react";
 
-const useLoadDataPerBatch = (url, params = { page: 0, size: 15 }) => {
+const useLoadDataPerBatch = (url, params) => {
     const [loading, setLoading] = useState(false);
     const [data, setData] = useState([]);
     const [error, setError] = useState("");
@@ -39,11 +39,14 @@ const useLoadDataPerBatch = (url, params = { page: 0, size: 15 }) => {
     }, [page, rowsPerPage]);
 
     const handlePageChange = (newPage) => {
+        console.log('Page ---->', newPage);
         setPage(newPage);
     };
 
     const handleRowsPerPageChange = (event) => {
         const newRowsPerPage = parseInt(event, 10);
+        console.log('Row per page ---->', newRowsPerPage);
+        console.log('Page ---->', page);
         setRowsPerPage(newRowsPerPage);
         setPage(page);
     };
