@@ -12,6 +12,11 @@ export const MEMBRES_HEADER_CELLS = [
         minWidth: 200
     },
     {
+        id: 'discipleMaker',
+        label: 'Faiseur de disciples',
+        minWidth: 200,
+    },
+    {
         id: 'birthDate',
         label: 'Date de naissance',
         minWidth: 200,

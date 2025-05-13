@@ -1,10 +1,13 @@
 import http from "./http";
 import { useState, useEffect, useCallback } from "react";
 
-const useLoadDataPerBatch = (url, params) => {
+const useLoadDataPerBatch = (url, params = {
+    page: 0,
+    size: 15
+}) => {
     const [loading, setLoading] = useState(false);
     const [data, setData] = useState([]);
-    const [error, setError] = useState("");
+    const [error, setError] = useState(null);
     const [page, setPage] = useState(params.page);
     const [rowsPerPage, setRowsPerPage] = useState(params.size);
     const [totalCount, setTotalCount] = useState(0);
@@ -19,16 +22,15 @@ const useLoadDataPerBatch = (url, params) => {
                 }
             });
             if (response.status === 200) {
-                setData(response.data.content);
+                setData(response.data.content || []);
                 console.log('Data ====>', response.data.content);
-                setTotalCount(response.data.totalElements);
-                handlePageChange(params.page);
+                setTotalCount(response.data.totalElements || 0);
                 setError(null);
             }
         } catch (err) {
-            var errorData = err.response.data['errorMessage'];
-            console.error(errorData);
-            setError(errorData);
+            setError(err.response.data['errorMessage'] || 'Une erreur a ete signalee !');
+            setData([]);
+            setTotalCount(0);
         } finally {
             setLoading(false);
         }
@@ -36,17 +38,14 @@ const useLoadDataPerBatch = (url, params) => {
 
     useEffect(() => {
         fetchData(url);
-    }, [page, rowsPerPage]);
+    }, [url, page, rowsPerPage]);
 
     const handlePageChange = (newPage) => {
-        console.log('Page ---->', newPage);
         setPage(newPage);
     };
 
     const handleRowsPerPageChange = (event) => {
         const newRowsPerPage = parseInt(event, 10);
-        console.log('Row per page ---->', newRowsPerPage);
-        console.log('Page ---->', page);
         setRowsPerPage(newRowsPerPage);
         setPage(page);
     };

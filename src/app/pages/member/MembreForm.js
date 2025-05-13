@@ -24,7 +24,7 @@ const submitMember = async(values, assemblyId) => {
             lastName: values['lastName'],
             birthDate: moment(values['birthDate']).format("YYYY-MM-DD"),
             sex: values['sex'],
-            discipleMaker: '',
+            discipleMaker: values['discipleMaker'],
             profession: values['profession'],
             active: values['active'],
         },
@@ -62,6 +62,7 @@ const MembreForm = ({ membre, assemblyId }) => {
             lastName: membre ? membre.lastName : '',
             profession: membre ? membre.profession : '',
             sex: membre ? membre.sex : '',
+            discipleMaker: membre ? membre.discipleMaker : '',
             birthDate: membre ? membre.birthDate : '',
             isLeader: membre ? membre.isLeader : false,
             active: membre ? membre.active : true,
@@ -118,6 +119,20 @@ const MembreForm = ({ membre, assemblyId }) => {
                                 variant="outlined"
                                 size="large"
                                 value={formik.values.lastName} 
+                                onChange={formik.handleChange}
+                            />
+                        </Grid>
+                        <Grid item xs={12} sm={12} lg={12}>
+                            <CustomFormLabel htmlFor="discipleMaker">Faiseur de disciples</CustomFormLabel>
+                            <CustomTextField
+                                labelId="discipleMaker"
+                                id="discipleMaker" 
+                                fullWidth
+                                name="discipleMaker"
+                                placeholder="Entrez le faiseur de disciples"
+                                variant="outlined"
+                                size="large"
+                                value={formik.values.discipleMaker} 
                                 onChange={formik.handleChange}
                             />
                         </Grid>

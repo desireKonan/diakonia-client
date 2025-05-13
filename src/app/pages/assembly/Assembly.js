@@ -15,11 +15,6 @@ const Assembly = () => {
     const navigate = useNavigate();
     const { user } = useAuth();
 
-    const initialPagination = {
-        page: 0,
-        size: 15
-    };
-
     const {
         data: membres,
         loading,
@@ -29,7 +24,7 @@ const Assembly = () => {
         rowsPerPage,
         handlePageChange,
         handleRowsPerPageChange
-    } = useLoadDataPerBatch(`/api/assemblee/${user.place.assembly_id}/membres`, initialPagination);
+    } = useLoadDataPerBatch(`/api/assemblee/${user.place.assembly_id}/membres`);
     const [selectedMember, setSelectedMember] = useState(null);
     const { open, openDialog, closeDialog } = useDialogEvent();
     const { data: assemblee } = useFetch(`/api/assemblee/${user.place.assembly_id}`, {});

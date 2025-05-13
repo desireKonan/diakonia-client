@@ -32,21 +32,21 @@ import { renderingColumn, renderingTitle } from 'src/app/utils/render';
 function TablePaginationActions(props) {
   const { count, page, rowsPerPage, onPageChange } = props;
 
-  const handleFirstPageButtonClick = (event) => {
-    onPageChange(event, 0);
+  const handleFirstPageButtonClick = () => {
+    onPageChange(0);
   };
 
-  const handleBackButtonClick = (event) => {
-    onPageChange(event, page - 1);
+  const handleBackButtonClick = () => {
+    onPageChange(page - 1);
   };
 
-  const handleNextButtonClick = (event) => {
+  const handleNextButtonClick = () => {
     console.log('Page --->', page + 1);
-    onPageChange(event, page + 1);
+    onPageChange(page + 1);
   };
 
-  const handleLastPageButtonClick = (event) => {
-    onPageChange(event, Math.max(0, Math.ceil(count / rowsPerPage) - 1));
+  const handleLastPageButtonClick = () => {
+    onPageChange(Math.max(0, Math.ceil(count / rowsPerPage) - 1));
   };
 
   return (
@@ -146,12 +146,16 @@ const DiakoniaPaginationActionTable = ({
   size = 'medium',
   sx
 }) => {
-  const handleChangePage = (event, newPage) => {
+  const handleChangePage = (newPage) => {
+    console.log('=======>', newPage);
     onPageChange(newPage);
   };
 
   const handleChangeRowsPerPage = (event) => {
-    onRowsPerPageChange(parseInt(event.target.value, 10));
+    console.log('=======>', event);
+    const newRowsPerPage = parseInt(event.target.value, 10);
+    onRowsPerPageChange(newRowsPerPage);
+    onPageChange(0);
   };
 
   const handleRowClick = (row) => {
