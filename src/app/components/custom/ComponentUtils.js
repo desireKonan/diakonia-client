@@ -57,7 +57,7 @@ DiakoniaButton.propTypes = {
 
 
 export const DiakoniaCard = ({ 
-    icon = '',
+    icon,
     xs = 12,
     sm = 4,
     lg = 2, 
@@ -73,7 +73,7 @@ export const DiakoniaCard = ({
         <Link to={link}>
             <Box bgcolor={bgColor} textAlign={textAlign}>
                 <CardContent>
-                    <img src={icon} alt={icon} width="50" />
+                    { icon }
                     <Typography
                         color={color}
                         mt={1}
