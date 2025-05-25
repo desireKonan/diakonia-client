@@ -6,6 +6,7 @@ import useFetch from 'src/app/services/useFetch';
 import { useAuth } from 'src/app/services/useAuth';
 import { uniqueId } from 'lodash';
 import { DiakoniaCard } from 'src/app/components/custom/ComponentUtils';
+import PersonsOverview from 'src/app/components/custom/PersonsOverview';
 
 const SousZoneDashboard = () => {
     const { user } = useAuth();
@@ -44,6 +45,9 @@ const SousZoneDashboard = () => {
                             data={data?.disciple_count}
                         />
                     </Grid>
+                </Grid>
+                <Grid item xs={12} sm={12} lg={12}>
+                    <PersonsOverview />
                 </Grid>
                 {/* column */}
                 <Welcome />

@@ -1,14 +1,11 @@
 import React from 'react';
 import Welcome from 'src/_ui/layouts/full/shared/welcome/Welcome';
 import { Box, Grid } from '@mui/material';
-import icon1 from 'src/_ui/assets/images/svgs/icon-connect.svg';
-import icon2 from 'src/_ui/assets/images/svgs/icon-user-male.svg';
-import icon3 from 'src/_ui/assets/images/svgs/icon-briefcase.svg';
-import icon4 from 'src/_ui/assets/images/svgs/icon-mailbox.svg';
-import icon5 from 'src/_ui/assets/images/svgs/icon-favorites.svg';
 import useFetch from 'src/app/services/useFetch';
 import { uniqueId } from 'lodash';
 import { DiakoniaCard } from 'src/app/components/custom/ComponentUtils';
+import { IconUser, IconUserCircle, IconHome, IconDirections, IconDirection } from "@tabler/icons";
+import PersonsOverview from 'src/app/components/custom/PersonsOverview';
 
 
 const AdminDashboard = () => {
@@ -21,7 +18,7 @@ const AdminDashboard = () => {
                 <Grid item sm={12} lg={12}>
                     <Grid container spacing={3} mt={3}>
                         <DiakoniaCard
-                            icon={icon1}
+                            icon={<IconUser width={30} color='blue' />}
                             key={uniqueId()}
                             xs={12}
                             sm={4}
@@ -34,7 +31,7 @@ const AdminDashboard = () => {
                             data={data?.user_count}
                         />
                         <DiakoniaCard
-                            icon={icon2}
+                            icon={<IconUserCircle width={30} color='yellow' />}
                             key={uniqueId()}
                             xs={12}
                             sm={4}
@@ -47,7 +44,7 @@ const AdminDashboard = () => {
                             data={data?.disciple_count}
                         />
                         <DiakoniaCard
-                            icon={icon3}
+                            icon={<IconHome width={30} color='gray' />}
                             key={uniqueId()}
                             xs={12}
                             sm={4}
@@ -60,7 +57,7 @@ const AdminDashboard = () => {
                             data={data?.assembly_count}
                         />
                         <DiakoniaCard
-                            icon={icon4}
+                            icon={<IconDirections width={30} color='gray' />}
                             key={uniqueId()}
                             xs={12}
                             sm={4}
@@ -73,7 +70,7 @@ const AdminDashboard = () => {
                             data={data?.zone_count}
                         />
                         <DiakoniaCard
-                            icon={icon5}
+                            icon={<IconDirection width={30} color='gray' />}
                             key={uniqueId()}
                             xs={12}
                             sm={4}
@@ -86,6 +83,9 @@ const AdminDashboard = () => {
                             data={data?.subzone_count}
                         />
                     </Grid>
+                </Grid>
+                <Grid item xs={12} sm={12} lg={12}>
+                    <PersonsOverview />
                 </Grid>
                 {/* column */}
                 <Welcome />
