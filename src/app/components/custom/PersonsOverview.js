@@ -5,13 +5,12 @@ import { Stack, Typography, Box } from '@mui/material';
 import { IconGridDots } from '@tabler/icons';
 import DashboardCard from 'src/_ui/components/shared/DashboardCard';
 
-const PersonsOverview = () => {
+const PersonsOverview = ({ labels, colors, series }) => {
   // chart color
   const theme = useTheme();
-  const primary = theme.palette.primary.main;
-  const secondary = theme.palette.secondary.main;
-  const primarylight = theme.palette.primary.light;
   const textColor = theme.palette.mode === 'dark' ? 'rgba(255,255,255,0.8)' : '#2A3547';
+  const _series = Object.values(series);
+
 
   // chart
   const optionscolumnchart = {
@@ -24,8 +23,9 @@ const PersonsOverview = () => {
       },
       height: 275,
     },
-    labels: ["Profit", "Revenue", "Expance"],
-    colors: [primary, primarylight, secondary],
+    labels: labels,
+    // colors: [primary, primarylight, secondary, warning],
+    colors: colors,
     plotOptions: {
       pie: {
         
@@ -47,7 +47,8 @@ const PersonsOverview = () => {
               color: textColor,
               fontSize: '20px',
               fontWeight: '600',
-              label: '$500,458',
+              label: Object.values(_series)
+                        .reduce((acc, value) => acc + value, 0),
             },
           },
         },
@@ -67,15 +68,15 @@ const PersonsOverview = () => {
       fillSeriesColor: false,
     },
   };
-  const seriescolumnchart = [55, 55, 55];
+  // const seriescolumnchart = [55, 55, 55];
 
   return (
-    <DashboardCard title="Sales Overview" subtitle="Every month">
+    <DashboardCard title="Personnes presentes dans une assemblee" subtitle="Pour l'assemblee">
       <>
         <Box mt={3}>
           <Chart
             options={optionscolumnchart}
-            series={seriescolumnchart}
+            series={_series}
             type="donut"
             height="275px"
           />
@@ -102,10 +103,10 @@ const PersonsOverview = () => {
             </Box>
             <Box>
               <Typography variant="h6" fontWeight="600">
-                $23,450
+                { series['adult_count'] + series['child_count'] }
               </Typography>
               <Typography variant="subtitle2" color="textSecondary">
-                Profit
+                Membres
               </Typography>
             </Box>
           </Stack>
@@ -129,10 +130,10 @@ const PersonsOverview = () => {
             </Box>
             <Box>
               <Typography variant="h6" fontWeight="600">
-                $23,450
+                { series['visitor_count'] + series['guest_count'] }
               </Typography>
               <Typography variant="subtitle2" color="textSecondary">
-                Expance
+                Visiteurs
               </Typography>
             </Box>
           </Stack>

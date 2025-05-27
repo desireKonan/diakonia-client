@@ -1,6 +1,6 @@
 import React from 'react';
 import Welcome from 'src/_ui/layouts/full/shared/welcome/Welcome';
-import { Box, Grid } from '@mui/material';
+import { Box, Grid, useTheme } from '@mui/material';
 import useFetch from 'src/app/services/useFetch';
 import { useAuth } from 'src/app/services/useAuth';
 import { uniqueId } from 'lodash';
@@ -12,6 +12,12 @@ import PersonsOverview from 'src/app/components/custom/PersonsOverview';
 const AssembleeDashboard = () => {
     const { user } = useAuth();
     const { data } = useFetch(`/api/statistics/assemblee/${user.place['assembly_id']}`);
+
+    const theme = useTheme();
+    const primary = theme.palette.primary.main;
+    const secondary = theme.palette.secondary.main;
+    const primarylight = theme.palette.primary.light;
+    const warning = theme.palette.warning.light;
 
     return (
         <Box>
@@ -61,7 +67,19 @@ const AssembleeDashboard = () => {
                     </Grid>
                 </Grid>
                 <Grid item xs={12} sm={12} lg={12}>
-                    <PersonsOverview />
+                    <PersonsOverview
+                        labels={[
+                            "Nombres d'adultes", "Nombres d'enfants", "Nombres d'invites", "Nombres de visiteurs"
+                        ]}
+                        colors={[
+                            primary,
+                            secondary,
+                            primarylight,
+                            warning
+                        ]}
+                        series={data?.assembly_meeting_stats ?? []}
+
+                    />
                 </Grid>
                 {/* column */}
                 <Welcome />
