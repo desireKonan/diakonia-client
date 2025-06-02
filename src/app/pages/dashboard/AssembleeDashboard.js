@@ -78,7 +78,6 @@ const AssembleeDashboard = () => {
                             warning
                         ]}
                         series={data?.assembly_meeting_stats ?? []}
-
                     />
                 </Grid>
                 {/* column */}

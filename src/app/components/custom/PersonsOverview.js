@@ -4,13 +4,13 @@ import { useTheme } from '@mui/material/styles';
 import { Stack, Typography, Box } from '@mui/material';
 import { IconGridDots } from '@tabler/icons';
 import DashboardCard from 'src/_ui/components/shared/DashboardCard';
+import PropTypes from 'prop-types';
 
 const PersonsOverview = ({ labels, colors, series }) => {
   // chart color
   const theme = useTheme();
   const textColor = theme.palette.mode === 'dark' ? 'rgba(255,255,255,0.8)' : '#2A3547';
   const _series = Object.values(series);
-
 
   // chart
   const optionscolumnchart = {
@@ -24,11 +24,9 @@ const PersonsOverview = ({ labels, colors, series }) => {
       height: 275,
     },
     labels: labels,
-    // colors: [primary, primarylight, secondary, warning],
     colors: colors,
     plotOptions: {
       pie: {
-        
         donut: {
           size: '89%',
           background: 'transparent',
@@ -68,7 +66,6 @@ const PersonsOverview = ({ labels, colors, series }) => {
       fillSeriesColor: false,
     },
   };
-  // const seriescolumnchart = [55, 55, 55];
 
   return (
     <DashboardCard title="Personnes presentes dans une assemblee" subtitle="Pour l'assemblee">
@@ -143,29 +140,13 @@ const PersonsOverview = ({ labels, colors, series }) => {
   );
 };
 
-// DiakoniaPaginationTable.propTypes = {
-//   columns: PropTypes.arrayOf(
-//     PropTypes.shape({
-//       id: PropTypes.string.isRequired,
-//       label: PropTypes.string.isRequired,
-//       align: PropTypes.oneOf(['left', 'center', 'right', 'justify', 'inherit']),
-//       minWidth: PropTypes.number,
-//       render: PropTypes.func,
-//     })
-//   ).isRequired,
-//   data: PropTypes.array.isRequired,
-//   totalCount: PropTypes.number.isRequired,
-//   page: PropTypes.number.isRequired,
-//   rowsPerPage: PropTypes.number.isRequired,
-//   loading: PropTypes.bool,
-//   error: PropTypes.string,
-//   onPageChange: PropTypes.func.isRequired,
-//   onRowsPerPageChange: PropTypes.func.isRequired,
-//   rowsPerPageOptions: PropTypes.arrayOf(PropTypes.number),
-//   elevation: PropTypes.number,
-//   stickyHeader: PropTypes.bool,
-//   size: PropTypes.oneOf(['small', 'medium']),
-//   sx: PropTypes.object,
-// };
+PersonsOverview.propTypes = {
+  labels: PropTypes.arrayOf(PropTypes.string.isRequired),
+  colors: PropTypes.arrayOf(PropTypes.string.isRequired),
+  series: PropTypes.arrayOf({
+    name: PropTypes.string,
+    value: PropTypes.number.isRequired 
+  })
+};
 
 export default PersonsOverview;

@@ -8,7 +8,9 @@ import SubzoneReportTable from "src/app/components/statistics/SubzoneReportTable
 
 
 const EffectiveAssembleeRapport = () => {
-    const { data: metric_subzone, loading, error } = useFetch(encodeURI(`/api/subzone/statistics/metric?subzone=Angré`), {});
+    const { user } = useAuth();
+    console.log(user);
+    const { data: metric_subzone, loading, error } = useFetch(encodeURI(`/api/subzone/statistics/metric?subzone=${user.place['sub_zone']}`), {});
 
     return (
         <Box>
@@ -58,7 +60,7 @@ const EffectiveAssembleeRapport = () => {
                 </Grid>
                 {/* column */}
                 <Grid item xs={12} lg={12}>
-                    <SubzoneReportTable subzone={'Angré'} />
+                    <SubzoneReportTable subzone={user.place['sub_zone']} />
                 </Grid>
             </Grid>
         </Box>
