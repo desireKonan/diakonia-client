@@ -9,11 +9,11 @@ const ProtectedRoute = ({ children, roles = [] }) => {
   const user_roles = !!user ? user?.roles : [];
 
   if(!isLoggedIn()) {
-    <Navigate to="/auth/login" state={{ from: location }} replace />;
+    return <Navigate to="/auth/login" state={{ from: location }} replace />;
   }
 
   if(!checkAuthorizations(user_roles, roles)) {
-      <Navigate to="/auth/non-authorise" state={{ from: location }} replace />;
+    return <Navigate to="/auth/non-authorise" state={{ from: location }} replace />;
   }
 
   return children;

@@ -1,9 +1,9 @@
 import { useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
-import { ReactComponent as LogoDark } from 'src/_ui/assets/images/logos/dark-logo.svg';
 import { ReactComponent as LogoDarkRTL } from 'src/_ui/assets/images/logos/dark-rtl-logo.svg';
-import { ReactComponent as LogoLight } from 'src/_ui/assets/images/logos/light-logo.svg';
 import { ReactComponent as LogoLightRTL } from 'src/_ui/assets/images/logos/light-logo-rtl.svg';
+import logo from 'src/_ui/assets/images/products/cmci_logo.jpg';
+
 import { styled } from '@mui/material';
 
 const Logo = () => {
@@ -13,15 +13,18 @@ const Logo = () => {
     width: customizer.isCollapse ? '40px' : '180px',
     overflow: 'hidden',
     display: 'block',
+    alignContent: 'center'
   }));
 
   if (customizer.activeDir === 'ltr') {
     return (
       <LinkStyled to="/">
         {customizer.activeMode === 'dark' ? (
-          <LogoLight height={customizer.TopbarHeight} />
+          // <LogoLight height={customizer.TopbarHeight} />
+          <img src={logo} alt='CMCI Logo' height={customizer.TopbarHeight} />
         ) : (
-          <LogoDark height={customizer.TopbarHeight} />
+          // <LogoDark height={customizer.TopbarHeight} />
+          <img src={logo} alt='CMCI Logo' height={customizer.TopbarHeight} />
         )}
       </LinkStyled>
     );

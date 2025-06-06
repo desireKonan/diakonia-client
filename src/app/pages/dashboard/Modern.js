@@ -8,13 +8,9 @@ import { ROLES } from 'src/app/services/utils';
 const Modern = () => {
   const { user } = useAuth();
 
-  if (user.roles.includes(ROLES.RESPONSABLE_EFFECTIF_SOUS_ZONE)) {
-    return <SousZoneDashboard />;
-  } else if (user.roles.includes(ROLES.RESPONSABLE_EFFECTIF_ASSEMBLEE)) {
-    return <AssembleeDashboard />;
-  } else {
-    return <AdminDashboard />;
-  }
+  if (user.roles.includes(ROLES.RESPONSABLE_EFFECTIF_SOUS_ZONE)) return <SousZoneDashboard />;
+  else if (user.roles.includes(ROLES.RESPONSABLE_EFFECTIF_ASSEMBLEE)) return <AssembleeDashboard />;
+  return <AdminDashboard />;
 };
 
 export default Modern;
