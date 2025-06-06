@@ -7,6 +7,7 @@ import { uniqueId } from 'lodash';
 import { DiakoniaCard } from 'src/app/components/custom/ComponentUtils';
 import PersonsOverview from 'src/app/components/custom/PersonsOverview';
 import { IconUser, IconUserCircle, IconReportMoney } from "@tabler/icons";
+import { numberFormat } from 'src/app/utils/number';
 
 const SousZoneDashboard = () => {
     const { user } = useAuth();
@@ -54,14 +55,14 @@ const SousZoneDashboard = () => {
                             icon={<IconReportMoney width={30} color='green' />}
                             key={uniqueId()}
                             xs={12}
-                            sm={4}
-                            lg={2}
+                            sm={5}
+                            lg={3}
                             textAlign='center'
                             bgColor={`success.light`}
                             color={`success.main`}
                             link={'#'}
                             title={`Dons`}
-                            data={(data?.tithe_gifts.tithe_gift + data?.tithe_gifts.attiekoi_gift)}
+                            data={numberFormat(data?.tithe_gifts.tithe_gift + data?.tithe_gifts.attiekoi_gift)}
                         />
                     </Grid>
                 </Grid>

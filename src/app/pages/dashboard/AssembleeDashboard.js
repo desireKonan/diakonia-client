@@ -7,6 +7,7 @@ import { uniqueId } from 'lodash';
 import { DiakoniaCard } from 'src/app/components/custom/ComponentUtils';
 import { IconUser, IconCalendarEvent, IconReportMoney } from "@tabler/icons";
 import PersonsOverview from 'src/app/components/custom/PersonsOverview';
+import { numberFormat } from 'src/app/utils/number';
 
 
 const AssembleeDashboard = () => {
@@ -55,14 +56,14 @@ const AssembleeDashboard = () => {
                             icon={<IconReportMoney width={30} color='green' />}
                             key={uniqueId()}
                             xs={12}
-                            sm={4}
-                            lg={2}
+                            sm={5}
+                            lg={3}
                             textAlign='center'
                             bgColor={`success.light`}
                             color={`success.main`}
                             link={'#'}
                             title={`Dons`}
-                            data={(data?.gift_amount + data?.attiekoi_amount)}
+                            data={numberFormat(data?.gift_amount + data?.attiekoi_amount)}
                         />
                     </Grid>
                 </Grid>

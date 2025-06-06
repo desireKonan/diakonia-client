@@ -4,5 +4,6 @@ npm-debug.log
 /build
 
 .env
+.env.production
 
 compose.yml

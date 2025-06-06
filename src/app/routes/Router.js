@@ -47,138 +47,169 @@ const Unauthorized = Loadable(lazy(() => import('../pages/auth/Unauthorized')));
 /** ***** Statistiques ***** */
 const RapportEffectifZone = Loadable(lazy(() => import('../pages/rapport/RapportBase')));
 
-const Router = [
-  {
-    path: '/',
-    element: <FullLayout />,
-    children: [
-      { path: '/', element: <Navigate to="/dashboard" /> },
-      { path: '/dashboard', exact: true, element: (
-          <ProtectedRoute routesAllowed={[...Object.values(ROLES)]}>
-            <Modern /> 
-          </ProtectedRoute>
-        )
+
+export const routeConfig = {
+  public: [
+    { path: '/auth/404', element: <Error /> },
+    { path: '/auth/non-authorise', element: <Unauthorized /> },
+    { path: '/auth/login', element: <Login /> },
+  ],
+  protected: [
+    {
+      path: '/dashboard', 
+      exact: true, 
+      element: <Modern />,
+      roles: Object.values(ROLES)
+    },
+    {
+        path: '/rapport/rencontre', 
+        exact: true, 
+        element: <RapportEffectifZone />,
+        roles: [ROLES.RESPONSABLE_EFFECTIF_ASSEMBLEE, ROLES.RESPONSABLE_EFFECTIF_SOUS_ZONE]
       },
-      { path: '/rapport/rencontre', exact: true, element: (
-          <ProtectedRoute routesAllowed={[ROLES.RESPONSABLE_EFFECTIF_ASSEMBLEE, ROLES.RESPONSABLE_EFFECTIF_SOUS_ZONE]}>
-            <RapportEffectifZone />
-          </ProtectedRoute>
-        ) 
+      {
+        path: '/regions', 
+        exact: true, 
+        element: <ListeVille />,
+        roles: [ROLES.ADMIN, ROLES.RESPONSABLE_EFFECTIF_SOUS_ZONE]
       },
-      { path: '/regions', exact: true, element: (
-          <ProtectedRoute routesAllowed={[ROLES.ADMIN, ROLES.RESPONSABLE_EFFECTIF_SOUS_ZONE]}>
-            <ListeVille />
-          </ProtectedRoute>
-        ) 
+      {
+        path: '/type-activites', 
+        exact: true, 
+        element: <ListeTypeActivite />,
+        roles: [ROLES.ADMIN, ROLES.RESPONSABLE_EFFECTIF_SOUS_ZONE]
       },
-      { path: '/type-activites', exact: true, element: (
-          <ProtectedRoute routesAllowed={[ROLES.ADMIN, ROLES.RESPONSABLE_EFFECTIF_SOUS_ZONE]}>
-            <ListeTypeActivite />
-          </ProtectedRoute>
-        )
+      {
+        path: '/activites', 
+        exact: true, 
+        element: <ListeActivites />,
+        roles: [ROLES.ADMIN, ROLES.RESPONSABLE_EFFECTIF_SOUS_ZONE] 
       },
-      { path: '/activites', exact: true, element: (
-          <ProtectedRoute routesAllowed={[ROLES.ADMIN, ROLES.RESPONSABLE_EFFECTIF_SOUS_ZONE]}>
-            <ListeActivites />
-          </ProtectedRoute>
-        )
+      {
+        path: '/activite/:id/participants', 
+        exact: true, 
+        element: <ListeParticipants />,
+        roles: [ROLES.ADMIN, ROLES.RESPONSABLE_EFFECTIF_SOUS_ZONE] 
       },
-      { path: '/activite/:id/participants', exact: true, element: (
-          <ProtectedRoute routesAllowed={[ROLES.ADMIN, ROLES.RESPONSABLE_EFFECTIF_SOUS_ZONE]}>
-            <ListeParticipants />
-          </ProtectedRoute>
-        )
+      {
+        path: '/assemblees', 
+        exact: true, 
+        element: <ListeAssemblee />,
+        roles: [ROLES.RESPONSABLE_EFFECTIF_SOUS_ZONE]
       },
-      { path: '/assemblees', exact: true, element: (
-          <ProtectedRoute routesAllowed={[ROLES.RESPONSABLE_EFFECTIF_SOUS_ZONE]}>
-            <ListeAssemblee />
-          </ProtectedRoute>
-        )
+      {
+        path: '/assemblee', 
+        exact: true, 
+        element: <Assemblee />,
+        roles: [ROLES.RESPONSABLE_EFFECTIF_ASSEMBLEE]
       },
-      { path: '/assemblee', exact: true, element: (
-        <ProtectedRoute routesAllowed={[ROLES.RESPONSABLE_EFFECTIF_ASSEMBLEE]}>
-          <Assemblee />
+      {
+        path: '/assemblee/:id/membres', 
+        exact: true, 
+        element: <ListeMembre />,
+        roles: [ROLES.RESPONSABLE_EFFECTIF_ASSEMBLEE, ROLES.RESPONSABLE_EFFECTIF_SOUS_ZONE]
+      },
+      {
+        path: '/assemblee/:id/rencontres', 
+        exact: true, 
+        element: <ListeRencontreAssemblees />,
+        roles: [ROLES.RESPONSABLE_EFFECTIF_ASSEMBLEE, ROLES.RESPONSABLE_EFFECTIF_SOUS_ZONE]
+      },
+      {
+        path: '/rencontre/:id/participants', 
+        exact: true, 
+        element: <ListeParticipantRencontres />,
+        roles: [ROLES.RESPONSABLE_EFFECTIF_ASSEMBLEE]
+      },
+      {
+        path: '/rencontre/:id/ligne-financieres', 
+        exact: true, 
+        element: <LivreComptableRencontres />,
+        roles: [ROLES.RESPONSABLE_EFFECTIF_ASSEMBLEE]
+      },
+      {
+        path: '/rubriques', 
+        exact: true, 
+        element: <ListeRubriques />,
+        roles: [ROLES.ADMIN, ROLES.RESPONSABLE_EFFECTIF_ASSEMBLEE]
+      },
+      {
+        path: '/type-rencontres', 
+        exact: true, 
+        element: <ListeTypeRencontre />,
+        roles: [ROLES.ADMIN, ROLES.RESPONSABLE_EFFECTIF_SOUS_ZONE]
+      },
+      {
+        path: '/roles', 
+        exact: true, 
+        element: <ListeRoles />,
+        roles: [ROLES.ADMIN] 
+      },
+      {
+        path: '/utilisateurs', 
+        exact: true, 
+        element: <ListeUtilisateurs />,
+        roles: [ROLES.ADMIN]
+      },
+      {
+        path: '/rencontres', 
+        exact: true, 
+        element: <ListeRencontre />,
+        roles: [ROLES.ADMIN, ROLES.RESPONSABLE_EFFECTIF_SOUS_ZONE]
+      },
+      {
+        path: '/rencontre/:id/personnes', 
+        exact: true, 
+        element: <ListePersonnePresente />,
+        roles: [ROLES.ADMIN, ROLES.RESPONSABLE_EFFECTIF_SOUS_ZONE]
+      },
+      {
+        path: '/rencontre/:id/ames', 
+        exact: true, 
+        element: <ListeAmes />,
+        roles: [ROLES.ADMIN, ROLES.RESPONSABLE_EFFECTIF_SOUS_ZONE]
+      },
+  ],
+  layouts: {
+    full: FullLayout,
+    blank: BlankLayout
+  }
+};
+
+const generateRoutes = () => {
+  const fullLayoutRoutes = [
+    { path: '/', element: <Navigate to="/dashboard" /> },
+    ...routeConfig.protected.map(route => ({
+      path: route.path,
+      exact: route.exact,
+      element: (
+        <ProtectedRoute roles={route.roles}>
+          {route.element}
         </ProtectedRoute>
       )
-      },
-      { path: '/assemblee/:id/membres', exact: true, element: (
-          <ProtectedRoute routesAllowed={[ROLES.RESPONSABLE_EFFECTIF_ASSEMBLEE, ROLES.RESPONSABLE_EFFECTIF_SOUS_ZONE]}>
-            <ListeMembre />
-          </ProtectedRoute>
-        )
-      },
-      { path: '/assemblee/:id/rencontres', exact: true, element: (
-          <ProtectedRoute routesAllowed={[ROLES.RESPONSABLE_EFFECTIF_ASSEMBLEE, ROLES.RESPONSABLE_EFFECTIF_SOUS_ZONE]}>
-            <ListeRencontreAssemblees />
-          </ProtectedRoute>
-        )
-      },
-      { path: '/rencontre/:id/participants', exact: true, element: (
-        <ProtectedRoute routesAllowed={[ROLES.RESPONSABLE_EFFECTIF_ASSEMBLEE]}>
-          <ListeParticipantRencontres />
-        </ProtectedRoute>
-        )
-      },
-      { path: '/rencontre/:id/ligne-financieres', exact: true, element: (
-          <ProtectedRoute routesAllowed={[ROLES.RESPONSABLE_EFFECTIF_ASSEMBLEE]}>
-            <LivreComptableRencontres />
-          </ProtectedRoute>
-        )
-      },
-      { path: '/rubriques', exact: true, element: (
-          <ProtectedRoute routesAllowed={[ROLES.ADMIN, ROLES.RESPONSABLE_EFFECTIF_ASSEMBLEE]}>
-            <ListeRubriques />
-          </ProtectedRoute>
-        )
-      },
-      { path: '/type-rencontres', exact: true, element: (
-          <ProtectedRoute routesAllowed={[ROLES.ADMIN, ROLES.RESPONSABLE_EFFECTIF_SOUS_ZONE]}>
-            <ListeTypeRencontre />
-          </ProtectedRoute>
-        )
-      },
-      { path: '/roles', exact: true, element: (
-          <ProtectedRoute routesAllowed={[ROLES.ADMIN]}>
-            <ListeRoles />
-          </ProtectedRoute>
-        )
-      },
-      { path: '/utilisateurs', exact: true, element: (
-          <ProtectedRoute  routesAllowed={[ROLES.ADMIN]}>
-            <ListeUtilisateurs />
-          </ProtectedRoute>
-        )
-      },
-      { path: '/rencontres', exact: true, element: (
-        <ProtectedRoute  routesAllowed={[ROLES.ADMIN, ROLES.RESPONSABLE_EFFECTIF_SOUS_ZONE]}>
-          <ListeRencontre />
-        </ProtectedRoute>
-        )
-      },
-      { path: '/rencontre/:id/personnes', exact: true, element: (
-        <ProtectedRoute routesAllowed={[ROLES.ADMIN, ROLES.RESPONSABLE_EFFECTIF_SOUS_ZONE]}>
-          <ListePersonnePresente />
-        </ProtectedRoute>
-        )
-      },
-      { path: '/rencontre/:id/ames', exact: true, element: (
-          <ProtectedRoute routesAllowed={[ROLES.ADMIN, ROLES.RESPONSABLE_EFFECTIF_SOUS_ZONE]}>
-            <ListeAmes />
-          </ProtectedRoute>
-        )
-      },
-      { path: '*', element: <Navigate to="/auth/404" /> },
-    ],
-  },
-  {
-    path: '/',
-    element: <BlankLayout />,
-    children: [
-      { path: '/auth/404', element: <Error /> },
-      { path: '/auth/non-authorise', element: <Unauthorized /> },
-      { path: '/auth/login', element: <Login /> },
-    ]
-  }
-];
+    })),
+    { path: '*', element: <Navigate to="/auth/404" /> }
+  ];
+
+  const blankLayoutRoutes = routeConfig.public.map(route => ({
+    path: route.path,
+    element: route.element
+  }));
+
+  return [
+    {
+      path: '/',
+      element: <routeConfig.layouts.full />,
+      children: fullLayoutRoutes
+    },
+    {
+      path: '/',
+      element: <routeConfig.layouts.blank />,
+      children: blankLayoutRoutes
+    }
+  ];
+};
+
+const Router = generateRoutes();
 
 export default Router;
