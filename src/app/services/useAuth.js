@@ -1,86 +1,56 @@
-import { useContext, createContext, useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { httpAdapter } from "./http-adapter.service";
 import { toast } from "react-toastify";
+import { loginStart, loginSuccess, loginFailure, logout } from 'src/app/store/AuthSlice';
+import { useDispatch, useSelector } from "react-redux";
 
-const AuthContext = createContext();
-
-export const AuthProvider = ({ children }) => {
-  const [user, setUser] = useState(JSON.parse(localStorage.getItem("user")) || null);
-  const [token, setToken] = useState(localStorage.getItem("token") || "");
-  const [isReady, setIsReady] = useState(false);
-  const [isLogged, setLogged] = useState(null);
+export const useAuth = () => {
   const navigate = useNavigate();
-
-
-  useEffect(() => {
-    const user = localStorage.getItem("user");
-    const token = localStorage.getItem("token");
-    if (user && token) {
-      setUser(JSON.parse(user));
-      setToken(token);
-    }
-    setIsReady(true);
-    setLogged(null);
-  }, []);
+  const dispatch = useDispatch();
+  const { user, token, loading, error } = useSelector((state) => state.auth);
 
   const loginUser = async (data) => {
-    setLogged(false);
+    dispatch(loginStart());
     const response = await httpAdapter.saveData("api/auth/sign-in", data);
     try {
-      if (response && (response.token && response.userModel)) {
-        localStorage.setItem("token", response.token);
-        localStorage.setItem("user", JSON.stringify(response['userModel']))
-        setUser(response['userModel']);
-        setToken(response['token']);
-        setLogged(true);
+      if (response && response.token && response.userModel) {
+        dispatch(loginSuccess(response));
         navigate("/");
-        return;
       } else {
-        setLogged(true);
-        var error = response.response.data;
-        console.error(error);
-        toast.error(error['errorMessage']);
-        setLogged(false);
+        const _error = response['errorMessage'] || 'Échec de la connexion';
+        console.error(_error);
+        dispatch(loginFailure(_error));
+        toast.error(_error);
       }
     } catch(err) {
-      setLogged(true);
-      var error = response.response.data;
-      console.error(error);
-      toast.error(error['errorMessage']);
-      setLogged(false);
+      const _error = response['errorMessage'] || 'Une erreur est survenue';
+      dispatch(loginFailure(_error));
+      console.error(_error);
+      toast.error(_error);
     }
   };
 
 
   const isLoggedIn = () => {
-    return (user !== null && token !== null);
+    return user !== null && token !== '';
   };
 
   const logoutUser = async () => {
-    localStorage.removeItem("token");
-    localStorage.removeItem("user");
-    setUser(null);
-    setToken("");
-    await httpAdapter.getElement('/api/auth/logout');
-    navigate("/auth/login");
+    try {
+      await httpAdapter.getElement('/api/auth/logout');
+    } finally {
+      dispatch(logout());
+      navigate('/auth/login');
+    }
   };
 
-  return (
-    <AuthContext.Provider value={{
-      token,
-      user,
-      isLogged,
-      isLoggedIn,
-      loginUser,
-      logoutUser
-    }}>
-      {isReady ? children : null}
-    </AuthContext.Provider>
-  );
-
-};
-
-export const useAuth = () => {
-  return useContext(AuthContext);
+  return {
+    user,
+    token,
+    loading,
+    error,
+    isLoggedIn,
+    loginUser,
+    logoutUser
+  }
 };

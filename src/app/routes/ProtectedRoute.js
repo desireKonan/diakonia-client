@@ -11,15 +11,24 @@ const ProtectedRoute = ({ children, routesAllowed = [] }) => {
     return (routesAllowed && routesAllowed.length !== 0) && isIncludeIn(user.roles, routesAllowed);
   }
 
-  return isLoggedIn() ? (
-    checkAuthorizations() ? (
-      <>{children}</>
-    ) : (
-      <Navigate to="/auth/non-authorise" state={{ from: location }} replace />
-    )
-  ) : (
-    <Navigate to="/auth/login" state={{ from: location }} replace />
-  );
+  if(!isLoggedIn()) {
+    <Navigate to="/auth/login" state={{ from: location }} replace />;
+  }
+
+  if(!checkAuthorizations()) {
+      <Navigate to="/auth/non-authorise" state={{ from: location }} replace />;
+  }
+
+  return children;
+  // return isLoggedIn() ? (
+  //   checkAuthorizations() ? (
+  //     <>{children}</>
+  //   ) : (
+  //     <Navigate to="/auth/non-authorise" state={{ from: location }} replace />
+  //   )
+  // ) : (
+  //   <Navigate to="/auth/login" state={{ from: location }} replace />
+  // );
 };
 
 export default ProtectedRoute;

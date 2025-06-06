@@ -9,7 +9,7 @@ import SubzoneReportTable from "src/app/components/statistics/SubzoneReportTable
 
 const EffectiveAssembleeRapport = () => {
     const { user } = useAuth();
-    console.log(user);
+    console.log('Utilisateur: ', user);
     const { data: metric_subzone, loading, error } = useFetch(encodeURI(`/api/subzone/statistics/metric?subzone=${user.place['sub_zone']}`), {});
 
     return (

@@ -13,16 +13,15 @@ import {
 import { Link } from 'react-router-dom';
 
 import PageContainer from 'src/_ui/components/container/PageContainer';
-import Logo from 'src/_ui/layouts/full/shared/logo/Logo';
-
 import CustomCheckbox from 'src/_ui/components/forms/theme-elements/CustomCheckbox';
 import CustomFormLabel from 'src/_ui/components/forms/theme-elements/CustomFormLabel';
 import CustomTextField from 'src/_ui/components/forms/theme-elements/CustomTextField';
 import { useFormik } from 'formik';
 import * as yup from 'yup';
 import { useAuth } from 'src/app/services/useAuth';
-import { toast, ToastContainer } from 'react-toastify';
+import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import logo from '../../../_ui/assets/images/products/cmci_logo.jpg';
 
 
 const validationSchema = yup.object({
@@ -33,7 +32,7 @@ const validationSchema = yup.object({
 });
 
 const Login = () => {
-  const { loginUser, isLogged } = useAuth();
+  const { loginUser, loading, error } = useAuth();
 
   const formik = useFormik({
     initialValues: {
@@ -77,7 +76,7 @@ const Login = () => {
             >
               <Card elevation={9} sx={{ p: 4, zIndex: 1, width: '100%', maxWidth: '450px' }}>
                 <Box display="flex" alignItems="center" justifyContent="center">
-                  <Logo />
+                  <img src={logo} alt='CMCI Logo' width={100} />
                 </Box>
                 <Box mt={3}>
                   <Divider>
@@ -95,7 +94,12 @@ const Login = () => {
                 </Box>
 
                 <Box>
-                  <ToastContainer position="top-center"/>
+                   <ToastContainer position="top-center" />
+                    {error && (
+                      <Typography color="error" variant="body2" sx={{ mt: 2, textAlign: 'center' }}>
+                        {error}
+                      </Typography>
+                    )}
                 </Box>
 
                 <Stack my={2} mt={2}>
@@ -154,7 +158,7 @@ const Login = () => {
                     fullWidth
                     type="submit"
                   >
-                    { isLogged ? "Chargement..." : "Connexion" }
+                    { loading ? "Chargement..." : "Connexion" }
                   </Button>
                 </Box>
               </Card>
